@@ -9,7 +9,7 @@ import "../src/css/index.css";
 //material UI
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import theme from "./css/theme";
+import theme from "./app/MaterialTheme";
 
 const container = document.getElementById("root")!;
 const root = createRoot(container);
