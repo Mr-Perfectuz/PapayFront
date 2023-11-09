@@ -1,6 +1,6 @@
 import React from "react";
 import { Container } from "@mui/material";
 
-export function LoginPage() {
+export default function LoginPage() {
   return <Container>LoginPage</Container>;
 }
