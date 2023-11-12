@@ -5,6 +5,20 @@
   background-image: url("/public/restaurant/header_restaurant.png");
   background-size: cover;
 }
+.format_restaurant {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  background-image: url("/public/restaurant/header_restaurant.png");
+  background-size: cover;
+}
+.format_others {
+  width: 100%;
+  height: 400px;
+  display: flex;
+  background-image: url("/public/others/others.png");
+  background-size: cover;
+}
 
 .navbar_config {
   width: 1244px;
