@@ -85,7 +85,7 @@ export default function TopRestaurants() {
                     <Favorite style={{ fill: "white" }} />
                   </IconButton>
                   <Typography
-                    level="h3"
+                    level="body-sm"
                     sx={{
                       fontWeightL: "md",
                       color: "neutral.300",
@@ -178,7 +178,7 @@ export default function TopRestaurants() {
                     <Favorite style={{ fill: "white" }} />
                   </IconButton>
                   <Typography
-                    level="h3"
+                    level="body-sm"
                     sx={{
                       fontWeightL: "md",
                       color: "neutral.300",
@@ -271,7 +271,7 @@ export default function TopRestaurants() {
                     <Favorite style={{ fill: "white" }} />
                   </IconButton>
                   <Typography
-                    level="h3"
+                    level="body-sm"
                     sx={{
                       fontWeightL: "md",
                       color: "neutral.300",
@@ -364,7 +364,7 @@ export default function TopRestaurants() {
                     <Favorite style={{ fill: "white" }} />
                   </IconButton>
                   <Typography
-                    level="h3"
+                    level="body-sm"
                     sx={{
                       fontWeightL: "md",
                       color: "neutral.300",

@@ -46,7 +46,7 @@ export default function Footer() {
                 flexDirection={"row"}
               >
                 <Box className="findUs_contact">L.</Box>
-                <Box className="findUs_contact_text">Uzbekist an</Box>
+                <Box className="findUs_contact_text">Uzbekistan</Box>
               </Stack>
               <Stack
                 className="findUs_wrapper findUs_wrapper_second"
