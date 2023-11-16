@@ -52,3 +52,20 @@
   font-weight: 500;
   line-height: normal;
 }
+
+/* TOP RESTAURANTS */
+.top_restaurant_frame {
+  height: 100%;
+  display: flex;
+  background: #0b0e11;
+}
+
+.category_title {
+  color: #e3c08d;
+
+  font-family: "Roboto";
+  font-size: 36px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+}
