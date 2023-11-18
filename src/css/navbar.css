@@ -96,3 +96,14 @@
   flex-shrink: 0;
   background: url("/public/home/blister5.png");
 }
+
+.dec_img {
+  position: absolute;
+  right: -5px;
+  top: 65px;
+}
+
+.dec_img_left {
+  position: absolute;
+  top: 80px;
+}
