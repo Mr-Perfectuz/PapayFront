@@ -28,31 +28,6 @@ function App() {
       ) : (
         <NavbarOthers setPath={setPath} />
       )}
-      {/* <nav>
-          <ul>
-            <li>
-              <Link to="/restaurant">RestaurantPage</Link>
-            </li>
-            <li>
-              <Link to="/community">CommunityPage</Link>
-            </li>
-            <li>
-              <Link to="/orders">OrdersPage</Link>
-            </li>
-            <li>
-              <Link to="/member-page">MemberPage</Link>
-            </li>
-            <li>
-              <Link to="/help">HelpPage</Link>
-            </li>
-            <li>
-              <Link to="/login">LoginPage</Link>
-            </li>
-            <li>
-              <Link to="/">HomePage</Link>
-            </li>
-          </ul>
-        </nav> */}
 
       <Switch>
         <Route path="/restaurant">
