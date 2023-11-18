@@ -19,7 +19,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-bottom: 400px;
+  margin-right: 400px;
 }
 
 .fill_box {

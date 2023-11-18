@@ -12,12 +12,7 @@ import CallIcon from "@mui/icons-material/Call";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { CssVarsProvider } from "@mui/joy/styles";
 import { AspectRatio, CardOverflow, IconButton, Link } from "@mui/joy";
-import {
-  ArrowBack,
-  ArrowForward,
-  Favorite,
-  Translate,
-} from "@mui/icons-material";
+import { Favorite } from "@mui/icons-material";
 
 const order_list = Array.from(Array(8).keys());
 
