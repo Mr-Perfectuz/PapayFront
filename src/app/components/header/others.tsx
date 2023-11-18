@@ -84,6 +84,18 @@ export default function NavbarOthers(props: any) {
             </Box>
           </Stack>
         </Stack>
+        <Box sx={{ position: "relative" }}>
+          <img
+            className="dec_img_left"
+            src="/restaurant/top_left_dec.svg"
+            alt="decoration img"
+          />
+          <img
+            className="dec_img"
+            src="/restaurant/top_decoration.svg"
+            alt="decoration img"
+          />
+        </Box>
       </Container>
     </div>
   );
