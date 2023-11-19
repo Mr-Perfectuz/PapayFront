@@ -25,7 +25,7 @@ export default function AllRestaurants() {
             flexDirection={"row"}
             alignItems={"center"}
             justifyContent={"space-between"}
-            sx={{ mt: "50px" }}
+            sx={{ mt: "50px", width: "1400px" }}
           >
             <Box className="fill_search_box">
               <Box className="fill_box">

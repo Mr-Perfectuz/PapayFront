@@ -19,7 +19,7 @@
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  margin-right: 400px;
+  /* margin-right: 400px; */
 }
 
 .fill_box {
@@ -45,33 +45,57 @@
   display: inline-block;
 }
 
-.fill_box a::before {
+.restaurant_page .all_restaurants .fill_box a {
+  overflow: hidden;
+  position: relative;
+  display: inline-block;
+}
+
+.restaurant_page .all_restaurants .fill_box a::before,
+.fill_box a::after {
+  content: "";
+  position: absolute;
+  width: 100%;
+  left: 0;
+}
+.restaurant_page .all_restaurants .fill_box a::before {
   background-color: #d7b686;
   height: 2px;
   bottom: 0;
   transform-origin: 100% 50%;
+  transform: scaleX(0);
+  transition: transform 0.3s cubic-bezier(0.76, 0, 024 1);
+}
+.restaurant_page .all_restaurants .fill_box a::after {
+  /* content: attr(); */
+  height: 100%;
+  top: 0;
+  transform-origin: 100% 50%;
+  transform: translate3d(200%, 0, 0);
   transition: transform 0.3s cubic-bezier(0.76, 0, 024 1);
 }
 
-.fill_box a:hover::before {
+.restaurant_page .all_restaurants .fill_box a:hover::before {
   transform-origin: 0% 50%;
   transform: scaleX(1);
 }
-.fill_box a:hover::after {
+.restaurant_page .all_restaurants .fill_box a:hover::after {
   transform: translate3d(0, 0, 0);
 }
 
-.fill_box a span {
+.restaurant_page .all_restaurants .fill_box a span {
   display: inline-block;
   transition: transform 0.3s cubic-bezier(0.76, 0, 024 1);
 }
-.fill_box a:hover span {
+.restaurant_page .all_restaurants .fill_box a:hover span {
   transform: translate3d(-200%, 0, 0);
 }
 
 .restaurant_page .all_restaurants .fill_box a {
   text-decoration: none;
   vertical-align: top;
+  font-weight: 700;
+  color: #fff;
 }
 
 .search_big_box {
@@ -146,4 +170,83 @@
 
 .line_left {
   transform: rotateX(180deg);
+}
+
+/*  ONE RESTAURANT */
+
+.restaurant_page .single_restaurant {
+  width: 100%;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  background: #0b0c11;
+}
+
+.single_search_big_box {
+  width: 360px;
+  height: 33px;
+  display: flex;
+  align-items: flex-end;
+  background: #fffcfc;
+  box-shadow: 0px 4px 4px rgba(213, 213, 213, 0.25);
+  border-radius: 18px;
+  box-sizing: border-box;
+}
+
+.avatar_big_box {
+  margin-top: 80px;
+}
+
+.top_text {
+  width: 1320px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.top_text p {
+  flex-shrink: 0;
+  color: #e3c08d;
+  font-family: "Roboto";
+  font-size: 43px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+  margin: 0;
+  padding: 0;
+  margin-right: 110px;
+}
+
+.single_search_form {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.single_searchInput {
+  width: 245px;
+  height: 29px;
+  margin-left: 10px;
+  display: flex;
+  border: none;
+  border-radius: 10px 0px 0px 10px;
+  font-family: "GT Walshein Pro";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 26px;
+  color: #4f547b;
+}
+
+.single_button_search {
+  width: 100px;
+  border-radius: 18.5px;
+  background: #f8be69;
+  border-radius: 10px 0px 0px 10px;
+}
+
+.single_button_search:hover {
+  background: #f8be69;
+  opacity: 0.8;
 }
