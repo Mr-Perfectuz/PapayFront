@@ -18,6 +18,8 @@
     "@types/react-dom": "^18.2.15",
     "@types/react-router-dom": "^5.3.3",
     "@types/styled-components": "^5.1.30",
+    "google-map-react": "^2.2.1",
+    "google-maps-react": "^2.0.6",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-redux": "^8.1.3",
