@@ -268,12 +268,29 @@
 } */
 
 .dot_frame_pagination {
-  width: auto;
+  width: 50px;
   position: relative;
   display: flex;
   cursor: pointer;
   margin: 10px;
 }
+.swiper-horizontal > .swiper-pagination-bullets,
+.swiper-pagination-bullets.swiper-pagination-horizontal,
+.swiper-pagination-custom,
+.swiper-pagination-fraction {
+  bottom: 0;
+  width: 70px;
+}
+.arrow_btn {
+  cursor: pointer;
+}
+.arrow_btn:hover {
+  opacity: 0.8;
+}
+.arrow_btn:active {
+  opacity: 0.6;
+}
+
 .events_info {
   margin-top: 75px;
   width: 100%;

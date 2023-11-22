@@ -21,6 +21,36 @@ import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Rating from "@mui/material/Rating";
 // import { Map, Marker, GoogleApiWrapper } from ‘google-maps-react’
 const restarant_list = Array.from(Array(10).keys());
+const orderList = [
+  {
+    name: "Asr Restaurant",
+    img: "/restaurant/asr_res.png",
+  },
+  {
+    name: "O'zbegim",
+    img: "/restaurant/asr_res.png",
+  },
+  {
+    name: "Oqshom",
+    img: "/restaurant/asr_res.png",
+  },
+  {
+    name: "ShamsFood",
+    img: "/restaurant/asr_res.png",
+  },
+  {
+    name: "Bo'yonFood",
+    img: "/restaurant/asr_res.png",
+  },
+  {
+    name: "Davr",
+    img: "/restaurant/asr_res.png",
+  },
+  {
+    name: "Rayhon",
+    img: "/restaurant/asr_res.png",
+  },
+];
 const product_list = Array.from(Array(8).keys());
 
 export default function OneRestaurant() {

@@ -49,11 +49,11 @@ export default function Events() {
             <img
               src="/icons/arrow_left.svg"
               alt="left arow icon"
-              className="swiper-button-prev"
+              className="swiper-button-prev arrow_btn"
             />
             <div className={"dot_frame_pagination  swiper-pagination"}></div>
             <img
-              className={"swiper-button-next"}
+              className={"swiper-button-next arrow_btn"}
               src="/icons/arrow_right.svg"
               alt="left arow icon"
             />
