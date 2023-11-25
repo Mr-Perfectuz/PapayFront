@@ -1,13 +1,225 @@
 .order_page{
     width: 100%;
-    background: #0B0E11;
-    border-radius: 1px solid red;
+    height: 1850px;
+    background: #0B0E11 !important;
+    padding-top: 53px;
+    padding-bottom: 200px;
 
 }
 
-.oerders{
+.orders{
     background: #0B0E11;
     width: 100%;
     height: auto;
 
+}
+
+.orders_tablist{
+    width: 100%;  
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+
+/* FinishedOrders */
+.finishedOrder_wrapper{
+    width: 900px;
+
+
+}
+.user_box{
+    padding-top: 20px;
+    width: 472px;
+    /* height: 308px; */
+    background: #FFF;
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+    border-radius: 16px;
+    box-shadow: 0px 4px 16px 0px rgba(242, 189, 87, 0.04) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.user_box_img{
+    width: 117px;
+    height: 112px;
+    margin-right: auto;
+    margin-left: auto;
+}
+.user_box_name{
+    color: #08090D;
+    font-family: "Commissioner";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px; 
+    margin-right: auto;
+    margin-left: auto;
+    
+}
+.user_box_status{
+    color: #A1A1A1;
+    font-family: "Commissioner";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px; 
+    margin-bottom: 40px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+.location_img{
+    width: 34px;
+    height: 34px;
+}
+.location_txt{
+    color: #000;
+    font-family: "DM Sans";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.order_main_box{
+    width: 100%;
+    border-radius: 16px;
+    background: #FFF;
+    box-shadow: 0px 4px 16px 0px rgba(242, 189, 87, 0.04) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+    margin-top: 10px;
+}
+
+.orderDishIasmg{
+    width: 80px;
+    height: 80px;
+    border-radius: 29px;
+    margin-right: 20px;
+}
+
+.titleDish{
+    width: 300px;
+    color: #000;
+    font-family: "Commissioner";
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px;
+
+}
+.orderDishBox{
+    margin-top: 5px;
+}
+
+.order_inside{
+    display: flex;
+    padding-left: 90px;
+    align-items: center;
+}
+.dish_calc{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: 100px;
+}
+.dish_calc span{
+    margin: 5px
+}
+
+.dish_calc_extra{
+    border-radius: 5px;
+    border-top: 1px solid #000;
+
+    border-bottom: 1px solid #000;
+    background: rgba(217, 217, 217, 0.50);
+    margin-top: 70px;
+    display: flex;
+    align-items:center;
+    padding-left: 90px;
+    
+}
+
+.dish_calc_extra span{
+
+    color: #000;
+    /* text-align: center; */
+    font-family: "Commissioner";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px; 
+    margin: 10px;
+  
+}
+
+
+/* PAYMENT */
+.form-container input{
+    
+    border-radius: 5px;
+    background: #F5F5F5;
+}
+
+.form-container .field-container:first-of-type {
+    grid-area: name;
+}
+
+.form-container .field-container:nth-of-type(2) {
+    grid-area: number;
+}
+
+.form-container .field-container:nth-of-type(3) {
+    grid-area: expiration;
+}
+
+.form-container .field-container:nth-of-type(4) {
+    grid-area: security;
+}
+
+.field-container input {
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+.field-container {
+    position: relative;
+}
+
+.form-container {
+    display: grid;
+    grid-column-gap: 10px;
+    grid-template-columns: auto auto;
+    grid-template-rows: 90px 90px 90px;
+    grid-template-areas: "name name""number number""expiration security";
+    max-width: 400px;
+    padding-left: 20px;
+    color: #707070;
+}
+
+label {
+    padding-bottom: 5px;
+    font-size: 13px;
+}
+
+input {
+    /* margin-top: 3px; */
+    padding: 15px;
+    font-size: 16px;
+    width: 100%;
+    border-radius: 3px;
+    border: 1px solid #dcdcdc;
+}
+
+.container_width input{
+    width: 325px;   
+}
+
+.payment_box img{
+    width: 38.315px;
+    height: 25.143px;
+    margin-right: 5px;
+    margin-bottom: 10px;
 }
