@@ -5,8 +5,10 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 import "../../../../src/css/orders.css";
-import FinishedOrders from "../../components/orders/finishedOrders";
+import FinishedOrders from "./finishedOrders";
 import Marginer from "../../components/marginer";
+import ProcessedOrders from "./processedOrders";
+import PausedOrders from "./pausedOrders";
 
 export default function OrdersPage() {
   const [value, setValue] = React.useState("1");
@@ -63,12 +65,13 @@ export default function OrdersPage() {
                   direction="horizontal"
                 />
               </Box>
+
+              <PausedOrders />
+              <ProcessedOrders />
               <FinishedOrders />
-              <TabPanel value="2">Item Two</TabPanel>
-              <TabPanel value="3">Item Three</TabPanel>
             </TabContext>
           </Box>
-          <Stack flexDirection={"column"} sx={{ mt: "125px" }}>
+          <Stack flexDirection={"column"} sx={{ mt: "165px" }}>
             <Stack className="user_box">
               <img
                 className="user_box_img"
@@ -88,7 +91,7 @@ export default function OrdersPage() {
 
               <Stack
                 flexDirection={"row"}
-                sx={{ ml: "30px", mt: "10px", mb: "60px" }}
+                sx={{ ml: "30px", mt: "10px", mb: "50px" }}
               >
                 <img
                   className="location_img"
@@ -136,6 +139,7 @@ export default function OrdersPage() {
                   />
                 </Box>
               </div>
+
               <Stack
                 flexDirection={"row"}
                 alignItems={"center"}

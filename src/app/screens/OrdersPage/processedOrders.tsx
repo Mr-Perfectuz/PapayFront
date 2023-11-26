@@ -2,13 +2,13 @@ import TabPanel from "@mui/lab/TabPanel";
 import { Box, Button, Stack } from "@mui/material";
 import React from "react";
 
-export default function FinishedOrders() {
+export default function ProcessedOrders() {
   const pausedOrders = [
     [1, 2, 3],
     [1, 2, 3],
   ];
   return (
-    <TabPanel value="1">
+    <TabPanel value="2">
       <Stack className="finishedOrder_wrapper">
         {pausedOrders?.map((order) => {
           return (
@@ -36,7 +36,10 @@ export default function FinishedOrders() {
                     </Stack>
                   );
                 })}
-                <Stack className="dish_calc_extra" flexDirection={"row"}>
+                <Stack
+                  className="prossededOrders_dish_calc_extra"
+                  flexDirection={"row"}
+                >
                   <span>mahsulot narxi</span>
                   <span>$21</span>
                   <span>+</span>
