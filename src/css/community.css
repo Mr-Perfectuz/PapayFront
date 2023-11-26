@@ -1,0 +1,195 @@
+.community_page{
+    width: 100%;
+    height: auto;
+    background: #0B0E11;
+}
+
+.community_wrapper{
+ 
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    margin-top: 50px;
+    margin-bottom: 50px;
+}   
+
+
+.community_chat{
+    width: 381px;
+    height: 1150px;
+    border-radius: 34px;
+    border: 1px solid #FFF;
+    background: #E3F2FD;
+    display: flex;
+    flex-direction: column;
+    padding-left: 17px;
+    padding-right: 17px;
+}
+
+.artices_page{
+    border-radius: 34px;
+    border: 1px solid #FFF;
+    background: #0B0E11;
+    width: 864.94px;
+    height: auto;
+}
+
+
+
+
+/* target_articles */
+Link, Link a, Link span{
+    text-decoration: none;
+}
+
+.target_articles{
+    border-radius: 30px;
+    background: #182226;
+    width: 814.29px;
+    height: 155px;
+    flex-shrink: 0;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction:row;
+}
+.target_articles_user_img{
+    width: 35px;
+    height: 35px;
+    border-radius: 35px;
+    }
+.target_articles_user_name{
+    color: #FFF;
+    font-family: "Poppins";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px; 
+    margin-left: 10px
+}
+.target_articles_wrapper{
+    display: flex;
+    flex-direction: column;
+    margin-top:15px;
+    margin-left:15px;
+}
+
+.target_articles_text {
+    color: #E3C08D;
+    font-family: "Poppins";
+    font-size: 22px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-decoration: none;
+    margin-top: 15px;
+}
+
+.target_articles_last{
+    width: 600px;
+    align-items: center;
+
+}
+
+.target_articles_last span{
+    margin-right: 10px;
+    color: #FFF;
+    font-family: "Poppins";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px; 
+}
+.target_articles_eye_icon{
+    margin-left: 10px;
+}
+
+.community_pagination{
+    padding: 14px;
+}
+
+/* CommunityChats */
+
+.jonli_muloqot{
+    color: #000;
+    font-family: "Poppins";
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    text-align: center;
+    margin-top: 20px;
+    margin-bottom: 40px;
+}
+.chatting_left{
+    display: flex;
+    align-items:center;
+    justify-content: flex-start;
+    padding-left: 10px;
+    margin-left: 10px;
+    color: #383737;
+    font-family: "Poppins";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    width: 271px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 20px 20px 20px 0px;
+    background: rgba(228, 228, 228, 0.83);
+
+}
+
+.chat_img{
+    width: 40px;
+    height: 40px;
+}
+.chatting_right{
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    color: #007665;
+    font-family: "Poppins";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    border-radius: 20px 20px 0px 20px;
+    background: #D0ECE8;
+    padding: 11px 8px 14px 8px;
+    height: 40px;  
+    text-align: center; 
+    margin-top: 20px;
+}
+
+.send_wrapper{
+    margin-top: auto;
+    margin-bottom: 20px;
+    display: flex;
+}
+
+.send_wrapper input{
+    width: 276px;
+    height: 50px;
+    flex-shrink: 0;
+    border-radius: 28px;
+    background: #F6F6F6;
+    border: none;
+}
+
+.send_msg_btn{
+    width: 50px;
+    height: 50px;
+    background: #55A99D;
+    border-radius: 50%;
+    border: none;
+    margin-left: 14px;
+    cursor: pointer;
+    /* fill: linear-gradient(180deg, #55A99D 0%, #007665 100%); */
+}
+.send_msg_btn:hover{
+    opacity: 0.8;
+}
+.send_msg_btn:active{
+    opacity: 0.6;
+}
