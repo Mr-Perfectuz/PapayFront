@@ -11,7 +11,7 @@ export default function TargetArticles(props: any) {
       {props.targetBoardArticles?.map((article: any, index: string) => {
         const art_img = "/community/article_img.svg";
         return (
-          <Link href={""}>
+          <Stack>
             <Stack className="target_articles" flexDirection={"row"}>
               <Box>
                 <img src={art_img} alt="article" />
@@ -49,7 +49,7 @@ export default function TargetArticles(props: any) {
                 </Stack>
               </Stack>
             </Stack>
-          </Link>
+          </Stack>
         );
       })}
     </Stack>

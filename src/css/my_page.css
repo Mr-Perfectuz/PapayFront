@@ -1,0 +1,380 @@
+.visit_my_page{
+    background: #0B0E11;
+    width: auto;
+    height: auto;
+}
+
+.visit_my_page_wrapper{
+    padding-top: 74px;
+    padding-bottom: 82px;
+    display: flex;
+    flex-direction: row;
+}
+
+.my_articles_title{
+    color: #FFF;
+    text-align: center;
+    font-family: "Poppins";
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 10px;
+}
+.my_articles_title_write{
+    width: 821px;
+    color: #FFF;
+    text-align: center;
+    font-family: "Poppins";
+    font-size: 45px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-bottom: 10px;
+}
+
+.visit_my_page_inner{
+    margin-top: 40px;
+}
+.my_page{
+    width: 372.58px;
+    height: 408px;
+    border-radius: 16px;
+    background: #FFF;
+    margin-bottom: 40px;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0px 4px 16px 0px rgba(242, 189, 87, 0.04) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset, 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.order_info_box{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 28px;
+}
+
+.settings_btn{
+    width: 18px;
+    height: 18px;
+    flex-shrink: 0;
+    stroke-width: 2px;
+    stroke: #000;
+    position: relative;
+    margin-right: -48px;
+    cursor: pointer;
+}
+.settings_btn:hover{
+    opacity: 0.8;
+}
+.settings_btn:hover{
+    opacity: 0.6;
+}
+
+.myPage_user_img{
+    width: 117px;
+    height: 112px;
+    border-radius: 37px;
+    margin-right: 48px;
+}
+.otherPage_user_img{
+    width: 117px;
+    height: 112px;
+    border-radius: 37px;
+}
+
+.user_name{
+    color: #08090D;
+    font-family: "Commissioner";
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px;
+}
+
+.user_name_status{
+    color: #A1A1A1;
+    font-family: "Commissioner";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 36px;
+}
+
+.user_social_media{
+    display: flex;
+    align-items:center;
+    flex-direction: "row";
+    cursor: pointer;
+}
+
+.icon_soc_med{
+    color: #AAAAAA;
+    margin: 5px;
+    margin-bottom: 25px;
+}
+
+.usr_msg{
+    color: #616164;
+    font-family: "DM Sans";
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 25px;
+    margin-bottom: 15px;
+
+}
+.article_btn{
+    width: 166px;
+    height: 36px;
+    border-radius: 10px;
+    border: 1px solid #0288D1;
+    background: #0288D1;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25), 0px 4px 4px 0px rgba(0, 0, 0, 0.25) inset;
+}
+
+.articles{
+    width: 372.58px;
+    height: 50px;
+    border-radius: 20px;
+    background: #FFF;
+    cursor: pointer;
+    display: flex;
+    align-items:center;
+    justify-content: center;
+    margin-top: 15px;
+}
+.articles:hover{
+    opacity: 0.8;
+}
+.articles:active{
+    opacity: 0.6;
+}
+.articles span{
+    color: #000;
+    font-family: "Poppins";
+    font-size: 25px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-left: 20px;
+}
+
+/* MemberFollowers */
+.menu_content{
+    margin-top: 40px;
+}
+
+.followers_target_articles{
+    border-radius: 30px;
+    background: #182226;
+    width: 814.29px;
+    height: 140px;
+    flex-shrink: 0;
+    margin-bottom: 15px;
+    display: flex;
+    flex-direction:row;
+    padding-left: 45px;
+    padding-top: 25px;
+}
+.followers_img{
+    border-radius: 89px;
+    width: 89px;
+    height: 89px;
+    flex-shrink: 0;
+}
+
+.followers_target_articles_wrapper{
+    display: flex;
+    flex-direction: column;
+    margin-top:15px;
+    margin-left:15px;
+}
+
+.followers_user_name{
+    width: 400px;
+    height: 15px;
+    color: #FFF;
+    font-family: "Montserrat";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.followers_target_articles_text{
+    color: #FFF;
+    font-family: "Montserrat";
+    font-size: 26px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    margin-top: 10px;
+}
+.following_btn{
+    width: 160px !important;
+    height: 50px !important;
+    border-radius: 26px !important;
+    background: #68C5CB !important;
+    color: #FFF !important ; 
+    box-shadow: 1px 4px 6px 0px rgba(211, 211, 211, 0.25), 0px 4px 4px 0px rgba(255, 255, 255, 0.25) inset !important;
+}
+.following_btn a{
+    color: #FFF !important;
+    font-family: "Montserrat"!important;
+    font-size: 20px!important;
+    font-style: normal!important;
+    font-weight: 600!important;
+    line-height: normal!important;
+}
+
+.followback_btn{
+    border-radius: 26px!important;
+    border: 1px solid #FFF!important;
+    background: #30945E!important;
+    box-shadow: 1px 4px 6px 0px rgba(211, 211, 211, 0.25), 0px 4px 4px 0px rgba(255, 255, 255, 0.25) inset!important;
+}
+.followback_btn span{
+    color: #FFF;
+    font-size: 12px!important;
+    font-style: normal!important;
+    font-weight: 600!important;
+    line-height: normal!important;
+    margin-left: 10px!important;
+}
+
+.cancel_following_btn{
+    border-radius: 26px!important;
+    border: 1px solid #FFF!important;
+    background: #E81010!important;
+    box-shadow: 1px 4px 6px 0px rgba(211, 211, 211, 0.25), 0px 4px 4px 0px rgba(255, 255, 255, 0.25) inset!important;
+}
+.cancel_following_btn span{
+    color: #FFF;
+    font-size: 12px!important;
+    font-style: normal!important;
+    font-weight: 600!important;
+    line-height: normal!important;
+    margin-left: 10px!important;
+}
+
+
+/*  MySettings */
+.my_settings_page{
+    display: flex;
+    flex-direction: column;
+}
+.my_settings_page_inner{
+    width: 821.42px;
+    height: auto;
+    border-radius: 5px;
+    background: #F6F6F6;
+    padding-top: 10px;
+    padding-left: 10px;
+}
+.member_media_frame{
+
+}
+
+.my_settings_img{
+    width: 100px;
+    height: 100px;
+    border-radius: 100px;
+}
+
+.img_upload_wrapper{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-left: 20px
+}
+.upload_img{
+    color: #140342;
+    text-align: center;
+    font-family: "Poppins";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+}
+.upload_img_type{
+    color: #4F547B;
+    font-family: "Poppins";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin-top: 10px;
+}
+
+.upload_input {
+    border: none !important
+}
+.input_name label{
+    color: #FFF;
+    font-family: "Poppins";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+}
+
+.input_adress, .input_number{
+    width: 402.48px;
+}
+.input_number, .input_adress{
+    margin-top: 50px;
+}
+
+.input_number label, .input_adress label, .input_info label{
+    color: #FFF;
+    font-family: "Poppins";
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+
+}
+
+.input_info{
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+    width: 100%;
+    margin-top: 30px;
+}
+.input_info label {
+     margin-bottom: 10px;
+}
+
+   
+
+
+
+.input_info_textarea{
+    width: 821.42px;
+    border-radius: 5px;
+    background: #F6F6F6;
+    height: 200px;
+}
+
+.save_btn{
+    width: 100%;
+    display: flex;
+    align-items: flex-end !important;
+
+    margin-top: 30px;
+}
+
+.save_btn Button{
+    margin-left: auto;
+}
+
+
+/* Other Page */
+.other_page_article_btn{
+    border-radius: 10px !important;
+background: rgba(247, 9, 9, 0.72) !important;
+}
