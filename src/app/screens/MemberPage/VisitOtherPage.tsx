@@ -33,7 +33,7 @@ export default function VisitOtherPage() {
           <Stack flexDirection={"row"} justifyContent={"space-between"}>
             <Stack flexDirection={"column"}>
               <TabPanel value="1">
-                <Box className="my_articles_title">Mening Maqolalarim</Box>
+                <Box className="my_articles_title"> Maqolalar</Box>
                 <Marginer
                   width="300"
                   bg="#E4E4E4D4"
@@ -85,7 +85,7 @@ export default function VisitOtherPage() {
                   <MemberFollowing actions_enabled={false} />
                 </Stack>
               </TabPanel>
-              <TabPanel value="4">
+              {/* <TabPanel value="4">
                 <Box className="my_articles_title_write">Maqola Yozish</Box>
                 <Marginer
                   width="300"
@@ -94,8 +94,8 @@ export default function VisitOtherPage() {
                   direction="horizontal"
                 />
                 <Stack className="menu_content"></Stack>
-              </TabPanel>
-              <TabPanel value="5">
+              </TabPanel> */}
+              <TabPanel value="4">
                 <Box className="my_articles_title">Tanlangan Maqola</Box>
                 <Stack className="menu_content"></Stack>
               </TabPanel>
