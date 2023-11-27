@@ -103,9 +103,10 @@ export default function OrdersPage() {
             </Stack>
             <Stack className="user_box" sx={{ mt: "20px" }}>
               <div className="form-container">
-                <Box className="field-container width: 325px;">
+                <Box className="field-container width: 300px;">
                   <label htmlFor="name"></label>
                   <input
+                    className="name_input"
                     id="name"
                     type="text"
                     placeholder="Card number: 5243 4090 2002 7495"
@@ -115,6 +116,7 @@ export default function OrdersPage() {
                   <Box className="field-container">
                     <label htmlFor="expirationdate"></label>
                     <input
+                      className="name_txt"
                       id="expirationdate"
                       type="text"
                       placeholder="07 / 24"
@@ -123,6 +125,7 @@ export default function OrdersPage() {
                   <Box className="field-container" sx={{ ml: "20px" }}>
                     <label htmlFor="securitycode"></label>
                     <input
+                      className="name_txt"
                       id="securitycode"
                       type="text"
                       pattern="[0-9]*"
@@ -133,6 +136,7 @@ export default function OrdersPage() {
                 <Box className="field-container width: 325px;">
                   <label htmlFor="name"></label>
                   <input
+                    className="name_input"
                     id="name"
                     type="text"
                     placeholder="Ismoilov  Akmaljon"
