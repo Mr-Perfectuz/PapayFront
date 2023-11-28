@@ -16,7 +16,7 @@ export default function FinishedOrders() {
               <Box className="order_box_scroll">
                 {order.map((item) => {
                   return (
-                    <Stack flexDirection={"column"}>
+                    <Stack flexDirection={"column"} key={item}>
                       <Stack className="orderDishBox" flexDirection={"row"}>
                         <Stack flexDirection={"row"} className="order_inside">
                           <img
