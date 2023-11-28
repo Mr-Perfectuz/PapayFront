@@ -1,5 +1,5 @@
 import TabPanel from "@mui/lab/TabPanel";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import React from "react";
 
 export default function FinishedOrders() {
