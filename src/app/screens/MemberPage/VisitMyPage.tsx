@@ -19,6 +19,8 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import { TuiEditor } from "../../components/tuiEditor/TuiEditor";
+import { TuViewer } from "../../components/tuiEditor/TuViewer";
 
 export default function VisitMyPage() {
   const [value, setValue] = React.useState("1");
@@ -93,11 +95,15 @@ export default function VisitMyPage() {
                   height="1"
                   direction="horizontal"
                 />
-                <Stack className="menu_content"></Stack>
+                <Stack className="menu_content">
+                  <TuiEditor />
+                </Stack>
               </TabPanel>
               <TabPanel value="5">
                 <Box className="my_articles_title">Tanlangan Maqola</Box>
-                <Stack className="menu_content"></Stack>
+                <Stack className="menu_content">
+                  <TuViewer text={`<div>Tanlangan Maqolalar <div/>`} />
+                </Stack>
               </TabPanel>
               <TabPanel value="6">
                 <Box className="my_articles_title_write">

@@ -19,6 +19,7 @@ import YouTubeIcon from "@mui/icons-material/YouTube";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
+import { TuViewer } from "../../components/tuiEditor/TuViewer";
 
 export default function VisitOtherPage() {
   const [value, setValue] = React.useState("1");
@@ -85,19 +86,11 @@ export default function VisitOtherPage() {
                   <MemberFollowing actions_enabled={false} />
                 </Stack>
               </TabPanel>
-              {/* <TabPanel value="4">
-                <Box className="my_articles_title_write">Maqola Yozish</Box>
-                <Marginer
-                  width="300"
-                  bg="#E4E4E4D4"
-                  height="1"
-                  direction="horizontal"
-                />
-                <Stack className="menu_content"></Stack>
-              </TabPanel> */}
               <TabPanel value="4">
                 <Box className="my_articles_title">Tanlangan Maqola</Box>
-                <Stack className="menu_content"></Stack>
+                <Stack className="menu_content">
+                  <TuViewer text={`<div>Tanlangan Maqolalar <div/>`} />
+                </Stack>
               </TabPanel>
               <TabPanel value="6">
                 <Box className="my_articles_title_write">

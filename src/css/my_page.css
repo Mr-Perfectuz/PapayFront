@@ -378,3 +378,53 @@
     border-radius: 10px !important;
 background: rgba(247, 9, 9, 0.72) !important;
 }
+
+
+/* TuiEditor */
+
+.tui_editor{
+    flex-direction: row;
+    display: flex;
+    justify-content: space-evenly;
+    margin-bottom: 40px;
+}
+
+.form_category{
+    width: 300px;
+}
+.form_category_title{
+    color: #eafcef;
+    font-family: "Poppins";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    margin: 10px !important;
+}
+
+.form_control{
+    width: 100%;
+    background: #fff;
+}
+
+.form_textfield{
+    width: 300px;
+     background: #fff;
+}
+
+.tui_edidor_register_btn{
+    width: 250px;
+    height: 45px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #0288D1;
+    background: #0288D1;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+}
+
+
+.tu_viewer{
+    background: #fff;
+    margin-top: 30px;
+    border-radius: 10px
+}
