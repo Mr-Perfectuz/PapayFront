@@ -16,8 +16,6 @@ import { Favorite } from "@mui/icons-material";
 
 const order_list = Array.from(Array(8).keys());
 
-
-
 export default function AllRestaurants() {
   return (
     <div className="all_restaurants">
@@ -67,6 +65,7 @@ export default function AllRestaurants() {
                 return (
                   <Card
                     variant="outlined"
+                    key={ele}
                     sx={{
                       minHeight: 483,
                       minWidth: 320,

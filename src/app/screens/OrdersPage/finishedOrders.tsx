@@ -10,13 +10,13 @@ export default function FinishedOrders() {
   return (
     <TabPanel value="3">
       <Stack className="finishedOrder_wrapper">
-        {pausedOrders?.map((order) => {
+        {pausedOrders?.map((order, index) => {
           return (
-            <Box className="order_main_box">
+            <Box className="order_main_box" key={index}>
               <Box className="order_box_scroll">
-                {order.map((item) => {
+                {order.map((item, index) => {
                   return (
-                    <Stack flexDirection={"column"} key={item}>
+                    <Stack flexDirection={"column"} key={index}>
                       <Stack className="orderDishBox" flexDirection={"row"}>
                         <Stack flexDirection={"row"} className="order_inside">
                           <img
