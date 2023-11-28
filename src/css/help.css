@@ -1,0 +1,143 @@
+/* * HelpPage */ 
+
+.help_page{
+    background: #0B0E11 !important;
+    width: 100%;
+    min-height: 722px;
+    height: auto;
+}
+
+.helpPage_wrapper{
+    display: flex;
+    flex-direction: column;
+    width: 1320px;
+    margin-top: 60px;
+}
+
+.css-heg063-MuiTabs-flexContainer {
+    justify-content: space-around;
+}
+
+.help_tablist{
+    width: 100%;  
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 30px;
+}
+
+.helpPage_rules{
+    width: 1300px;
+    display: flex;
+    flex-direction: column;
+}
+
+.helpPage_rules_wrapper{
+    width: 1224px;    
+    height: auto;
+    border-radius: 8px;
+    background: #FFF;
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    padding: 24px 26px;
+    border-bottom: 1px solid black;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.helpPage_faq{
+    display: flex;
+    flex-direction: column;
+    width: 1224px;
+    border-bottom: 1px solid black;
+    margin-bottom: 50px
+}
+
+.helpPage_Theletter{
+    width: 1224px;
+    height: auto;
+    border-radius: 8px;
+    border: 1px solid var(--border-1, #EDEDED);
+    background: var(--color-5, #FFF);
+    flex-direction: column;
+    padding: 60px 90px;
+    /* shadow-3 */
+    box-shadow: 0px 20px 30px 0px rgba(25, 25, 46, 0.04);
+    margin-bottom: 50px
+}
+
+.AdminLetter_title{
+    color: #000;
+    font-family: "ABeeZee";
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.AdminLetter_qs{
+    color:  #4F547B;
+    font-family: "Sedan";
+    font-size: 15px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 26px;
+    margin-top: 20px;
+}
+
+.adminLetter{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    margin-top: 60px;
+}
+
+.Theletter_name{
+    color:  #140342;
+    font-family: Verdana;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+}
+
+.letter_name_input{
+    width: 1100px;
+    border-radius: 8px;
+    border: 1px solid #140342;
+    background: var(--color-white, #FFF);
+    margin-top: 10px;
+}
+
+.Theletter_email{
+    color:  #140342;
+    font-family: Verdana;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    margin-top: 30px;
+}
+
+.letter_msg_textarea{
+    width: 1100px;
+    height: 150px;
+    flex-shrink: 0;
+    border-radius: 8px;
+    border: 1px solid #140342;
+    background: var(--color-white, #FFF);
+    padding: 20px 20px;
+    margin-top: 10px;
+}
+
+.letter_submit_btn{
+    border-radius: 8px;
+    background: #1976D2;
+    display: flex;
+    width: 104px;
+    height: 36px;
+    padding: 21px 55px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+    
+}
