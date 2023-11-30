@@ -196,7 +196,7 @@ export default function HelpPage() {
                   />
                   <Stack
                     alignItems={"flex-end"}
-                    sx={{ mt: "30px", width: "1100px" }}
+                    sx={{ mt: "30px", width: "100%" }}
                   >
                     <Button
                       className="letter_submit_btn"
