@@ -6,11 +6,17 @@ import {
   IconButton,
   Stack,
 } from "@mui/material";
-import React from "react";
+import React, { useState } from "react";
 import "../../../css/navbar.css";
 import { NavLink } from "react-router-dom";
 
 export default function NavbarHome(props: any) {
+  const [count, setCount] = useState(0);
+
+  // const countHandler = () => {
+  //   setCount(count + 1);
+  // };
+
   return (
     <div className="format home_navbar">
       <Container>
@@ -20,7 +26,7 @@ export default function NavbarHome(props: any) {
           justifyContent={"space-between"}
         >
           <Box>
-            <img src="/icons/papay.svg" alt="header image" />
+            <img src="/icons/papay.svg" alt="header img" />
           </Box>
           <Stack
             display={"flex"}
@@ -94,14 +100,17 @@ export default function NavbarHome(props: any) {
             style={{ marginTop: "86px", marginLeft: "24px" }}
           >
             <Box>
-              <img src="/icons/welcome.svg" alt="header image" />
+              <img src="/icons/welcome.svg" alt="header img" />
             </Box>
             <Box className="define_reataurant">
               The Authentic Restaurant & Cafe
             </Box>
-            <Box className="timeline_service">24 soat xizmatingizdamiz.</Box>
+            <Box className="timeline_service">
+              {count} soat xizmatingizdamiz.
+            </Box>
             <Box sx={{ mt: "90px" }}>
               <Button
+                onClick={() => setCount(count + 1)}
                 className="header_btn"
                 variant="contained"
                 style={{
