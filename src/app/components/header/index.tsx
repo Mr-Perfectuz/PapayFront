@@ -11,7 +11,7 @@ import "../../../css/navbar.css";
 import { NavLink } from "react-router-dom";
 
 export default function NavbarHome(props: any) {
-  const [count, setCount] = useState(0);
+  // const [count, setCount] = useState(0);
 
   // const countHandler = () => {
   //   setCount(count + 1);
@@ -105,12 +105,9 @@ export default function NavbarHome(props: any) {
             <Box className="define_reataurant">
               The Authentic Restaurant & Cafe
             </Box>
-            <Box className="timeline_service">
-              {count} soat xizmatingizdamiz.
-            </Box>
+            <Box className="timeline_service">24 soat xizmatingizdamiz.</Box>
             <Box sx={{ mt: "90px" }}>
               <Button
-                onClick={() => setCount(count + 1)}
                 className="header_btn"
                 variant="contained"
                 style={{
