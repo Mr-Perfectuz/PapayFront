@@ -15,6 +15,7 @@ import { createSelector } from "reselect";
 import { setTopRestaurants } from "./slice";
 import { retreiveTopRestaurants } from "./selector";
 import { Restaurant } from "../../../types/user";
+import RestaurantApiService from "../../apiServices/restaurantApiService";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -37,47 +38,13 @@ export default function HomePage() {
 
   useEffect(() => {
     // backend data request => data
-    const data: Restaurant[] = [
-      {
-        _id: "653395891b7f2d21a1503607",
-        mb_nick: "Texas De Brazil",
-        mb_phone: "234234332242",
-        mb_password: "",
-        mb_adress: "Tashketn Chilonzor",
-        mb_type: "RESTAURANT",
-        mb_image: "",
-        mb_description: "",
-        mb_status: "ACTIVE",
-        mb_point: 0,
-        mb_top: "Y",
-        mb_views: 2,
-        mb_likes: 1,
-        mb_follow_cnt: 0,
-        mb_subscriber_cnt: 1,
-        me_liked: [],
-        me_followed: [],
-      },
-      {
-        _id: "653395891b7f2d21a1503607",
-        mb_nick: "Texas De Brazil",
-        mb_phone: "234234332242",
-        mb_password: "",
-        mb_adress: "Tashketn Chilonzor",
-        mb_type: "RESTAURANT",
-        mb_image: "",
-        mb_description: "",
-        mb_status: "ACTIVE",
-        mb_point: 0,
-        mb_top: "Y",
-        mb_views: 2,
-        mb_likes: 1,
-        mb_follow_cnt: 0,
-        mb_subscriber_cnt: 1,
-        me_liked: [],
-        me_followed: [],
-      },
-    ];
-    setTopRestaurants(data);
+    const restaurantApiService = new RestaurantApiService();
+    restaurantApiService
+      .getTopRestaurants()
+      .then((data) => {
+        // setTopRestaurants([data]);
+      })
+      .catch((err) => console.log(err));
   }, []);
   // slice : data = > store
 
