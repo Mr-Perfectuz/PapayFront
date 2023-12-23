@@ -6,23 +6,23 @@ export const retreiveTopRestaurants = createSelector(
     selectHomePage,
     (HomePage) => HomePage.topRestaurants
 )
-export const retreivebestRestaurants = createSelector(
+export const retreiveBestRestaurants = createSelector(
     selectHomePage,
     (HomePage) => HomePage.bestRestaurants
 )
-export const retreivetrendProducts = createSelector(
+export const retreiveTrendProducts = createSelector(
     selectHomePage,
     (HomePage) => HomePage.trendProducts
 )
-export const retreivebestBoArticles = createSelector(
+export const retreiveBestBoArticles = createSelector(
     selectHomePage,
     (HomePage) => HomePage.bestBoArticles
 )
-export const retreivetrendBoArticles = createSelector(
+export const retreiveTrendBoArticles = createSelector(
     selectHomePage,
     (HomePage) => HomePage.trendBoArticles
 )
-export const retreivenewsBoArticles = createSelector(
+export const retreiveNewsBoArticles = createSelector(
     selectHomePage,
     (HomePage) => HomePage.newsBoArticles
 )
