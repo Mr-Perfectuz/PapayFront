@@ -9,6 +9,7 @@ import VisibilityIcon from "@mui/icons-material/Visibility";
 import { CssVarsProvider } from "@mui/joy/styles";
 import { CardOverflow, IconButton } from "@mui/joy";
 import { Favorite } from "@mui/icons-material";
+//REDUX
 import { createSelector } from "reselect";
 import { retreiveTopRestaurants } from "./selector";
 import { useSelector } from "react-redux";
@@ -23,7 +24,7 @@ export default function TopRestaurants() {
 
   const { topRestaurants } = useSelector(topRestaurantRetriever);
 
-  console.log("topRestaurants", topRestaurants);
+  // console.log("topRestaurants", topRestaurants);
 
   return (
     <div className="top_restaurant_frame">
@@ -49,13 +50,6 @@ export default function TopRestaurants() {
                     }}
                   >
                     <CardCover>
-                      {/* <img
-                        src={image_path}
-                        loading="lazy"
-                        alt="restaurant img"
-                        width="319.997px"
-                        height="430px"
-                      /> */}
                       <img
                         src={image_path}
                         alt="restaurant img"

@@ -1,7 +1,49 @@
 import { MonetizationOn } from "@mui/icons-material";
 import { Box, Container, Stack } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
+//REDUX
+import { createSelector } from "reselect";
+import { retreiveTrendProducts } from "./selector";
+import { Product } from "../../../types/products";
+import { useDispatch, useSelector } from "react-redux";
+import { Dispatch } from "@reduxjs/toolkit";
+import { setTrendProducts } from "./slice";
+import ProductApiService from "../../apiServices/productApiService";
+import { serviceApi } from "../../../lib/config";
+
+// REDUX SLICE
+const actionDispatch = (dispatch: Dispatch) => ({
+  setTrendProducts: (data: Product[]) => dispatch(setTrendProducts(data)),
+});
+
+// REDUX SELECTOR
+const trendProductsRetreiver = createSelector(
+  retreiveTrendProducts,
+  (trendProducts) => ({ trendProducts })
+);
+
 export default function BestDishes() {
+  /**  INITIALIZATION */
+  const { setTrendProducts } = actionDispatch(useDispatch());
+  const { trendProducts } = useSelector(trendProductsRetreiver);
+
+  console.log("trendProducts::", trendProducts);
+
+  useEffect(() => {
+    const productService = new ProductApiService();
+
+    productService
+      .getTargetProducts({
+        order: "product_likes",
+        page: 1,
+        limit: 4,
+      })
+      .then((data) => {
+        setTrendProducts(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className="best_dishes_frame">
       <Container>
@@ -9,106 +51,50 @@ export default function BestDishes() {
           <Box className="best_dishes_title">Trendagi Ovqatlar</Box>
 
           <Stack sx={{ mt: "43px" }} flexDirection={"row"}>
-            <Box className="dish_box">
-              <Stack className="dish_img">
-                <Box className="dish_sale">Large size</Box>
-                <Box className="view_btn">
-                  Batafsil ko’rish
-                  <img
-                    className="left_arrow"
-                    src="./icons/left_arrow.svg"
-                    alt="arrow icon"
-                  />
+            {trendProducts.map((product: Product) => {
+              const image_path = `${serviceApi}/${product.product_images[0]}`;
+              const size_volume =
+                product.product_collection === "drink"
+                  ? product.product_volume + "l"
+                  : product.product_size + "size";
+              return (
+                <Box className="dish_box">
+                  <Stack
+                    className="dish_img"
+                    sx={{ backgroundImage: `url${image_path}` }}
+                  >
+                    {/* <img
+                      src="/public/restaurant/bd_img1.png"
+                      loading="lazy"
+                      alt="food img"
+                      width="319.997px"
+                      height="318px"
+                    /> */}
+                    <Box className="dish_sale">{size_volume}</Box>
+                    <Box className="view_btn">
+                      Batafsil ko’rish
+                      <img
+                        className="left_arrow"
+                        src="./icons/left_arrow.svg"
+                        alt="arrow icon"
+                      />
+                    </Box>
+                  </Stack>
+                  <Stack
+                    sx={{ width: "90%", mt: "18px" }}
+                    flexDirection={"column"}
+                    alignItems={"center"}
+                    justifyContent={"center"}
+                  >
+                    <Box className="dish_name">{product.product_name}</Box>
+                    <Box className="dish_price">
+                      <MonetizationOn />
+                      {product.product_price}
+                    </Box>
+                  </Stack>
                 </Box>
-              </Stack>
-              <Stack
-                sx={{ width: "90%", mt: "18px" }}
-                flexDirection={"column"}
-                alignItems={"center"}
-                justifyContent={"center"}
-              >
-                <Box className="dish_name">Korean Spicy Soup</Box>
-                <Box className="dish_price">
-                  <MonetizationOn />
-                  15
-                </Box>
-              </Stack>
-            </Box>
-            <Box className="dish_box">
-              <Stack className="dish_img dish_img2">
-                <Box className="dish_sale">Large size</Box>
-                <Box className="view_btn">
-                  Batafsil ko’rish
-                  <img
-                    className="left_arrow"
-                    src="./icons/left_arrow.svg"
-                    alt="arrow icon"
-                  />
-                </Box>
-              </Stack>
-              <Stack
-                sx={{ width: "90%", mt: "18px" }}
-                flexDirection={"column"}
-                alignItems={"center"}
-                justifyContent={"center"}
-              >
-                <Box className="dish_name">Korean Spicy Soup</Box>
-                <Box className="dish_price">
-                  <MonetizationOn />
-                  15
-                </Box>
-              </Stack>
-            </Box>
-            <Box className="dish_box">
-              <Stack className="dish_img dish_img3">
-                <Box className="dish_sale">Large size</Box>
-                <Box className="view_btn">
-                  Batafsil ko’rish
-                  <img
-                    className="left_arrow"
-                    src="./icons/left_arrow.svg"
-                    alt="arrow icon"
-                  />
-                </Box>
-              </Stack>
-              <Stack
-                sx={{ width: "90%", mt: "18px" }}
-                flexDirection={"column"}
-                alignItems={"center"}
-                justifyContent={"center"}
-              >
-                <Box className="dish_name">Korean Spicy Soup</Box>
-                <Box className="dish_price">
-                  <MonetizationOn />
-                  15
-                </Box>
-              </Stack>
-            </Box>
-            <Box className="dish_box">
-              <Stack className="dish_img dish_img4">
-                <Box className="dish_sale">Large size</Box>
-                <Box className="view_btn">
-                  Batafsil ko’rish
-                  <img
-                    className="left_arrow"
-                    src="./icons/left_arrow.svg"
-                    alt="arrow icon"
-                  />
-                </Box>
-              </Stack>
-              <Stack
-                sx={{ width: "90%", mt: "18px" }}
-                flexDirection={"column"}
-                alignItems={"center"}
-                justifyContent={"center"}
-              >
-                <Box className="dish_name">Korean Spicy Soup</Box>
-                <Box className="dish_price">
-                  <MonetizationOn />
-                  15
-                </Box>
-              </Stack>
-            </Box>
+              );
+            })}
           </Stack>
         </Stack>
       </Container>
