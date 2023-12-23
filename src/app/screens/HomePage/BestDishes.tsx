@@ -61,15 +61,12 @@ export default function BestDishes() {
                 <Box className="dish_box">
                   <Stack
                     className="dish_img"
-                    sx={{ backgroundImage: `url${image_path}` }}
+                    sx={{
+                      backgroundImage: `url(${image_path})`,
+                      backgroundRepeat: "no-repeat",
+                      backgroundSize: "contain",
+                    }}
                   >
-                    {/* <img
-                      src="/public/restaurant/bd_img1.png"
-                      loading="lazy"
-                      alt="food img"
-                      width="319.997px"
-                      height="318px"
-                    /> */}
                     <Box className="dish_sale">{size_volume}</Box>
                     <Box className="view_btn">
                       Batafsil ko’rish

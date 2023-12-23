@@ -115,9 +115,9 @@
 }
 
 .dish_img {
-  /* width: 273px;
+  width: 273px;
   height: 275px;
-  background-image: url("/public/restaurant/bd_img1.png"); */
+  /* background-image: url("/public/restaurant/bd_img1.png"); */ 
 }
 .dish_img2 {
   background-image: url("/public/restaurant/bd_img2.png");
