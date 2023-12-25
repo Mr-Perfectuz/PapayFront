@@ -32,8 +32,6 @@ const ModalImg = styled.img`
 
 export default function AuthenticationModal(props: any) {
   const classes = useStyles();
-  const signUpOpen = false;
-  const loginOpen = false;
 
   return (
     <div>
@@ -42,15 +40,15 @@ export default function AuthenticationModal(props: any) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
-        open={signUpOpen}
-        // onClose={}
+        open={props.signUpOpen}
+        onClose={props.handleSignUpClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        <Fade in={signUpOpen}>
+        <Fade in={props.signUpOpen}>
           <Stack
             className={classes.paper}
             direction={"row"}
@@ -98,15 +96,15 @@ export default function AuthenticationModal(props: any) {
         aria-labelledby="transition-modal-title"
         aria-describedby="transition-modal-description"
         className={classes.modal}
-        open={loginOpen}
-        // onClose={}
+        open={props.loginOpen}
+        onClose={props.handleLoginClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
           timeout: 500,
         }}
       >
-        <Fade in={loginOpen}>
+        <Fade in={props.loginOpen}>
           <Stack
             className={classes.paper}
             direction={"row"}

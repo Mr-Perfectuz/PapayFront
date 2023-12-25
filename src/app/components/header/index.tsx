@@ -9,6 +9,7 @@ import {
 import React, { useState } from "react";
 import "../../../css/navbar.css";
 import { NavLink } from "react-router-dom";
+import { sweetTopSuccessAlert } from "../../../lib/sweetAlert";
 
 export default function NavbarHome(props: any) {
   // const [count, setCount] = useState(0);
@@ -79,6 +80,7 @@ export default function NavbarHome(props: any) {
             </Box>
             <Box>
               <Button
+                onClick={() => props.handleSignUpOpen()}
                 variant="contained"
                 style={{
                   width: "77px",
@@ -108,6 +110,7 @@ export default function NavbarHome(props: any) {
             <Box className="timeline_service">24 soat xizmatingizdamiz.</Box>
             <Box sx={{ mt: "90px" }}>
               <Button
+                onClick={() => props.handleSignUpOpen()}
                 className="header_btn"
                 variant="contained"
                 style={{
