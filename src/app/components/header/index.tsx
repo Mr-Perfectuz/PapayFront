@@ -80,7 +80,7 @@ export default function NavbarHome(props: any) {
             </Box>
             <Box>
               <Button
-                onClick={() => props.handleSignUpOpen()}
+                onClick={() => props.handleLoginOpen()}
                 variant="contained"
                 style={{
                   width: "77px",

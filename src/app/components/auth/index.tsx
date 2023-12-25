@@ -6,6 +6,10 @@ import Fade from "@material-ui/core/Fade";
 import { Fab, Stack, TextField } from "@mui/material";
 import styled from "styled-components";
 import LoginIcon from "@mui/icons-material/Login";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+import MemberApiService from "../../apiServices/memberApiService";
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -31,7 +35,44 @@ const ModalImg = styled.img`
 `;
 
 export default function AuthenticationModal(props: any) {
+  // INITIALIZATION
   const classes = useStyles();
+  let mb_nick: string = "";
+  let mb_phone: number = 0;
+  let mb_password: string = "";
+
+  // HANDLERS
+  const handleUserName = (e: any) => {
+    mb_nick = e.target.value;
+  };
+  const handleUserPhone = (e: any) => {
+    mb_phone = e.target.value;
+  };
+  const handleUserPassword = (e: any) => {
+    mb_password = e.target.value;
+  };
+
+  const handleLoginRequest = async () => {
+    try {
+      const is_fullfilled = mb_nick !== "" && mb_password !== "";
+      assert.ok(is_fullfilled, Definer.input_err1);
+
+      const login_data = {
+        mb_nick: mb_nick,
+        mb_password: mb_password,
+      };
+
+      const memberApiService = new MemberApiService();
+      memberApiService.loginRequest(login_data);
+
+      props.handleLoginClose();
+      // window.location.reload;
+    } catch (err) {
+      console.log(err);
+      props.handleLoginClose();
+      sweetErrorHandling(err).then();
+    }
+  };
 
   return (
     <div>
@@ -58,27 +99,27 @@ export default function AuthenticationModal(props: any) {
             <Stack sx={{ marginLeft: "69px", alignItems: "center" }}>
               <h2>SignUp Form</h2>
               <TextField
-                // onChange={}
+                // onChange={handleUserName}
                 sx={{ marginTop: "7px" }}
                 id="outlined-basic"
                 label="username"
                 variant="outlined"
               />
               <TextField
-                // onChange={}
+                onChange={handleUserPhone}
                 sx={{ my: "17px" }}
                 id="outlined-basic"
                 label="phone number"
                 variant="outlined"
               />
               <TextField
-                // onChange={}
+                // onChange={handleUserPassword}
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
               />
               <Fab
-                // onClick={}
+                // onClick={handleLoginRequest}
                 sx={{ marginTop: "30px", width: "120px" }}
                 variant="extended"
                 color="primary"
@@ -120,20 +161,20 @@ export default function AuthenticationModal(props: any) {
             >
               <h2>Login Form</h2>
               <TextField
-                // onChange={}
+                onChange={handleUserName}
                 id="outlined-basic"
                 label="username"
                 variant="outlined"
                 sx={{ my: "10px" }}
               />
               <TextField
-                // onChange={}
+                onChange={handleUserPassword}
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
               />
               <Fab
-                // onClick={}
+                onClick={handleLoginRequest}
                 sx={{ marginTop: "27px", width: "120px" }}
                 variant="extended"
                 color="primary"
