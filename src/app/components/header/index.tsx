@@ -4,20 +4,18 @@ import {
   Button,
   Container,
   IconButton,
+  ListItemIcon,
+  Menu,
+  MenuItem,
   Stack,
 } from "@mui/material";
-import React, { useState } from "react";
 import "../../../css/navbar.css";
 import { NavLink } from "react-router-dom";
 import { sweetTopSuccessAlert } from "../../../lib/sweetAlert";
+import React, { useState } from "react";
+import { Logout } from "@mui/icons-material";
 
 export default function NavbarHome(props: any) {
-  // const [count, setCount] = useState(0);
-
-  // const countHandler = () => {
-  //   setCount(count + 1);
-  // };
-
   return (
     <div className="format home_navbar">
       <Container>
@@ -51,6 +49,13 @@ export default function NavbarHome(props: any) {
                 Jamiyat
               </NavLink>
             </Box>
+            {props.verifierMemberData ? (
+              <Box className="hover-line" onClick={props.setPath}>
+                <NavLink to="/sahifam" activeClassName="underline">
+                  Sahifam
+                </NavLink>
+              </Box>
+            ) : null}
             <Box className="hover-line" onClick={props.setPath}>
               <NavLink to="/orders" activeClassName="underline">
                 Buyurtma
@@ -78,21 +83,73 @@ export default function NavbarHome(props: any) {
                 </Badge>
               </IconButton>
             </Box>
-            <Box>
-              <Button
-                onClick={() => props.handleLoginOpen()}
-                variant="contained"
-                style={{
-                  width: "77px",
-                  height: "36px",
-                  background: "#1976D2",
-                  borderRadius: "4px",
-                  color: "#fff",
-                }}
-              >
-                KIRISH
-              </Button>
-            </Box>
+
+            {!props.verifierMemberData ? (
+              <Box>
+                <Button
+                  onClick={() => props.handleLoginOpen()}
+                  variant="contained"
+                  style={{
+                    width: "77px",
+                    height: "36px",
+                    background: "#1976D2",
+                    borderRadius: "4px",
+                    color: "#fff",
+                  }}
+                >
+                  KIRISH
+                </Button>
+              </Box>
+            ) : (
+              <img
+                alt="user img"
+                src={props.verifierMemberData.mb_image}
+                style={{ width: "48px", height: "48px", borderRadius: "24px" }}
+                onClick={props.handleLogoutClick}
+              />
+            )}
+
+            <Menu
+              anchorEl={props.anchorEl}
+              open={props.open}
+              onClick={props.handleCLoseLogout}
+              onClose={props.handleCLoseLogout}
+              PaperProps={{
+                elevation: 0,
+                sx: {
+                  overflow: "visible",
+                  filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32",
+                  mt: 1.5,
+                  " & .MuiAvatar-root": {
+                    width: 32,
+                    height: 32,
+                    ml: -0.5,
+                    mr: 1,
+                  },
+                  "&:before": {
+                    content: '""',
+                    display: "block",
+                    position: "absolute",
+                    top: 0,
+                    right: 14,
+                    width: 10,
+                    height: 10,
+                    bgcolor: "Background.paper",
+                    transform: "translateY(-50%) rotate(45deg",
+                    zIndex: 0,
+                  },
+                },
+              }}
+              transformOrigin={{ horizontal: "right", vertical: "top" }}
+              anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+            >
+              <MenuItem onClick={props.handleLogoutRequest}>
+                <ListItemIcon>
+                  <Logout fontSize="small" style={{ color: "blue" }} />
+                </ListItemIcon>
+                Logout
+              </MenuItem>
+            </Menu>
           </Stack>
         </Stack>
 
@@ -109,20 +166,26 @@ export default function NavbarHome(props: any) {
             </Box>
             <Box className="timeline_service">24 soat xizmatingizdamiz.</Box>
             <Box sx={{ mt: "90px" }}>
-              <Button
-                onClick={() => props.handleSignUpOpen()}
-                className="header_btn"
-                variant="contained"
-                style={{
-                  width: "210px",
-                  height: "60px",
-                  background: "#1976D2",
-                  color: "#fff",
-                  borderRadius: "4px",
-                }}
-              >
-                RO’YHATDAN O’TISH
-              </Button>
+              {/*  */}
+
+              {!props.verifierMemberData ? (
+                <Button
+                  onClick={() => props.handleSignUpOpen()}
+                  className="header_btn"
+                  variant="contained"
+                  style={{
+                    width: "210px",
+                    height: "60px",
+                    background: "#1976D2",
+                    color: "#fff",
+                    borderRadius: "4px",
+                  }}
+                >
+                  RO’YHATDAN O’TISH
+                </Button>
+              ) : null}
+
+              {/*  */}
             </Box>
           </Stack>
           <Box className="img_halal"></Box>
