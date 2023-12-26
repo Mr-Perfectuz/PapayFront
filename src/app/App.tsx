@@ -15,7 +15,7 @@ import NavbarRestaurant from "./components/header/restaurant";
 import NavbarOthers from "./components/header/others";
 import Footer from "./components/footer";
 import AuthenticationModal from "./components/auth";
-import { sign } from "crypto";
+// import { sign } from "crypto";
 import { Member } from "../types/user";
 import { serviceApi } from "../lib/config";
 import {
@@ -23,7 +23,7 @@ import {
   sweetTopSmallSuccessAlert,
 } from "../lib/sweetAlert";
 import { Definer } from "../lib/Definer";
-import assert from "assert";
+// import assert from "assert";
 import MemberApiService from "./apiServices/memberApiService";
 import "../app/apiServices/vertify";
 

@@ -23,7 +23,7 @@ export default function NavbarRestaurant(props: any) {
           justifyContent={"space-between"}
         >
           <Box>
-            <img src="/icons/papay.svg" alt="header image" />
+            <img src="/icons/papay.svg" alt="header img" />
           </Box>
           <Stack
             display={"flex"}

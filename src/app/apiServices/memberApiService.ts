@@ -60,7 +60,7 @@ public async logoutRequest() {
 
     const logout_result = result.data.data;
 
-    return logout_result == "success";
+    return logout_result === "success";
     } catch (err: any) {
       console.log(`ERROR: signUpRequest ${err.message}`);
       throw err;

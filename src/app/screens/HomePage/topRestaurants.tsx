@@ -8,13 +8,18 @@ import LocationOnRoundedIcon from "@mui/icons-material/LocationOnRounded";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { CssVarsProvider } from "@mui/joy/styles";
 import { CardOverflow, IconButton } from "@mui/joy";
-import { Favorite } from "@mui/icons-material";
 //REDUX
 import { createSelector } from "reselect";
 import { retreiveTopRestaurants } from "./selector";
 import { useSelector } from "react-redux";
 import { Restaurant } from "../../../types/user";
 import { serviceApi } from "../../../lib/config";
+import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+import Checkbox from "@mui/material/Checkbox";
+import { Favorite, FavoriteBorder } from "@mui/icons-material";
+
 export default function TopRestaurants() {
   // REDUX SELECTOR
   const topRestaurantRetriever = createSelector(
@@ -24,7 +29,14 @@ export default function TopRestaurants() {
 
   const { topRestaurants } = useSelector(topRestaurantRetriever);
 
-  // console.log("topRestaurants", topRestaurants);
+  const targetLikeTop = async (e: any, id: string) => {
+    try {
+      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+    } catch (err: any) {
+      console.log("targetLikeTop, ERROR::", err);
+      sweetErrorHandling(err).then();
+    }
+  };
 
   return (
     <div className="top_restaurant_frame">
@@ -99,9 +111,9 @@ export default function TopRestaurants() {
                         }}
                       >
                         <Favorite
+                          onClick={(e) => targetLikeTop(e, ele._id)}
                           style={{
-                            fill:
-                              // ele?.me_liked && ele?.me_liked[0].my_favorite
+                            color:
                               ele.me_liked &&
                               ele.me_liked[0] &&
                               ele.me_liked[0].my_favorite
