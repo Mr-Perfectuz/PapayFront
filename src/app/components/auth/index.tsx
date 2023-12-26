@@ -63,13 +63,36 @@ export default function AuthenticationModal(props: any) {
       };
 
       const memberApiService = new MemberApiService();
-      memberApiService.loginRequest(login_data);
+      await memberApiService.loginRequest(login_data);
 
       props.handleLoginClose();
       // window.location.reload;
     } catch (err) {
       console.log(err);
       props.handleLoginClose();
+      sweetErrorHandling(err).then();
+    }
+  };
+
+  const handleSignUpRequest = async (e: any) => {
+    try {
+      const is_fullfilled =
+        mb_nick !== "" && mb_password !== "" && mb_phone !== 0;
+      assert.ok(is_fullfilled, Definer.input_err1);
+
+      const signup_data = {
+        mb_nick: mb_nick,
+        mb_phone: mb_phone,
+        mb_password: mb_password,
+      };
+
+      const memberApiService = new MemberApiService();
+      await memberApiService.signUpRequest(signup_data);
+      props.handleSignUpClose();
+      // window.location.reload();
+    } catch (err) {
+      console.log(err);
+      // props.handleSignUpClose();
       sweetErrorHandling(err).then();
     }
   };
@@ -99,7 +122,7 @@ export default function AuthenticationModal(props: any) {
             <Stack sx={{ marginLeft: "69px", alignItems: "center" }}>
               <h2>SignUp Form</h2>
               <TextField
-                // onChange={handleUserName}
+                onChange={handleUserName}
                 sx={{ marginTop: "7px" }}
                 id="outlined-basic"
                 label="username"
@@ -113,13 +136,13 @@ export default function AuthenticationModal(props: any) {
                 variant="outlined"
               />
               <TextField
-                // onChange={handleUserPassword}
+                onChange={handleUserPassword}
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
               />
               <Fab
-                // onClick={handleLoginRequest}
+                onClick={handleSignUpRequest}
                 sx={{ marginTop: "30px", width: "120px" }}
                 variant="extended"
                 color="primary"

@@ -51,14 +51,14 @@ export default function BestDishes() {
           <Box className="best_dishes_title">Trendagi Ovqatlar</Box>
 
           <Stack sx={{ mt: "43px" }} flexDirection={"row"}>
-            {trendProducts.map((product: Product) => {
+            {trendProducts.map((product: Product, id) => {
               const image_path = `${serviceApi}/${product.product_images[0]}`;
               const size_volume =
                 product.product_collection === "drink"
                   ? product.product_volume + "l"
                   : product.product_size + "size";
               return (
-                <Box className="dish_box">
+                <Box className="dish_box" key={id}>
                   <Stack
                     className="dish_img"
                     sx={{
