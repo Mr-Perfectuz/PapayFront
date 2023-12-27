@@ -14,15 +14,19 @@ import { retreiveTopRestaurants } from "./selector";
 import { useSelector } from "react-redux";
 import { Restaurant } from "../../../types/user";
 import { serviceApi } from "../../../lib/config";
-import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
 import assert from "assert";
 import { Definer } from "../../../lib/Definer";
-import Checkbox from "@mui/material/Checkbox";
-import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import { Favorite } from "@mui/icons-material";
 import MemberApiService from "../../apiServices/memberApiService";
+import { useHistory } from "react-router-dom";
 
 export default function TopRestaurants() {
-  // REDUX SELECTOR
+  //INITITALIZATIONS
+  const history = useHistory();
   const topRestaurantRetriever = createSelector(
     retreiveTopRestaurants,
     (topRestaurants) => ({ topRestaurants })
@@ -32,8 +36,16 @@ export default function TopRestaurants() {
 
   const refs: any = useRef([]);
 
+  //  HANDLERS
+  const chosenRestaurantHandler = (id: string) => {
+    history.push(`/restaurant/${id}`);
+  };
+
+  const goRestaurantsHandler = () => history.push("/restaurant");
+
   const targetLikeTop = async (e: any, id: string) => {
     try {
+      // e.stopPropagation();
       assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
 
       const memberApiService = new MemberApiService();
@@ -53,6 +65,7 @@ export default function TopRestaurants() {
         e.target.style.fill = "white";
         refs.current[id].innerHTML--;
       }
+      await sweetTopSmallSuccessAlert("success", 700, false);
     } catch (err: any) {
       console.log("targetLikeTop, ERROR::", err);
       await sweetErrorHandling(err).then();
@@ -74,6 +87,7 @@ export default function TopRestaurants() {
               return (
                 <CssVarsProvider key={ele._id}>
                   <Card
+                    onClick={() => chosenRestaurantHandler(ele._id)}
                     sx={{
                       minHeight: "440px",
                       width: 325,
@@ -117,6 +131,9 @@ export default function TopRestaurants() {
                       }}
                     >
                       <IconButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
                         aria-label="Like minimal photography"
                         size="md"
                         variant="solid"
@@ -135,9 +152,7 @@ export default function TopRestaurants() {
                           onClick={(e) => targetLikeTop(e, ele._id)}
                           style={{
                             color:
-                              ele?.me_liked &&
-                              // ele.me_liked[0] &&
-                              ele?.me_liked[0]?.my_favorite
+                              ele?.me_liked && ele?.me_liked[0]?.my_favorite
                                 ? "red"
                                 : "white",
                           }}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Box, Button, Container, Stack } from "@mui/material";
 import Card from "@mui/joy/Card";
 import Typography from "@mui/joy/Typography";
@@ -14,18 +14,64 @@ import { retreiveBestRestaurants } from "./selector";
 import { useSelector } from "react-redux";
 import { Restaurant } from "../../../types/user";
 import { serviceApi } from "../../../lib/config";
+import { useHistory } from "react-router-dom";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+import MemberApiService from "../../apiServices/memberApiService";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
 
 // REDUX SELECTOR
+//INITITALIZATIONS
+
 const bestRestaurantRetreiver = createSelector(
   retreiveBestRestaurants,
   (bestRestaurants) => ({ bestRestaurants })
 );
 
 export default function BestRestaurants() {
+  const history = useHistory();
   const { bestRestaurants } = useSelector(bestRestaurantRetreiver);
 
-  console.log("bestRestaurants", bestRestaurants);
+  const refs: any = useRef([]);
 
+  //  HANDLERS
+  const chosenRestaurantHandler = (id: string) => {
+    history.push(`/restaurant/${id}`);
+  };
+
+  const goRestaurantsHandler = () => history.push("/restaurant");
+
+  const targetLikeBest = async (e: any, id: string) => {
+    try {
+      e.stopPropagation();
+      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+
+      const memberApiService = new MemberApiService();
+
+      const like_result: any = await memberApiService.memberLikeTarget({
+        like_ref_id: id,
+        group_type: "member",
+      });
+      console.log("Like Result:", like_result);
+
+      assert.ok(like_result, Definer.general_err);
+
+      if (like_result.like_status > 0) {
+        e.target.style.fill = "red";
+        refs.current[id].innerHTML++;
+      } else {
+        e.target.style.fill = "white";
+        refs.current[id].innerHTML--;
+      }
+      await sweetTopSmallSuccessAlert("success", 700, false);
+    } catch (err: any) {
+      console.log("targetLikeBest, ERROR::", err);
+      await sweetErrorHandling(err).then();
+    }
+  };
   return (
     <div className="best_restaurants_frame">
       <img
@@ -43,6 +89,7 @@ export default function BestRestaurants() {
               return (
                 <CssVarsProvider key={ele._id}>
                   <Card
+                    onClick={() => chosenRestaurantHandler(ele._id)}
                     variant="outlined"
                     sx={{
                       minHeight: 483,
@@ -63,6 +110,9 @@ export default function BestRestaurants() {
                         />
                       </AspectRatio>
                       <IconButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
                         aria-label="Like minimal photography"
                         size="md"
                         variant="solid"
@@ -78,11 +128,10 @@ export default function BestRestaurants() {
                         }}
                       >
                         <Favorite
+                          onClick={(e) => targetLikeBest(e, ele._id)}
                           style={{
                             fill:
-                              ele.me_liked &&
-                              ele.me_liked[0] &&
-                              ele.me_liked[0].my_favorite
+                              ele?.me_liked && ele?.me_liked[0]?.my_favorite
                                 ? "red"
                                 : "white",
                           }}
@@ -149,7 +198,11 @@ export default function BestRestaurants() {
                           mb: "5px",
                         }}
                       >
-                        {ele.mb_likes}
+                        <div
+                          ref={(element) => (refs.current[ele._id] = element)}
+                        >
+                          {ele.mb_likes}
+                        </div>
                         <Favorite sx={{ fontSize: 20, marginLeft: "5px" }} />
                       </Typography>
                     </CardOverflow>
