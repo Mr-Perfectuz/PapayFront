@@ -66,7 +66,7 @@ export default function AuthenticationModal(props: any) {
       await memberApiService.loginRequest(login_data);
 
       props.handleLoginClose();
-      // window.location.reload;
+      window.location.reload();
     } catch (err) {
       console.log(err);
       props.handleLoginClose();
@@ -89,10 +89,9 @@ export default function AuthenticationModal(props: any) {
       const memberApiService = new MemberApiService();
       await memberApiService.signUpRequest(signup_data);
       props.handleSignUpClose();
-      // window.location.reload();
+      window.location.reload();
     } catch (err) {
       console.log(err);
-      // props.handleSignUpClose();
       sweetErrorHandling(err).then();
     }
   };

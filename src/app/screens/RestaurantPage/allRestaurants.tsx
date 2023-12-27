@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box, Button, Container, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -14,9 +14,46 @@ import { CssVarsProvider } from "@mui/joy/styles";
 import { AspectRatio, CardOverflow, IconButton, Link } from "@mui/joy";
 import { Favorite } from "@mui/icons-material";
 
+//REDUX
+import { Dispatch, createSelector } from "@reduxjs/toolkit";
+import { useHistory } from "react-router-dom";
+import { retreiveTargetRestaurants } from "../RestaurantPage/selector";
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { Restaurant } from "../../../types/user";
+import { serviceApi } from "../../../lib/config";
+import { setTargetRestaurants } from "./slice";
+import RestaurantApiService from "../../apiServices/restaurantApiService";
+
+// REDUX SLICE
+const actionDispatch = (dispatch: Dispatch) => ({
+  setTargetRestaurants: (data: Restaurant[]) =>
+    dispatch(setTargetRestaurants(data)),
+});
+
 const order_list = Array.from(Array(8).keys());
 
+//INITITALIZATIONS
+const targetRestaurantRetriever = createSelector(
+  retreiveTargetRestaurants,
+  (targetRestaurants) => ({ targetRestaurants })
+);
+
 export default function AllRestaurants() {
+  /**  INITIALIZATION */
+  const { setTargetRestaurants } = actionDispatch(useDispatch());
+  const { targetRestaurants } = useSelector(targetRestaurantRetriever);
+  useEffect(() => {
+    // backend data request => data
+    const restaurantApiService = new RestaurantApiService();
+    restaurantApiService
+      .getTopRestaurants()
+      .then((data) => {
+        setTargetRestaurants(data);
+      })
+      .catch((err) => console.log(err));
+  }, []);
+
   return (
     <div className="all_restaurants">
       <Container>

@@ -130,10 +130,9 @@ export default function BestRestaurants() {
                         <Favorite
                           onClick={(e) => targetLikeBest(e, ele._id)}
                           style={{
-                            fill:
-                              ele?.me_liked && ele?.me_liked[0]?.my_favorite
-                                ? "red"
-                                : "white",
+                            fill: ele?.me_liked[0]?.my_favorite
+                              ? "red"
+                              : "white",
                           }}
                         />
                       </IconButton>
@@ -219,6 +218,7 @@ export default function BestRestaurants() {
             }}
           >
             <Button
+              onClick={goRestaurantsHandler}
               sx={{
                 background: "#1976d2",
                 color: "#fff",

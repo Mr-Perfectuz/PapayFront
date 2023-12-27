@@ -10,7 +10,7 @@ private readonly path: String
         this.path = serviceApi
     }
 
-    async getTopRestaurants(){
+    async getTopRestaurants(): Promise<Restaurant[]>{
         try {
             const url = "/restaurants?order=top&page=1&limit=4"
             let result = await axious.get(serviceApi + url, {withCredentials: true})
@@ -26,7 +26,7 @@ private readonly path: String
             
         }
     }
-    async getBestRestaurants(data: SearchObj){
+    async getBestRestaurants(data: SearchObj): Promise<Restaurant[]>{
         try {
             const url = `/restaurants?order=${data.order}&page=${data.page}&limit=${data.limit}`
             let result = await axious.get(serviceApi + url, {withCredentials: true})
