@@ -1,5 +1,5 @@
 import { Container, Stack, Box } from "@mui/material";
-import React from "react";
+import React, { useRef } from "react";
 import Card from "@mui/joy/Card";
 import CardCover from "@mui/joy/CardCover";
 import CardContent from "@mui/joy/CardContent";
@@ -19,6 +19,7 @@ import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import Checkbox from "@mui/material/Checkbox";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import MemberApiService from "../../apiServices/memberApiService";
 
 export default function TopRestaurants() {
   // REDUX SELECTOR
@@ -29,12 +30,32 @@ export default function TopRestaurants() {
 
   const { topRestaurants } = useSelector(topRestaurantRetriever);
 
+  const refs: any = useRef([]);
+
   const targetLikeTop = async (e: any, id: string) => {
     try {
       assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+
+      const memberApiService = new MemberApiService();
+
+      const like_result: any = await memberApiService.memberLikeTarget({
+        like_ref_id: id,
+        group_type: "member",
+      });
+      console.log("Like Result:", like_result);
+
+      assert.ok(like_result, Definer.general_err);
+
+      if (like_result.like_status > 0) {
+        e.target.style.fill = "red";
+        refs.current[id].innerHTML++;
+      } else {
+        e.target.style.fill = "white";
+        refs.current[id].innerHTML--;
+      }
     } catch (err: any) {
       console.log("targetLikeTop, ERROR::", err);
-      sweetErrorHandling(err).then();
+      await sweetErrorHandling(err).then();
     }
   };
 
@@ -114,9 +135,9 @@ export default function TopRestaurants() {
                           onClick={(e) => targetLikeTop(e, ele._id)}
                           style={{
                             color:
-                              ele.me_liked &&
-                              ele.me_liked[0] &&
-                              ele.me_liked[0].my_favorite
+                              ele?.me_liked &&
+                              // ele.me_liked[0] &&
+                              ele?.me_liked[0]?.my_favorite
                                 ? "red"
                                 : "white",
                           }}
@@ -149,7 +170,11 @@ export default function TopRestaurants() {
                           mb: "5px",
                         }}
                       >
-                        {ele.mb_likes}
+                        <div
+                          ref={(element) => (refs.current[ele._id] = element)}
+                        >
+                          {ele.mb_likes}
+                        </div>
                         <Favorite sx={{ fontSize: 20, marginLeft: "5px" }} />
                       </Typography>
                     </CardOverflow>

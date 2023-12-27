@@ -60,6 +60,7 @@ function App() {
   const handleSignUpClose = () => setSignUpOpen(false);
   const handleLoginOpen = () => setLoginOpen(true);
   const handleLoginClose = () => setLoginOpen(false);
+
   const handleLogoutClick = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -73,7 +74,7 @@ function App() {
       await sweetTopSmallSuccessAlert("sucess", 700, true);
     } catch (err: any) {
       console.log(err);
-      sweetFailureProvider(Definer.geteral_err);
+      sweetFailureProvider(Definer.general_err);
     }
   };
 

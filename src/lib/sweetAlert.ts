@@ -9,7 +9,7 @@ export const sweetErrorHandling = async (
 ) => {
   let error_message = err.message.includes("att:")
     ? err.message
-    : Definer.geteral_err;
+    : Definer.general_err;
 
   if (sweet_off) {
     alert(error_message);

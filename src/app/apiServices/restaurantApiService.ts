@@ -14,7 +14,7 @@ private readonly path: String
         try {
             const url = "/restaurants?order=top&page=1&limit=4"
             let result = await axious.get(serviceApi + url, {withCredentials: true})
-            assert.ok(result, Definer.geteral_err);
+            assert.ok(result, Definer.general_err);
             console.log("state:", result.data.state)
             const top_restaurants : Restaurant[] = result.data.data;
         
@@ -30,7 +30,7 @@ private readonly path: String
         try {
             const url = `/restaurants?order=${data.order}&page=${data.page}&limit=${data.limit}`
             let result = await axious.get(serviceApi + url, {withCredentials: true})
-            assert.ok(result, Definer.geteral_err);
+            assert.ok(result, Definer.general_err);
             console.log("state:", result.data.state)
             const best_restaurants : Restaurant[] = result.data.data;
         

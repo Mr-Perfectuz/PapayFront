@@ -16,7 +16,7 @@ class ProductApiService {
     try {
       const url = "/products";
       let result = await axios.post(this.path + url, data, { withCredentials: true });
-      assert.ok(result, Definer.geteral_err);
+      assert.ok(result, Definer.general_err);
 
       if (result.status !== 200) {
         throw new Error(`Request failed with status ${result.status}`);
