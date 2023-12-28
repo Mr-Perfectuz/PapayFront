@@ -117,7 +117,7 @@ export default function OneRestaurant() {
     useState<ProductSearchObj>({
       page: 1,
       limit: 8,
-      order: "createdAt",
+      order: "random",
       // restaurant_mb_id: restaurant_id,
       // product_collection: "dish",
     });
@@ -131,6 +131,15 @@ export default function OneRestaurant() {
   const [value, setValue] = React.useState<number | null>(4);
 
   useEffect(() => {
+    const restaurantService = new RestaurantApiService();
+
+    restaurantService
+      .getRestaurants({ page: 1, limit: 10, order: "random" })
+      .then((data) => {
+        setRandomRestaurants(data);
+      })
+      .catch((err) => console.log(err));
+
     const productService = new ProductApiService();
     productService
       .getTargetProducts(targetProductSearchObject)
@@ -139,6 +148,14 @@ export default function OneRestaurant() {
       })
       .catch((err) => console.log(err));
   }, [targetProductSearchObject]);
+
+  // HANDLERs
+  const history = useHistory();
+  const chosenRestaurantHandler = (id: string) => {
+    setchosenRestaurantId(id);
+    setTargetProductSeachObject({ ...targetProductSearchObject });
+    history.push(`/restaurant/${id}`);
+  };
   return (
     <div className="single_restaurant">
       <Container>
@@ -194,27 +211,29 @@ export default function OneRestaurant() {
               className="restaurant_avatars_wrapper"
               slidesPerView={7}
               centeredSlides={false}
-              spaceBetween={30}
+              spaceBetween={10}
               navigation={{
                 nextEl: ".restaurant_next",
                 prevEl: ".restaurant_prev",
               }}
             >
-              {restarant_list.map((ele, index) => {
+              {randomRestaurants.map((ele: Restaurant, index) => {
+                const image_path = `${serviceApi}/${ele.mb_image}`;
                 return (
                   <SwiperSlide
+                    onClick={() => chosenRestaurantHandler(ele._id)}
                     style={{ cursor: "pointer", width: "110px" }}
                     key={index}
                     className="restaurant_avatars"
                   >
                     <img
                       className="avatar_img"
-                      src="/restaurant/bd_img1.png"
+                      src={image_path}
                       alt="res img"
                       width="80px"
                       height="80px"
                     />
-                    <span className="avatar_text">Chinor</span>
+                    <span className="avatar_text">{ele.mb_nick}</span>
                   </SwiperSlide>
                 );
               })}
