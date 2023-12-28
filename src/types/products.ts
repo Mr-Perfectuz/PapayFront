@@ -6,6 +6,7 @@ export interface MeLiked{
 }
 
 export interface Product{
+  _id: string | undefined;
    product_name: string,
     product_collection: string,
     product_status: string,
