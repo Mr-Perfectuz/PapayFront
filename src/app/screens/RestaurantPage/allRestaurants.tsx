@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect, useRef, useState } from "react";
 import { Box, Button, Container, Stack } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
@@ -12,7 +13,7 @@ import CallIcon from "@mui/icons-material/Call";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { CssVarsProvider } from "@mui/joy/styles";
 import { AspectRatio, CardOverflow, IconButton, Link } from "@mui/joy";
-import { Favorite } from "@mui/icons-material";
+import { Category, Favorite } from "@mui/icons-material";
 
 //REDUX
 import { Dispatch, createSelector } from "@reduxjs/toolkit";
@@ -24,14 +25,20 @@ import { Restaurant } from "../../../types/user";
 import { serviceApi } from "../../../lib/config";
 import { setTargetRestaurants } from "./slice";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
+import { SearchObj } from "../../../types/others";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
+import MemberApiService from "../../apiServices/memberApiService";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
   setTargetRestaurants: (data: Restaurant[]) =>
     dispatch(setTargetRestaurants(data)),
 });
-
-const order_list = Array.from(Array(8).keys());
 
 //INITITALIZATIONS
 const targetRestaurantRetriever = createSelector(
@@ -43,16 +50,62 @@ export default function AllRestaurants() {
   /**  INITIALIZATION */
   const { setTargetRestaurants } = actionDispatch(useDispatch());
   const { targetRestaurants } = useSelector(targetRestaurantRetriever);
+  const [targetSearchObject, setTargetSeachObject] = useState<SearchObj>({
+    page: 1,
+    limit: 8,
+    order: "mb_point",
+  });
   useEffect(() => {
-    // backend data request => data
     const restaurantApiService = new RestaurantApiService();
     restaurantApiService
-      .getTopRestaurants()
+      .getRestaurants(targetSearchObject)
       .then((data) => {
         setTargetRestaurants(data);
       })
       .catch((err) => console.log(err));
-  }, []);
+  }, [targetSearchObject]);
+
+  // HANDLERS
+  const searchHandler = (category: string) => {
+    targetSearchObject.page = 1;
+    targetSearchObject.order = category;
+    setTargetSeachObject({ ...targetSearchObject }); //new reference
+  };
+
+  const handlePaginationChange = (event: any, value: number) => {
+    targetSearchObject.page = value;
+    setTargetSeachObject({ ...targetSearchObject });
+  };
+  const refs: any = useRef([]);
+
+  const targetLikeHandler = async (e: any, id: string) => {
+    try {
+      // e.stopPropagation();
+      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+
+      const memberApiService = new MemberApiService();
+
+      const like_result: any = await memberApiService.memberLikeTarget({
+        like_ref_id: id,
+        group_type: "member",
+      });
+      console.log("Like Result:", like_result);
+
+      assert.ok(like_result, Definer.general_err);
+
+      if (like_result.like_status > 0) {
+        e.target.style.fill = "red";
+        refs.current[id].innerHTML++;
+      } else {
+        e.target.style.fill = "white";
+        refs.current[id].innerHTML--;
+      }
+      await sweetTopSmallSuccessAlert("success", 700, false);
+    } catch (err: any) {
+      console.log("targetLikeTop, ERROR::", err);
+      await sweetErrorHandling(err).then();
+    }
+  };
 
   return (
     <div className="all_restaurants">
@@ -66,10 +119,18 @@ export default function AllRestaurants() {
           >
             <Box className="fill_search_box">
               <Box className="fill_box">
-                <a href="#">Zo'r</a>
-                <a href="#">Mashhur</a>
-                <a href="#">Trenddagi</a>
-                <a href="#">Yangi</a>
+                <a onClick={() => searchHandler("mb_point")} href="#">
+                  Zo'r
+                </a>
+                <a onClick={() => searchHandler("mb_views")} href="#">
+                  Mashhur
+                </a>
+                <a onClick={() => searchHandler("mb_likes")} href="#">
+                  Trenddagi
+                </a>
+                <a onClick={() => searchHandler("createdAt")} href="#">
+                  Yangi
+                </a>
               </Box>
             </Box>
             <Box className="search_big_box">
@@ -98,11 +159,12 @@ export default function AllRestaurants() {
 
           <Stack flexDirection={"row"} className="all_res_box">
             <CssVarsProvider>
-              {order_list.map((ele) => {
+              {targetRestaurants.map((ele: Restaurant, i) => {
+                const image_path = `${serviceApi}/${ele.mb_image}`;
                 return (
                   <Card
                     variant="outlined"
-                    key={ele}
+                    key={i}
                     sx={{
                       minHeight: 483,
                       minWidth: 320,
@@ -116,11 +178,14 @@ export default function AllRestaurants() {
                         <img
                           width="319.997px"
                           height="318px"
-                          src={"/restaurant/res1.png"}
+                          src={image_path}
                           alt="Afine img icon"
                         />
                       </AspectRatio>
                       <IconButton
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
                         aria-label="Like minimal photography"
                         size="md"
                         variant="solid"
@@ -135,11 +200,19 @@ export default function AllRestaurants() {
                           color: "rgba(0,0,0, 4",
                         }}
                       >
-                        <Favorite style={{ fill: "white" }} />
+                        <Favorite
+                          onClick={(e) => targetLikeHandler(e, ele._id)}
+                          style={{
+                            color:
+                              ele?.me_liked && ele?.me_liked[0]?.my_favorite
+                                ? "red"
+                                : "white",
+                          }}
+                        />
                       </IconButton>
                     </CardOverflow>
                     <Typography level="h2" sx={{ fontSize: "md", mt: 2 }}>
-                      PizzaHut
+                      {ele.mb_nick} restaurant
                     </Typography>
                     <Typography level="body-sm" sx={{ mt: 0.5, mb: 2 }}>
                       <Link
@@ -147,7 +220,7 @@ export default function AllRestaurants() {
                         startDecorator={<LocationOnRoundedIcon />}
                         textColor="neutral.700"
                       >
-                        Tashkent, Chilanzar 7
+                        {ele.mb_adress}
                       </Link>
                     </Typography>
                     <Typography level="body-sm">
@@ -156,7 +229,7 @@ export default function AllRestaurants() {
                         startDecorator={<CallIcon />}
                         textColor="neutral.700"
                       >
-                        998902662562
+                        {ele.mb_phone}
                       </Link>
                     </Typography>
                     <CardOverflow
@@ -182,7 +255,7 @@ export default function AllRestaurants() {
                           mb: "5px",
                         }}
                       >
-                        4
+                        {ele.mb_views}
                         <VisibilityIcon
                           sx={{ fontSize: 20, marginLeft: "5px" }}
                         />
@@ -198,7 +271,11 @@ export default function AllRestaurants() {
                           mb: "5px",
                         }}
                       >
-                        3
+                        <div
+                          ref={(element) => (refs.current[ele._id] = element)}
+                        >
+                          {ele.mb_likes}
+                        </div>
                         <Favorite sx={{ fontSize: 20, marginLeft: "5px" }} />
                       </Typography>
                     </CardOverflow>
@@ -209,8 +286,10 @@ export default function AllRestaurants() {
           </Stack>
           <Stack className="bottom_box">
             <Pagination
-              count={3}
-              page={1}
+              count={
+                targetSearchObject.page >= 3 ? targetSearchObject.page + 1 : 3
+              }
+              page={targetSearchObject.page}
               renderItem={(item) => (
                 <PaginationItem
                   components={{
@@ -221,6 +300,7 @@ export default function AllRestaurants() {
                   color={"secondary"}
                 />
               )}
+              onChange={handlePaginationChange}
             />
             <Stack
               flexDirection={"row"}
