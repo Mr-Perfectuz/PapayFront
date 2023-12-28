@@ -431,7 +431,7 @@ height: 452.35px;
 }
 .view_btn_one:hover {
   opacity: 1;
-  filter: brightness(50%);
+  filter: brightness(70%);
 
   /* linear-gradient: (rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)),  */
 

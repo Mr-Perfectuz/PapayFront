@@ -74,39 +74,6 @@ const targetProductstRetriever = createSelector(
   (targetProducts) => ({ targetProducts })
 );
 
-const restarant_list = Array.from(Array(10).keys());
-const orderList = [
-  {
-    name: "Asr Restaurant",
-    img: "/restaurant/asr_res.png",
-  },
-  {
-    name: "O'zbegim",
-    img: "/restaurant/asr_res.png",
-  },
-  {
-    name: "Oqshom",
-    img: "/restaurant/asr_res.png",
-  },
-  {
-    name: "ShamsFood",
-    img: "/restaurant/asr_res.png",
-  },
-  {
-    name: "Bo'yonFood",
-    img: "/restaurant/asr_res.png",
-  },
-  {
-    name: "Davr",
-    img: "/restaurant/asr_res.png",
-  },
-  {
-    name: "Rayhon",
-    img: "/restaurant/asr_res.png",
-  },
-];
-const product_list = Array.from(Array(8).keys());
-
 export default function OneRestaurant() {
   /**  INITIALIZATION */
   let { restaurant_id } = useParams<{ restaurant_id: string }>();
@@ -119,7 +86,7 @@ export default function OneRestaurant() {
       limit: 8,
       order: "createdAt",
       restaurant_mb_id: restaurant_id,
-      product_collection: "dish",
+      product_collection: "salad",
     });
   const { randomRestaurants } = useSelector(randomRestaurantRetriever);
   const { chosenRestaurants } = useSelector(chosenRestaurantRetriever);
