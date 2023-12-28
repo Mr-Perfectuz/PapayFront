@@ -13,7 +13,7 @@ import CallIcon from "@mui/icons-material/Call";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import { CssVarsProvider } from "@mui/joy/styles";
 import { AspectRatio, CardOverflow, IconButton, Link } from "@mui/joy";
-import { Category, Favorite } from "@mui/icons-material";
+import { Favorite } from "@mui/icons-material";
 
 //REDUX
 import { Dispatch, createSelector } from "@reduxjs/toolkit";
@@ -66,6 +66,10 @@ export default function AllRestaurants() {
   }, [targetSearchObject]);
 
   // HANDLERS
+  const history = useHistory();
+  const chosenRestaurantHandler = (id: string) => {
+    history.push(`/restaurant/${id}`);
+  };
   const searchHandler = (category: string) => {
     targetSearchObject.page = 1;
     targetSearchObject.order = category;
@@ -163,6 +167,7 @@ export default function AllRestaurants() {
                 const image_path = `${serviceApi}/${ele.mb_image}`;
                 return (
                   <Card
+                    onClick={() => chosenRestaurantHandler(ele._id)}
                     variant="outlined"
                     key={i}
                     sx={{

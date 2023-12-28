@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Badge,
   Box,
@@ -19,7 +19,61 @@ import Checkbox from "@mui/material/Checkbox";
 import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import Rating from "@mui/material/Rating";
-// import { Map, Marker, GoogleApiWrapper } from ‘google-maps-react’
+
+//REDUX
+import { Dispatch, createSelector } from "@reduxjs/toolkit";
+import { useHistory, useParams } from "react-router-dom";
+import {
+  retreiveChosenRestaurants,
+  retreiveRandomRestaurants,
+  retreiveTargetProducts,
+} from "../RestaurantPage/selector";
+//REDUX
+import { useDispatch, useSelector } from "react-redux";
+import { Restaurant } from "../../../types/user";
+import { serviceApi } from "../../../lib/config";
+import {
+  setChosenProduct,
+  setChosenRestaurants,
+  setRandomRestaurants,
+  setTargetProducts,
+} from "./slice";
+import RestaurantApiService from "../../apiServices/restaurantApiService";
+import { ProductSearchObj, SearchObj } from "../../../types/others";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
+import MemberApiService from "../../apiServices/memberApiService";
+import ProductApiService from "../../apiServices/productApiService";
+import { Product } from "../../../types/products";
+
+// REDUX SLICE
+const actionDispatch = (dispatch: Dispatch) => ({
+  setRandomRestaurants: (data: Restaurant[]) =>
+    dispatch(setRandomRestaurants(data)),
+  setChosenRestaurants: (data: Restaurant[]) =>
+    dispatch(setChosenRestaurants(data)),
+  setTargetProducts: (data: Product[]) => dispatch(setTargetProducts(data)),
+  setChosenProduct: (data: Product[]) => dispatch(setChosenProduct(data)),
+});
+
+//REDUX SELECTORS
+const randomRestaurantRetriever = createSelector(
+  retreiveRandomRestaurants,
+  (randomRestaurants) => ({ randomRestaurants })
+);
+const chosenRestaurantRetriever = createSelector(
+  retreiveChosenRestaurants,
+  (chosenRestaurants) => ({ chosenRestaurants })
+);
+const targetProductstRetriever = createSelector(
+  retreiveTargetProducts,
+  (targetProducts) => ({ targetProducts })
+);
+
 const restarant_list = Array.from(Array(10).keys());
 const orderList = [
   {
@@ -54,7 +108,37 @@ const orderList = [
 const product_list = Array.from(Array(8).keys());
 
 export default function OneRestaurant() {
+  /**  INITIALIZATION */
+  let { restaurant_id } = useParams<{ restaurant_id: string }>();
+  const { setChosenRestaurants, setRandomRestaurants, setTargetProducts } =
+    actionDispatch(useDispatch());
+
+  const [targetProductSearchObject, setTargetProductSeachObject] =
+    useState<ProductSearchObj>({
+      page: 1,
+      limit: 8,
+      order: "createdAt",
+      // restaurant_mb_id: restaurant_id,
+      // product_collection: "dish",
+    });
+  const { randomRestaurants } = useSelector(randomRestaurantRetriever);
+  const { chosenRestaurants } = useSelector(chosenRestaurantRetriever);
+  const { targetProducts } = useSelector(targetProductstRetriever);
+
+  const [chosenRestaurantId, setchosenRestaurantId] =
+    useState<string>(restaurant_id);
+
   const [value, setValue] = React.useState<number | null>(4);
+
+  useEffect(() => {
+    const productService = new ProductApiService();
+    productService
+      .getTargetProducts(targetProductSearchObject)
+      .then((data) => {
+        setTargetProducts(data);
+      })
+      .catch((err) => console.log(err));
+  }, [targetProductSearchObject]);
   return (
     <div className="single_restaurant">
       <Container>
@@ -127,6 +211,8 @@ export default function OneRestaurant() {
                       className="avatar_img"
                       src="/restaurant/bd_img1.png"
                       alt="res img"
+                      width="80px"
+                      height="80px"
                     />
                     <span className="avatar_text">Chinor</span>
                   </SwiperSlide>
@@ -195,19 +281,27 @@ export default function OneRestaurant() {
               sx={{ width: "100%" }}
             >
               {/* PRODUCT LIST MAPPING */}
-              {product_list.map((ele, index) => {
+              {targetProducts.map((product: Product, index) => {
+                const image_path = `${serviceApi}/${product.product_images[0]}`;
+                const size_volume =
+                  product.product_collection === "drink"
+                    ? product.product_volume + "l"
+                    : product.product_size + " size";
+                console.log(image_path);
                 return (
-                  <Box className="dish_box">
+                  <Box className="dish_box" key={index}>
                     <Stack
                       className="dish_img"
-                      style={{ width: "273px", height: "275px" }}
+                      style={{ width: "273px", height: "385px" }}
                     >
-                      <Box className="dish_sale">Large size</Box>
+                      <Box className="dish_sale">{size_volume}</Box>
                       <Box
                         className="view_btn_one"
                         sx={{
-                          width: "200px",
-                          backgroundImage: `url{"/public/restaurant/bd_img1.png}`,
+                          width: "255px",
+                          height: "400px",
+                          opacity: 1,
+                          backgroundImage: `url(${image_path})`,
                         }}
                       >
                         <Stack
@@ -228,7 +322,10 @@ export default function OneRestaurant() {
                               marginRight: "20px",
                             }}
                           >
-                            <Badge badgeContent={8} color="primary">
+                            <Badge
+                              badgeContent={product.producta_likes}
+                              color="primary"
+                            >
                               <Checkbox
                                 icon={
                                   <FavoriteBorder
@@ -242,6 +339,12 @@ export default function OneRestaurant() {
                                 // id={`${index}`}
                                 checkedIcon={
                                   <Favorite style={{ color: "red" }} />
+                                }
+                                checked={
+                                  product?.me_liked &&
+                                  product?.me_liked[0]?.my_favorite
+                                    ? true
+                                    : false
                                 }
                               ></Checkbox>
                             </Badge>
@@ -278,7 +381,10 @@ export default function OneRestaurant() {
                               marginLeft: "20px",
                             }}
                           >
-                            <Badge badgeContent={8} color="primary">
+                            <Badge
+                              badgeContent={product.product_views}
+                              color="primary"
+                            >
                               <Checkbox
                                 icon={
                                   <RemoveRedEyeIcon
@@ -297,10 +403,10 @@ export default function OneRestaurant() {
                       alignItems={"center"}
                       justifyContent={"center"}
                     >
-                      <Box className="dish_name">Korean Spicy Soup</Box>
+                      <Box className="dish_name">{product.product_name}</Box>
                       <Box className="dish_price">
                         <MonetizationOn />
-                        15
+                        {product.product_price}
                       </Box>
                     </Stack>
                   </Box>
