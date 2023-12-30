@@ -52,11 +52,13 @@ export default function NavbarOthers(props: any) {
                 </NavLink>
               </Box>
             ) : null}
-            <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/orders" activeClassName="underline">
-                Buyurtma
-              </NavLink>
-            </Box>
+            {props.verifierMemberData ? (
+              <Box className="hover-line" onClick={props.setPath}>
+                <NavLink to="/orders" activeClassName="underline">
+                  Buyurtma
+                </NavLink>
+              </Box>
+            ) : null}
             <Box className="hover-line" onClick={props.setPath}>
               <NavLink to="/help" activeClassName="underline">
                 Yordam

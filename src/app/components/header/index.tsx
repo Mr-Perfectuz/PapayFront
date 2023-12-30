@@ -44,6 +44,13 @@ export default function NavbarHome(props: any) {
                 Oshxona
               </NavLink>
             </Box>
+            {props.verifierMemberData ? (
+              <Box className="hover-line" onClick={props.setPath}>
+                <NavLink to="/orders" activeClassName="underline">
+                  Buyurtma
+                </NavLink>
+              </Box>
+            ) : null}
             <Box className="hover-line" onClick={props.setPath}>
               <NavLink to="/community" activeClassName="underline">
                 Jamiyat
@@ -52,15 +59,15 @@ export default function NavbarHome(props: any) {
             {props.verifierMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
                 <NavLink to="/sahifam" activeClassName="underline">
-                  Sahifam
+                  Buyurtma
                 </NavLink>
               </Box>
             ) : null}
-            <Box className="hover-line" onClick={props.setPath}>
+            {/* <Box className="hover-line" onClick={props.setPath}>
               <NavLink to="/orders" activeClassName="underline">
                 Buyurtma
               </NavLink>
-            </Box>
+            </Box> */}
             <Box className="hover-line" onClick={props.setPath}>
               <NavLink to="/help" activeClassName="underline">
                 Yordam
