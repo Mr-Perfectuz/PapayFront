@@ -14,6 +14,7 @@ import { NavLink } from "react-router-dom";
 import { sweetTopSuccessAlert } from "../../../lib/sweetAlert";
 import React, { useState } from "react";
 import { Logout } from "@mui/icons-material";
+import Basket from "./basket";
 
 export default function NavbarHome(props: any) {
   return (
@@ -73,7 +74,7 @@ export default function NavbarHome(props: any) {
                 Yordam
               </NavLink>
             </Box>
-            <Box className="hover-line">
+            {/* <Box className="hover-line">
               <IconButton
                 aria-label="card"
                 id="basic-button"
@@ -89,8 +90,8 @@ export default function NavbarHome(props: any) {
                   />
                 </Badge>
               </IconButton>
-            </Box>
-
+            </Box> */}
+            <Basket />
             {!props.verifierMemberData ? (
               <Box>
                 <Button
@@ -115,7 +116,6 @@ export default function NavbarHome(props: any) {
                 onClick={props.handleLogoutClick}
               />
             )}
-
             <Menu
               anchorEl={props.anchorEl}
               open={props.open}
