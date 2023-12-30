@@ -42,6 +42,7 @@ private readonly path: String
             
         }
     }
+
     async getRestaurants(data: SearchObj): Promise<Restaurant[]>{
         try {
             const url = `/restaurants?order=${data.order}&page=${data.page}&limit=${data.limit}`
@@ -54,6 +55,22 @@ private readonly path: String
             return restaurants;
         } catch (err: any) {
             console.log(`ERROR: getRestaurants ${err.message}`);
+            throw err;
+            
+        }
+    }
+    async getChosenRestaurants(id: string): Promise<Restaurant>{
+        try {
+            const url = `/restaurants/${id}`
+            let result = await axious.get(serviceApi + url, {withCredentials: true})
+            assert.ok(result, Definer.general_err);
+            console.log("state:", result.data.state)
+            const restaurant : Restaurant = result.data.data;
+        
+            console.log("getChosenRestaurants:::", restaurant) 
+            return restaurant;
+        } catch (err: any) {
+            console.log(`ERROR: getChosenRestaurants ${err.message}`);
             throw err;
             
         }

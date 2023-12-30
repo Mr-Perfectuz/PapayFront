@@ -39,7 +39,7 @@ import {
   setTargetProducts,
 } from "./slice";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
-import { ProductSearchObj, SearchObj } from "../../../types/others";
+import { ProductSearchObj } from "../../../types/others";
 import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import {
@@ -54,7 +54,7 @@ import { Product } from "../../../types/products";
 const actionDispatch = (dispatch: Dispatch) => ({
   setRandomRestaurants: (data: Restaurant[]) =>
     dispatch(setRandomRestaurants(data)),
-  setChosenRestaurants: (data: Restaurant[]) =>
+  setChosenRestaurants: (data: Restaurant) =>
     dispatch(setChosenRestaurants(data)),
   setTargetProducts: (data: Product[]) => dispatch(setTargetProducts(data)),
   setChosenProduct: (data: Product[]) => dispatch(setChosenProduct(data)),
@@ -86,7 +86,7 @@ export default function OneRestaurant() {
       limit: 8,
       order: "createdAt",
       restaurant_mb_id: restaurant_id,
-      product_collection: "salad",
+      product_collection: "dish",
     });
   const { randomRestaurants } = useSelector(randomRestaurantRetriever);
   const { chosenRestaurants } = useSelector(chosenRestaurantRetriever);
@@ -109,6 +109,12 @@ export default function OneRestaurant() {
       })
       .catch((err) => console.log(err));
 
+    // chosen restaurant
+    restaurantService
+      .getChosenRestaurants(chosenRestaurantId)
+      .then((data) => setChosenRestaurants(data))
+      .catch((err) => console.log("err:", err));
+
     const productService = new ProductApiService();
     productService
       .getTargetProducts(targetProductSearchObject)
@@ -116,10 +122,11 @@ export default function OneRestaurant() {
         setTargetProducts(data);
       })
       .catch((err) => console.log(err));
-  }, [targetProductSearchObject, productRebuild]);
+  }, [chosenRestaurantId, targetProductSearchObject, productRebuild]);
 
   // HANDLERs
   const history = useHistory();
+
   const chosenRestaurantHandler = (id: string) => {
     setchosenRestaurantId(id);
     targetProductSearchObject.restaurant_mb_id = id;
@@ -137,7 +144,7 @@ export default function OneRestaurant() {
     targetProductSearchObject.order = order;
     setTargetProductSeachObject({ ...targetProductSearchObject });
   };
-
+  Object.assign({}, chosenRestaurants);
   //Like handlers
 
   const targetLikeProduct = async (e: any) => {
@@ -617,13 +624,24 @@ export default function OneRestaurant() {
       <Container className="about_res">
         <Stack alignItems={"center"} flexDirection={"column"}>
           <Box className="about_res_title">Oshxona haqida</Box>
+
           <Stack flexDirection={"row"}>
-            <Stack className="res_img_box">
-              <Box className="about_res_name">Rayhon.</Box>
+            <Stack
+              className="res_img_box"
+              sx={{
+                backgroundImage: `url(${serviceApi}/${chosenRestaurants?.mb_image})`,
+                backgroundRepeat: "no-repeat",
+                backgroundSize: "contain",
+                width: "562.38px",
+                height: "480px",
+              }}
+            >
+              <Box className="about_res_name">
+                {chosenRestaurants?.mb_nick} Restaurant
+              </Box>
+
               <Box className="about_res_info">
-                Biz sizlarga xizmat ko’rsatayotganimizdan bag’oyatda xursadmiz.
-                Bizning xaqimizda: O’z faoliyatimizni 1945 - yilda boshlaganmiz
-                vaxokazo vaxokazo vaxokazo...
+                {chosenRestaurants?.mb_description}
               </Box>
             </Stack>
             <Stack flexDirection={"column"}>

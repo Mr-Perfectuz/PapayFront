@@ -10,6 +10,7 @@ import { Dispatch } from "@reduxjs/toolkit";
 import { setTrendProducts } from "./slice";
 import ProductApiService from "../../apiServices/productApiService";
 import { serviceApi } from "../../../lib/config";
+import { useHistory, useParams } from "react-router-dom";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -24,6 +25,8 @@ const trendProductsRetreiver = createSelector(
 
 export default function BestDishes() {
   /**  INITIALIZATION */
+  let { dish_id } = useParams<{ dish_id: string }>();
+
   const { setTrendProducts } = actionDispatch(useDispatch());
   const { trendProducts } = useSelector(trendProductsRetreiver);
 
@@ -44,6 +47,12 @@ export default function BestDishes() {
       .catch((err) => console.log(err));
   }, []);
 
+  // HANDLERS
+  const history = useHistory();
+
+  const chosenDishHandler = (id: any) => {
+    history.push(`/restaurant/dish/${id}`);
+  };
   return (
     <div className="best_dishes_frame">
       <Container>
@@ -69,7 +78,9 @@ export default function BestDishes() {
                   >
                     <Box className="dish_sale">{size_volume}</Box>
                     <Box className="view_btn">
-                      Batafsil ko’rish
+                      <div onClick={() => chosenDishHandler(product._id)}>
+                        Batafsil ko’rish
+                      </div>
                       <img
                         className="left_arrow"
                         src="./icons/left_arrow.svg"

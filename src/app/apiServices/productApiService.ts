@@ -12,7 +12,7 @@ class ProductApiService {
     this.path = serviceApi;
   }
 
-  async getTargetProducts(data: ProductSearchObj) {
+  async getTargetProducts(data: ProductSearchObj): Promise<Product[]> {
     try {
       const url = "/products";
       let result = await axios.post(this.path + url, data, { withCredentials: true });
@@ -28,6 +28,21 @@ class ProductApiService {
       return products;
     } catch (err: any) {
       console.log(`ERROR: setTargetProducts ${err.message}`);
+      throw err;
+    }
+  }
+  async getCHosenDish(dish_id: string): Promise<Product> {
+    try {
+      const url = `/products/${dish_id}`;
+      let result = await axios.get(this.path + url, {withCredentials: true});
+      assert.ok(result, Definer.general_err);
+
+      console.log("state:", result.data.state);
+
+      const product: Product = result.data.data;
+      return product;
+    } catch (err: any) {
+      console.log(`ERROR: getCHosenDish ${err.message}`);
       throw err;
     }
   }

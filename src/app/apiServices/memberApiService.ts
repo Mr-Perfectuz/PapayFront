@@ -15,7 +15,7 @@ class MemberApiService {
     }
 
 
-public async loginRequest(login_data: any) {
+public async loginRequest(login_data: any): Promise<Member> {
     try {
 
     const result= await axios.post(this.path + "/login", login_data, {withCredentials: true});
@@ -33,7 +33,7 @@ public async loginRequest(login_data: any) {
     }
   }
 
-public async signUpRequest(signup_data: any) {
+public async signUpRequest(signup_data: any): Promise<Member> {
     try {
 
     const result= await axios.post(this.path + "/signup ", signup_data, {withCredentials: true});
@@ -51,7 +51,7 @@ public async signUpRequest(signup_data: any) {
     }
   }
 
-public async logoutRequest() {
+public async logoutRequest(): Promise<boolean> {
     try {
 
     const result= await axios.get(this.path + "/logout ", {withCredentials: true});
@@ -68,7 +68,7 @@ public async logoutRequest() {
     }
   }
 
-public async memberLikeTarget(data: any) {
+public async memberLikeTarget(data: any){
   try {
     const result = await axios.post(
       `${this.path}/member-liken`, data,   { withCredentials: true }
