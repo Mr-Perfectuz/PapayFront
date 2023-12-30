@@ -2,7 +2,40 @@ import TabPanel from "@mui/lab/TabPanel";
 import { Box, Button, Stack } from "@mui/material";
 import React from "react";
 
+//REDUX
+import { useHistory, useParams } from "react-router-dom";
+import { Restaurant } from "../../../types/user";
+import { serviceApi } from "../../../lib/config";
+import { setPausedOrders, setProcessOrders, setFinishedOrders } from "./slice";
+import RestaurantApiService from "../../apiServices/restaurantApiService";
+import { ProductSearchObj } from "../../../types/others";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
+import MemberApiService from "../../apiServices/memberApiService";
+import ProductApiService from "../../apiServices/productApiService";
+import { Product } from "../../../types/products";
+import { Order } from "../../../types/order";
+
+//REDUX
+import { createSelector } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { retreivePausedOrders } from "./selector";
+
+//REDUX SELECTORS
+const pausedOrdersRetriever = createSelector(
+  retreivePausedOrders,
+  (pausedOrders) => ({ pausedOrders })
+);
+
 export default function PausedOrders() {
+  /**  INITIALIZATION */
+
+  // const { pausedOrders } = useSelector(pausedOrdersRetriever);
+
   const pausedOrders = [
     [1, 2, 3],
     [1, 2, 3],

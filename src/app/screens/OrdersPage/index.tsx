@@ -10,7 +10,43 @@ import Marginer from "../../components/marginer";
 import ProcessedOrders from "./processedOrders";
 import PausedOrders from "./pausedOrders";
 
+//REDUX
+import { Dispatch, createSelector } from "@reduxjs/toolkit";
+import { useHistory, useParams } from "react-router-dom";
+import {
+  retreiveChosenRestaurants,
+  retreiveRandomRestaurants,
+  retreiveTargetProducts,
+} from "../RestaurantPage/selector";
+import { useDispatch, useSelector } from "react-redux";
+import { Restaurant } from "../../../types/user";
+import { serviceApi } from "../../../lib/config";
+import { setPausedOrders, setProcessOrders, setFinishedOrders } from "./slice";
+import RestaurantApiService from "../../apiServices/restaurantApiService";
+import { ProductSearchObj } from "../../../types/others";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
+import MemberApiService from "../../apiServices/memberApiService";
+import ProductApiService from "../../apiServices/productApiService";
+import { Product } from "../../../types/products";
+import { Order } from "../../../types/order";
+
+// REDUX SLICE
+const actionDispatch = (dispatch: Dispatch) => ({
+  setPausedOrders: (data: Order[]) => dispatch(setPausedOrders(data)),
+  setProcessOrders: (data: Order) => dispatch(setProcessOrders(data)),
+  setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
+});
+
 export default function OrdersPage() {
+  /**  INITIALIZATION */
+  let { restaurant_id } = useParams<{ restaurant_id: string }>();
+  const { setPausedOrders, setProcessOrders, setFinishedOrders } =
+    actionDispatch(useDispatch());
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
