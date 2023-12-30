@@ -113,7 +113,7 @@ export default function BestRestaurants() {
                         onClick={(e) => {
                           e.stopPropagation();
                         }}
-                        aria-label="Like minimal photography"
+                        aria-label="Like minimal pho  tography"
                         size="md"
                         variant="solid"
                         color="neutral"
