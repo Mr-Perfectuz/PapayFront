@@ -73,7 +73,8 @@ export default function BestDishes() {
                     sx={{
                       backgroundImage: `url(${image_path})`,
                       backgroundRepeat: "no-repeat",
-                      backgroundSize: "contain",
+                      backgroundSize: "cover",
+                      height: "200px",
                     }}
                   >
                     <Box className="dish_sale">{size_volume}</Box>

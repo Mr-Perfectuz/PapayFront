@@ -7,6 +7,7 @@ import Marginer from "../../components/marginer";
 import Rating from "@mui/material/Rating";
 import Checkbox from "@mui/material/Checkbox";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { useParams } from "react-router-dom";
 
@@ -32,6 +33,7 @@ import {
 import { Product } from "../../../types/products";
 import ProductApiService from "../../apiServices/productApiService";
 import MemberApiService from "../../apiServices/memberApiService";
+import { IconButton } from "@mui/joy";
 
 const review_list = Array.from(Array(10).keys());
 const review_list_sm = Array.from(Array(10).keys());
@@ -69,30 +71,9 @@ export default function ChosenDish(props: any) {
   const { chosenProduct } = useSelector(chosenDishRetreiver);
   const { chosenRestaurants } = useSelector(chosenRestaurantsRetreiver);
 
-  //TARGET LIKES
-  const [productRebuild, setProductRedbuild] = useState<Date>(new Date());
-
-  const targetLikeProduct = async (e: any) => {
-    try {
-      console.log("targetLikeProduct function called");
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
-
-      const memberApiService = new MemberApiService();
-
-      const like_result: any = await memberApiService.memberLikeTarget({
-        like_ref_id: e.target.id,
-        group_type: "product",
-      });
-
-      console.log("Like Result:", like_result);
-      assert.ok(like_result, Definer.general_err);
-      await sweetTopSmallSuccessAlert("success", 700, false);
-      setProductRedbuild(new Date());
-    } catch (err: any) {
-      console.log("targetLikeProduct, ERROR::", err);
-      await sweetErrorHandling(err).then();
-    }
-  };
+  const [isLiked, setIsLiked] = useState(
+    chosenProduct?.me_liked && chosenProduct?.me_liked[0]?.my_favorite
+  );
 
   const dishRelatedProcess = async () => {
     try {
@@ -108,11 +89,33 @@ export default function ChosenDish(props: any) {
       console.log("ERROR dishRelatedProcess", err);
     }
   };
+  //TARGET LIKES
+  const [productRebuild, setProductRedbuild] = useState<Date>(new Date());
 
   useEffect(() => {
     dishRelatedProcess().then();
-  }, [productRebuild]);
+  }, [productRebuild, isLiked]);
 
+  const targetLikeProduct = async (e: any) => {
+    try {
+      console.log("targetLikeProduct function called");
+      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+
+      const memberApiService = new MemberApiService();
+
+      const like_result: any = await memberApiService.memberLikeTarget({
+        like_ref_id: e.target.id,
+        group_type: "product",
+      });
+      setIsLiked((prevIsLiked) => !prevIsLiked);
+      assert.ok(like_result, Definer.general_err);
+      await sweetTopSmallSuccessAlert("success", 700, false);
+      setProductRedbuild(new Date());
+    } catch (err: any) {
+      console.log("targetLikeProduct, ERROR::", err);
+      await sweetErrorHandling(err).then();
+    }
+  };
   return (
     <div className="chosen_dish_page">
       <Container className="dish_container" sx={{ display: "flex" }}>
@@ -217,26 +220,31 @@ export default function ChosenDish(props: any) {
             </Box>
             <Stack flexDirection={"row"}>
               <Box>
-                {/* <Checkbox
-                  id={chosenProduct?._id}
-                  onClick={targetLikeProduct}
-                  checked={
-                    chosenProduct?.me_liked &&
-                    chosenProduct?.me_liked[0]?.my_favorite
-                      ? true
-                      : false
-                  }
-                  // checkedIcon={<Favorite style={{ color: "red" }} />}
-                  checkedIcon={
-                    <div style={{ color: "red" }}>
-                      <Favorite />
-                    </div>
-                  }
-                  icon={<FavoriteBorder />}
-                />{" "} */}
                 <Box>
                   <Checkbox
                     id={chosenProduct?._id}
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      targetLikeProduct(e);
+                    }}
+                    checked={isLiked}
+                    checkedIcon={
+                      <Favorite style={{ color: isLiked ? "red" : "white" }} />
+                    }
+                    icon={<FavoriteBorder />}
+                  />
+
+                  {/* <Checkbox
+                    {...lebel}
+                    icon={<FavoriteBorder />}
+                    id={chosenProduct?._id}
+                    checkedIcon={
+                      <Favorite
+                        style={{
+                          color: "red",
+                        }}
+                      />
+                    }
                     onClick={targetLikeProduct}
                     checked={
                       chosenProduct?.me_liked &&
@@ -244,11 +252,7 @@ export default function ChosenDish(props: any) {
                         ? true
                         : false
                     }
-                    checkedIcon={
-                      <Favorite style={{ color: "red", fill: "red" }} />
-                    }
-                    icon={<FavoriteBorder />}
-                  />
+                  /> */}
 
                   <span>{chosenProduct?.producta_likes}</span>
                 </Box>
