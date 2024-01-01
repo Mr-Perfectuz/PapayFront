@@ -66,7 +66,7 @@ export default function NavbarRestaurant(props: any) {
               </NavLink>
             </Box>
 
-            <Basket cartItems={props.cartItems} />
+            <Basket cartItems={props.cartItems} onAdd={props.onAdd} />
             <Box>
               {!props.verifierMemberData ? (
                 <Box>

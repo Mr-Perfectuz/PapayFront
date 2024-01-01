@@ -142,6 +142,7 @@ function App() {
           open={open}
           handleLogoutRequest={handleLogoutRequest}
           cartItems={cartItems}
+          onAdd={onAdd}
         />
       ) : (
         <NavbarOthers

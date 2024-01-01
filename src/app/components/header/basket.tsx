@@ -13,9 +13,14 @@ export default function Basket(props: any) {
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
 
-  // const { cartItems } = props;
-  const { cartItems = [] } = props;
-  // console.log("cartItems Basket:::", props);
+  const { cartItems, onAdd } = props;
+  const itemsPrice = cartItems.reduce(
+    (a: any, c: CartItem) => a + c.price * c.quantity,
+    0
+  );
+
+  const shippingPrice = itemsPrice > 100 ? 0 : 2;
+  const totalPrice = itemsPrice + shippingPrice;
 
   /** HANDLERS **/
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
@@ -107,10 +112,7 @@ export default function Basket(props: any) {
                           >
                             -
                           </button>{" "}
-                          <button
-                            //  onClick={}
-                            className="add"
-                          >
+                          <button onClick={() => onAdd(item)} className="add">
                             +
                           </button>
                         </div>
@@ -122,7 +124,9 @@ export default function Basket(props: any) {
           </Box>
           {cartItems.length > 0 ? (
             <Box className={"to_order_box"}>
-              <span className={"price_text"}>Jami: $22 (20 + 2)</span>
+              <span className={"price_text"}>
+                Jami: ${totalPrice} ({itemsPrice} + {shippingPrice})
+              </span>
               <Button
                 onClick={processOrderHandler}
                 startIcon={<ShoppingCartIcon />}

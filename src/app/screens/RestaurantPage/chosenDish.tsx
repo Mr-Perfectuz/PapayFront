@@ -56,7 +56,7 @@ const chosenRestaurantsRetreiver = createSelector(
   })
 );
 
-export default function ChosenDish() {
+export default function ChosenDish(props: any) {
   const lebel = { inputProps: { "aria-label": "Checkbox demo" } };
   const [value, setValue] = React.useState<number | null>(4);
 
@@ -270,7 +270,13 @@ export default function ChosenDish() {
             <span>UZD {chosenProduct?.product_price}</span>
           </Stack>
           <Stack alignItems={"center"} justifyContent={"center"}>
-            <Button className="chosenDish_btn" variant="contained">
+            <Button
+              onClick={() => {
+                props.onAdd(chosenProduct);
+              }}
+              className="chosenDish_btn"
+              variant="contained"
+            >
               Savatga qo’shish
             </Button>
           </Stack>
