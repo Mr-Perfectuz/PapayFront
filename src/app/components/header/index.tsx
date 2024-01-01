@@ -15,8 +15,11 @@ import { sweetTopSuccessAlert } from "../../../lib/sweetAlert";
 import React, { useState } from "react";
 import { Logout } from "@mui/icons-material";
 import Basket from "./basket";
+import { Product } from "../../../types/products";
 
 export default function NavbarHome(props: any) {
+  /** INITIALIZATIONS **/
+
   return (
     <div className="format home_navbar">
       <Container>
@@ -64,11 +67,6 @@ export default function NavbarHome(props: any) {
                 </NavLink>
               </Box>
             ) : null}
-            {/* <Box className="hover-line" onClick={props.setPath}>
-              <NavLink to="/orders" activeClassName="underline">
-                Buyurtma
-              </NavLink>
-            </Box> */}
             <Box className="hover-line" onClick={props.setPath}>
               <NavLink to="/help" activeClassName="underline">
                 Yordam
@@ -91,7 +89,8 @@ export default function NavbarHome(props: any) {
                 </Badge>
               </IconButton>
             </Box> */}
-            <Basket />
+            <Basket cartItems={props.cartItems} />
+
             {!props.verifierMemberData ? (
               <Box>
                 <Button

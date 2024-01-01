@@ -26,6 +26,8 @@ import { Definer } from "../lib/Definer";
 // import assert from "assert";
 import MemberApiService from "./apiServices/memberApiService";
 import "../app/apiServices/vertify";
+import { CartItem } from "../types/others";
+import { Product } from "../types/products";
 
 function App() {
   // INITIALIZATION
@@ -39,6 +41,11 @@ function App() {
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
+
+  //CART ITEMS
+  const cartJson: any = localStorage.getItem("cart_data");
+  const current_cart: CartItem[] = JSON.parse(cartJson) ?? [];
+  const [cartItems, setcartItems] = useState<CartItem[]>(current_cart);
 
   useEffect(() => {
     console.log("--------- useEffect: App--------- ");
@@ -78,6 +85,36 @@ function App() {
     }
   };
 
+  const onAdd = (product: Product) => {
+    console.log("product::", product);
+    const exist: any = cartItems.find(
+      (item: CartItem) => item._id === product._id
+    );
+    if (exist) {
+      const cart_updated = cartItems.map((item: CartItem) =>
+        item._id === product._id
+          ? { ...exist, quantity: exist.quantity + 1 }
+          : item
+      );
+      setcartItems(cart_updated);
+      localStorage.setItem("cart_data", JSON.stringify(cart_updated));
+    } else {
+      const new_item: CartItem = {
+        _id: product._id || "",
+        quantity: 1,
+        name: product.product_name,
+        price: product.product_price,
+        image: product.product_images[0],
+      };
+      const cart_updated = [...cartItems, { ...new_item }];
+      setcartItems(cart_updated);
+      localStorage.setItem("cart_data", JSON.stringify(cart_updated));
+    }
+  };
+  const onRemove = () => {};
+  const onDelete = () => {};
+  const onDeleteAll = () => {};
+
   return (
     <Router>
       {main_path === "/" ? (
@@ -91,6 +128,7 @@ function App() {
           anchorEl={anchorEl}
           open={open}
           handleLogoutRequest={handleLogoutRequest}
+          cartItems={cartItems}
         />
       ) : main_path.includes("/restaurant") ? (
         <NavbarRestaurant
@@ -103,6 +141,7 @@ function App() {
           anchorEl={anchorEl}
           open={open}
           handleLogoutRequest={handleLogoutRequest}
+          cartItems={cartItems}
         />
       ) : (
         <NavbarOthers
@@ -115,12 +154,13 @@ function App() {
           anchorEl={anchorEl}
           open={open}
           handleLogoutRequest={handleLogoutRequest}
+          cartItems={cartItems}
         />
       )}
 
       <Switch>
         <Route path="/restaurant">
-          <RestaurantPage />
+          <RestaurantPage onAdd={onAdd} cartItems={cartItems} />
         </Route>
         <Route path="/community">
           <CommunityPage />

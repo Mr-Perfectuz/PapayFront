@@ -74,7 +74,7 @@ const targetProductstRetriever = createSelector(
   (targetProducts) => ({ targetProducts })
 );
 
-export default function OneRestaurant() {
+export default function OneRestaurant(props: any) {
   /**  INITIALIZATION */
   let { restaurant_id } = useParams<{ restaurant_id: string }>();
   const { setChosenRestaurants, setRandomRestaurants, setTargetProducts } =
@@ -357,10 +357,7 @@ export default function OneRestaurant() {
                     : product.product_size + " size";
                 return (
                   <Box className="dish_box" key={index}>
-                    <Stack
-                      className="dish_img"
-                      style={{ width: "273px", height: "385px" }}
-                    >
+                    <Stack className="dish_img">
                       <Box className="dish_sale">{size_volume}</Box>
                       <Box
                         className="view_btn_one"
@@ -369,6 +366,7 @@ export default function OneRestaurant() {
                           height: "400px",
                           opacity: 1,
                           backgroundImage: `url(${image_path})`,
+                          backgroundRepeat: "no-repeat",
                         }}
                       >
                         <Stack
@@ -428,10 +426,17 @@ export default function OneRestaurant() {
                               height: "40px",
                             }}
                           >
-                            <IconButton aria-label="card" id="basic-button">
+                            <IconButton
+                              aria-label="card"
+                              id="basic-button"
+                              onClick={(e) => {
+                                props.onAdd(product);
+                                e.stopPropagation();
+                              }}
+                            >
                               <Badge color="primary">
                                 <img
-                                  src="/icons/shopping-cart.svg"
+                                  src="/icons/shopping_cart.svg"
                                   alt="shopping card icon"
                                 />
                               </Badge>
