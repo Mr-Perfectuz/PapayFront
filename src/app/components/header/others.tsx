@@ -71,6 +71,7 @@ export default function NavbarOthers(props: any) {
               onRemove={props.onRemove}
               cartItems={props.cartItems}
               onDelete={props.onDelete}
+              onDeleteAll={props.onDeleteAll}
             />
 
             <Box>

@@ -363,7 +363,7 @@ export default function OneRestaurant(props: any) {
                         className="view_btn_one"
                         sx={{
                           width: "255px",
-                          height: "400px",
+                          height: "165px",
                           opacity: 1,
                           backgroundImage: `url(${image_path})`,
                           backgroundRepeat: "no-repeat",
