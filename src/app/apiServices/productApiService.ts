@@ -25,6 +25,8 @@ class ProductApiService {
       console.log("state:", result.data.state);
       const products: Product[] = result.data.data;
       console.log("trend products:::", products)
+      assert.ok(result?.data, Definer.general_err);
+      assert.ok(result?.data?.state !== "fail", result?.data?.message);
       return products;
     } catch (err: any) {
       console.log(`ERROR: setTargetProducts ${err.message}`);
@@ -36,8 +38,9 @@ class ProductApiService {
       const url = `/products/${dish_id}`;
       let result = await axios.get(this.path + url, {withCredentials: true});
       assert.ok(result, Definer.general_err);
-
       console.log("state:", result.data.state);
+      assert.ok(result?.data, Definer.general_err);
+      assert.ok(result?.data?.state !== "fail", result?.data?.message);
 
       const product: Product = result.data.data;
       return product;

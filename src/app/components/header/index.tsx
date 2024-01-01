@@ -89,7 +89,13 @@ export default function NavbarHome(props: any) {
                 </Badge>
               </IconButton>
             </Box> */}
-            <Basket cartItems={props.cartItems} />
+
+            <Basket
+              onAdd={props.onAdd}
+              onRemove={props.onRemove}
+              cartItems={props.cartItems}
+              onDelete={props.onDelete}
+            />
 
             {!props.verifierMemberData ? (
               <Box>

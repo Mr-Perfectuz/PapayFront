@@ -66,7 +66,12 @@ export default function NavbarOthers(props: any) {
               </NavLink>
             </Box>
 
-            <Basket />
+            <Basket
+              onAdd={props.onAdd}
+              onRemove={props.onRemove}
+              cartItems={props.cartItems}
+              onDelete={props.onDelete}
+            />
 
             <Box>
               {!props.verifierMemberData ? (

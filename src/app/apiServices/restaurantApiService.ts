@@ -15,6 +15,8 @@ private readonly path: String
             const url = "/restaurants?order=top&page=1&limit=4"
             let result = await axious.get(serviceApi + url, {withCredentials: true})
             assert.ok(result, Definer.general_err);
+            assert.ok(result?.data, Definer.general_err);
+            assert.ok(result?.data?.state !== "fail", result?.data?.message);
             console.log("state:", result.data.state)
             const top_restaurants : Restaurant[] = result.data.data;
         
@@ -31,6 +33,8 @@ private readonly path: String
             const url = `/restaurants?order=${data.order}&page=${data.page}&limit=${data.limit}`
             let result = await axious.get(serviceApi + url, {withCredentials: true})
             assert.ok(result, Definer.general_err);
+            assert.ok(result?.data, Definer.general_err);
+            assert.ok(result?.data?.state !== "fail", result?.data?.message);
             console.log("state:", result.data.state)
             const best_restaurants : Restaurant[] = result.data.data;
         
@@ -48,6 +52,8 @@ private readonly path: String
             const url = `/restaurants?order=${data.order}&page=${data.page}&limit=${data.limit}`
             let result = await axious.get(serviceApi + url, {withCredentials: true})
             assert.ok(result, Definer.general_err);
+            assert.ok(result?.data, Definer.general_err);
+            assert.ok(result?.data?.state !== "fail", result?.data?.message);
             console.log("state:", result.data.state)
             const restaurants : Restaurant[] = result.data.data;
         
@@ -64,6 +70,8 @@ private readonly path: String
             const url = `/restaurants/${id}`
             let result = await axious.get(serviceApi + url, {withCredentials: true})
             assert.ok(result, Definer.general_err);
+            assert.ok(result?.data, Definer.general_err);
+            assert.ok(result?.data?.state !== "fail", result?.data?.message);
             console.log("state:", result.data.state)
             const restaurant : Restaurant = result.data.data;
         
