@@ -68,7 +68,7 @@ public async logoutRequest(): Promise<boolean> {
     }
   }
 
-public async memberLikeTarget(data: any){
+public async memberLikeTarget(data: any):  Promise<MemberLiken>{
   try {
     const result = await axios.post(
       `${this.path}/member-liken`, data,   { withCredentials: true }

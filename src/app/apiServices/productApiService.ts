@@ -23,6 +23,7 @@ class ProductApiService {
       }
 
       console.log("state:", result.data.state);
+      
       const products: Product[] = result.data.data;
       console.log("trend products:::", products)
       assert.ok(result?.data, Definer.general_err);

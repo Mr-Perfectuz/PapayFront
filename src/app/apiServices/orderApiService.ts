@@ -4,6 +4,7 @@ import axios from "axios";
 import { Definer } from "../../lib/Definer";
 import { Member } from "../../types/user";
 import { CartItem } from "../../types/others";
+import { Order } from "../../types/order";
 
 
 
@@ -16,7 +17,7 @@ class orderApiService {
 
 
 
-public async createOrder(data: CartItem[]) {
+public async createOrder(data: CartItem[]): Promise<Boolean> {
     try {
     const result= await axios.post(this.path + "/orders/create ", data,  {withCredentials: true});
     console.log("state: ", result.data.state);
@@ -32,7 +33,7 @@ public async createOrder(data: CartItem[]) {
     }
   }
 
-public async getMyOrders(order_status: string) {
+public async getMyOrders(order_status: string) : Promise<Boolean>{
     try {
     const result= await axios.get(this.path + `/orders?status=${order_status}`,  {withCredentials: true});
     console.log("state: ", result.data.state);
