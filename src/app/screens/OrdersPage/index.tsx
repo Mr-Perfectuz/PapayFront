@@ -3,7 +3,6 @@ import Tab from "@mui/material/Tab";
 import { Box, Container, Stack } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
 import "../../../../src/css/orders.css";
 import FinishedOrders from "./finishedOrders";
 import Marginer from "../../components/marginer";
@@ -11,30 +10,15 @@ import ProcessedOrders from "./processedOrders";
 import PausedOrders from "./pausedOrders";
 
 //REDUX
-import { Dispatch, createSelector } from "@reduxjs/toolkit";
-import { useHistory, useParams } from "react-router-dom";
-import {
-  retreiveChosenRestaurants,
-  retreiveRandomRestaurants,
-  retreiveTargetProducts,
-} from "../RestaurantPage/selector";
-import { useDispatch, useSelector } from "react-redux";
-import { Restaurant } from "../../../types/user";
-import { serviceApi } from "../../../lib/config";
+import { Dispatch } from "@reduxjs/toolkit";
+import { useParams } from "react-router-dom";
+
+import { useDispatch } from "react-redux";
 import { setPausedOrders, setProcessOrders, setFinishedOrders } from "./slice";
-import RestaurantApiService from "../../apiServices/restaurantApiService";
-import { ProductSearchObj } from "../../../types/others";
-import assert from "assert";
-import { Definer } from "../../../lib/Definer";
-import {
-  sweetErrorHandling,
-  sweetTopSmallSuccessAlert,
-} from "../../../lib/sweetAlert";
-import MemberApiService from "../../apiServices/memberApiService";
-import ProductApiService from "../../apiServices/productApiService";
-import { Product } from "../../../types/products";
+
 import { Order } from "../../../types/order";
 import OrderApiService from "../../apiServices/orderApiService";
+import { Member } from "../../../types/user";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -50,6 +34,8 @@ export default function OrdersPage(props: any) {
     actionDispatch(useDispatch());
 
   const [value, setValue] = React.useState("1");
+
+  const verifierMemberData: Member | null = props.verifierMemberData;
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -129,11 +115,15 @@ export default function OrdersPage(props: any) {
             <Stack className="user_box">
               <img
                 className="user_box_img"
-                src="/others/user_img.png"
+                src={verifierMemberData?.mb_image}
                 alt="order user "
               />
-              <Box className="user_box_name">Ismoilov Akmaljon</Box>
-              <Box className="user_box_status">Foydalanuvchi</Box>
+              <Box className="user_box_name">
+                {props.verifierMemberData?.mb_nick}
+              </Box>
+              <Box className="user_box_status">
+                {verifierMemberData?.mb_type ?? "Foydalanuvchi"}
+              </Box>
               <Stack alignItems={"center"}>
                 <Marginer
                   width="400"
@@ -152,7 +142,9 @@ export default function OrdersPage(props: any) {
                   src="/icons/location.png"
                   alt="location icon"
                 />
-                <Box className="location_txt">Seoul</Box>
+                <Box className="location_txt">
+                  {verifierMemberData?.mb_adress ? "" : "Manzil Kiritilmagan"}
+                </Box>
               </Stack>
             </Stack>
             <Stack className="user_box" sx={{ mt: "20px" }}>

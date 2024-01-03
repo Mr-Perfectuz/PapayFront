@@ -214,6 +214,7 @@ function App() {
           <OrdersPage
             orderRebuild={orderRebuild}
             setOrderRebuild={setOrderRebuild}
+            verifierMemberData={verifierMemberData}
           />
         </Route>
         <Route path="/member-page">
