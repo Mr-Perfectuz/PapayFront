@@ -6,6 +6,14 @@ import React from "react";
 import { createSelector } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { retreiveProcessOrders } from "./selector";
+import { Order } from "../../../types/order";
+import { Product } from "../../../types/products";
+import { serviceApi } from "../../../lib/config";
+import {
+  sweetErrorHandling,
+  sweetFailureProvider,
+} from "../../../lib/sweetAlert";
+import OrderApiService from "../../apiServices/orderApiService";
 
 //REDUX SELECTORS
 const processOrdersRetriever = createSelector(
@@ -13,39 +21,64 @@ const processOrdersRetriever = createSelector(
   (processOrders) => ({ processOrders })
 );
 
-export default function ProcessedOrders() {
+export default function ProcessedOrders(props: any) {
   /**  INITIALIZATION */
 
-  // const { processOrders } = useSelector(processOrdersRetriever);
+  const { processOrders } = useSelector(processOrdersRetriever);
 
-  const pausedOrders = [
-    [1, 2, 3],
-    [1, 2, 3],
-  ];
+  // HANDLERS
+  const finishOrderHandler = async (event: any) => {
+    try {
+      const order_id = event.target.value;
+      const data = { order_id: order_id, order_status: "FINISHED" };
+
+      if (!localStorage.getItem("member_data")) {
+        sweetFailureProvider("Please login first", true);
+      }
+
+      let confirmation = window.confirm("Buyurtmani tasdiqlaysizmi ?");
+      if (confirmation) {
+        const orderService = new OrderApiService();
+        await orderService.updateOrderStatus(data);
+        props.setOrderRebuild(new Date());
+      }
+    } catch (err) {
+      console.log("finishOrderHandler, ERROR::", err);
+      sweetErrorHandling(err).then();
+    }
+  };
+
   return (
     <TabPanel value="2">
       <Stack className="finishedOrder_wrapper">
-        {pausedOrders?.map((order, index) => {
+        {processOrders?.map((order: Order) => {
           return (
-            <Box className="order_main_box" key={index}>
+            <Box className="order_main_box" key={order._id}>
               <Box className="order_box_scroll">
-                {order.map((item, index) => {
+                {order.order_items.map((item, index) => {
+                  const product: Product = order.product_data.filter(
+                    (ele) => ele._id === item.product_id
+                  )[0];
+                  const image_path = `${serviceApi}/${product.product_images[0]}`;
                   return (
                     <Stack flexDirection={"column"} key={index}>
                       <Stack className="orderDishBox" flexDirection={"row"}>
                         <Stack flexDirection={"row"} className="order_inside">
                           <img
-                            src="/others/sandwich.png"
+                            src={image_path}
                             alt="sandwich img"
                             className="orderDishIasmg"
                           />
-                          <Box className="titleDish">Sandwich</Box>
+                          <Box className="titleDish">
+                            {product.product_name}
+                          </Box>
                         </Stack>
                         <Box className="dish_calc">
-                          <span>$7</span>
-                          <span>x3</span>
+                          <span>${item.item_price}</span>
+                          <span>x</span>
+                          <span>{item.item_quentity}</span>
                           <span>=</span>
-                          <span>$21</span>
+                          <span>${item.item_price * item.item_quentity}</span>
                         </Box>
                       </Stack>
                     </Stack>
@@ -56,35 +89,27 @@ export default function ProcessedOrders() {
                   flexDirection={"row"}
                 >
                   <span>mahsulot narxi</span>
-                  <span>$21</span>
+                  <span>
+                    ${order.order_total_amount - order.order_delivery_cost}
+                  </span>
                   <span>+</span>
                   <span>yetkazish xizmati</span>
-                  <span>$2</span>
+                  <span>${order.order_delivery_cost}</span>
                   <span>=</span>
                   <span>jami narx</span>
-                  <span>$23</span>
+                  <span>${order.order_total_amount}</span>
                   <Button
-                    variant="contained"
-                    color="secondary"
-                    sx={{
-                      borderRadius: "10px",
-                      marginRight: "10px",
-                      marginLeft: "10px",
-                      marginTop: "5px",
-                      marginBottom: "5px",
-                    }}
-                  >
-                    Bekor qilish
-                  </Button>
-                  <Button
+                    value={order._id}
+                    onClick={finishOrderHandler}
                     variant="contained"
                     sx={{
                       borderRadius: "10px",
                       marginTop: "5px",
                       marginBottom: "5px",
+                      ml: "20px",
                     }}
                   >
-                    To'lash
+                    Yakunlash
                   </Button>
                 </Stack>
               </Box>

@@ -96,6 +96,7 @@ export default function NavbarHome(props: any) {
               cartItems={props.cartItems}
               onDelete={props.onDelete}
               onDeleteAll={props.onDeleteAll}
+              setOrderRebuild={props.setOrderRebuild}
             />
 
             {!props.verifierMemberData ? (

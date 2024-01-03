@@ -6,16 +6,12 @@ import { Member } from "../../types/user";
 import { CartItem } from "../../types/others";
 import { Order } from "../../types/order";
 
-
-
-class orderApiService {
+class OrderApiService {
     private readonly path: string;
 
     constructor(){
         this.path = serviceApi;
     }
-
-
 
 public async createOrder(data: CartItem[]): Promise<Boolean> {
     try {
@@ -33,7 +29,7 @@ public async createOrder(data: CartItem[]): Promise<Boolean> {
     }
   }
 
-public async getMyOrders(order_status: string) : Promise<Boolean>{
+public async getMyOrders(order_status: string): Promise<Order[]> {
     try {
     const result= await axios.get(this.path + `/orders?status=${order_status}`,  {withCredentials: true});
     console.log("state: ", result.data.state);
@@ -42,7 +38,24 @@ public async getMyOrders(order_status: string) : Promise<Boolean>{
 
     const order: any = result.data.data;
     console.log("order::", order)
-    return true;
+    return order;
+    } catch (err: any) {  
+      console.log(`ERROR: createOrder ${err.message}`);
+      throw err;
+    }
+  }
+
+
+public async updateOrderStatus(data: any): Promise<Order[]> {
+    try {
+    const result= await axios.post(this.path + `/orders/edit`, data,  {withCredentials: true});
+    console.log("state: ", result.data.state);
+    assert.ok(result?.data, Definer.general_err);
+    assert.ok(result?.data?.state !== "fail", result?.data?.message);
+
+    const order: any = result.data.data;
+    console.log("order::", order)
+    return order;
     } catch (err: any) {  
       console.log(`ERROR: createOrder ${err.message}`);
       throw err;
@@ -54,5 +67,5 @@ public async getMyOrders(order_status: string) : Promise<Boolean>{
 }
 
 
-export default orderApiService
+export default OrderApiService
 

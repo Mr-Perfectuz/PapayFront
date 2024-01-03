@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Tab from "@mui/material/Tab";
 import { Box, Container, Stack } from "@mui/material";
 import TabContext from "@mui/lab/TabContext";
@@ -34,24 +34,42 @@ import MemberApiService from "../../apiServices/memberApiService";
 import ProductApiService from "../../apiServices/productApiService";
 import { Product } from "../../../types/products";
 import { Order } from "../../../types/order";
+import OrderApiService from "../../apiServices/orderApiService";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
   setPausedOrders: (data: Order[]) => dispatch(setPausedOrders(data)),
-  setProcessOrders: (data: Order) => dispatch(setProcessOrders(data)),
+  setProcessOrders: (data: Order[]) => dispatch(setProcessOrders(data)),
   setFinishedOrders: (data: Order[]) => dispatch(setFinishedOrders(data)),
 });
 
-export default function OrdersPage() {
+export default function OrdersPage(props: any) {
   /**  INITIALIZATION */
   let { restaurant_id } = useParams<{ restaurant_id: string }>();
   const { setPausedOrders, setProcessOrders, setFinishedOrders } =
     actionDispatch(useDispatch());
+
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
+  useEffect(() => {
+    const orderService = new OrderApiService();
+    orderService
+      .getMyOrders("paused")
+      .then((data) => setPausedOrders(data))
+      .catch((err) => console.log(err));
+    orderService
+      .getMyOrders("process")
+      .then((data) => setProcessOrders(data))
+      .catch((err) => console.log(err));
+    orderService
+      .getMyOrders("finished")
+      .then((data) => setFinishedOrders(data))
+      .catch((err) => console.log(err));
+  }, [props.orderRebuild]);
   return (
     <div className="order_page">
       <Container>
@@ -102,12 +120,12 @@ export default function OrdersPage() {
                 />
               </Box>
 
-              <PausedOrders />
-              <ProcessedOrders />
-              <FinishedOrders />
+              <PausedOrders setOrderRebuild={props.setOrderRebuild} />
+              <ProcessedOrders setOrderRebuild={props.setOrderRebuild} />
+              <FinishedOrders setOrderRebuild={props.setOrderRebuild} />
             </TabContext>
           </Box>
-          <Stack flexDirection={"column"} sx={{ mt: "165px" }}>
+          <Stack flexDirection={"column"} sx={{ mt: "165px", ml: "40px" }}>
             <Stack className="user_box">
               <img
                 className="user_box_img"

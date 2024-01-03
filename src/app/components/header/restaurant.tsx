@@ -72,6 +72,7 @@ export default function NavbarRestaurant(props: any) {
               cartItems={props.cartItems}
               onDelete={props.onDelete}
               onDeleteAll={props.onDeleteAll}
+              setOrderRebuild={props.setOrderRebuild}
             />
             <Box>
               {!props.verifierMemberData ? (

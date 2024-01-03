@@ -9,7 +9,7 @@ import Checkbox from "@mui/material/Checkbox";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 
 //REDUX
 import { Dispatch, createSelector } from "@reduxjs/toolkit";
@@ -89,6 +89,9 @@ export default function ChosenDish(props: any) {
       console.log("ERROR dishRelatedProcess", err);
     }
   };
+
+  //  HANDLERS
+
   //TARGET LIKES
   const [productRebuild, setProductRedbuild] = useState<Date>(new Date());
 

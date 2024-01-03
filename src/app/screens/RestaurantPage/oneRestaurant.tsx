@@ -126,7 +126,9 @@ export default function OneRestaurant(props: any) {
 
   // HANDLERs
   const history = useHistory();
-
+  const chosenDishHandler = (id: any) => {
+    history.push(`/restaurant/dish/${id}`);
+  };
   const chosenRestaurantHandler = (id: string) => {
     setchosenRestaurantId(id);
     targetProductSearchObject.restaurant_mb_id = id;
@@ -356,7 +358,11 @@ export default function OneRestaurant(props: any) {
                     ? product.product_volume + "l"
                     : product.product_size + " size";
                 return (
-                  <Box className="dish_box" key={index}>
+                  <Box
+                    onClick={() => chosenDishHandler(product._id)}
+                    className="dish_box"
+                    key={index}
+                  >
                     <Stack className="dish_img">
                       <Box className="dish_sale">{size_volume}</Box>
                       <Box

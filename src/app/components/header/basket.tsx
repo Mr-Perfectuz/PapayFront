@@ -10,8 +10,8 @@ import { serviceApi } from "../../../lib/config";
 import { sweetErrorHandling } from "../../../lib/sweetAlert";
 import assert from "assert";
 import { Definer } from "../../../lib/Definer";
-import orderApiService from "../../apiServices/orderApiService";
 import { useHistory } from "react-router-dom";
+import OrderApiService from "../../apiServices/orderApiService";
 
 export default function Basket(props: any) {
   /** INITIALIZATIONS **/
@@ -29,6 +29,12 @@ export default function Basket(props: any) {
   const totalPrice = itemsPrice + shippingPrice;
 
   /** HANDLERS **/
+
+  //  HANDLERS
+  const chosenDishHandler = (id: string) => {
+    history.push(`/products/${id}`);
+  };
+
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
   };
@@ -39,10 +45,11 @@ export default function Basket(props: any) {
   const processOrderHandler = async () => {
     try {
       assert.ok(localStorage.getItem("member_data"), Definer.general_err);
-      const order = new orderApiService();
+      const order = new OrderApiService();
       await order.createOrder(cartItems);
       onDeleteAll();
       handleClose();
+      props.setOrderRebuild(new Date());
       history.push("/orders");
     } catch (err) {
       console.log("err", err);

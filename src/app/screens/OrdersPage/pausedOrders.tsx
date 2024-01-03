@@ -13,6 +13,7 @@ import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import {
   sweetErrorHandling,
+  sweetFailureProvider,
   sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
 import MemberApiService from "../../apiServices/memberApiService";
@@ -24,6 +25,7 @@ import { Order } from "../../../types/order";
 import { createSelector } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { retreivePausedOrders } from "./selector";
+import OrderApiService from "../../apiServices/orderApiService";
 
 //REDUX SELECTORS
 const pausedOrdersRetriever = createSelector(
@@ -31,39 +33,89 @@ const pausedOrdersRetriever = createSelector(
   (pausedOrders) => ({ pausedOrders })
 );
 
-export default function PausedOrders() {
+export default function PausedOrders(props: any) {
   /**  INITIALIZATION */
 
-  // const { pausedOrders } = useSelector(pausedOrdersRetriever);
+  const { pausedOrders } = useSelector(pausedOrdersRetriever);
 
-  const pausedOrders = [
-    [1, 2, 3],
-    [1, 2, 3],
-  ];
+  // HANDLERS
+  const deleteOrderHandler = async (event: any) => {
+    try {
+      const order_id = event.target.value;
+      const data = { order_id: order_id, order_status: "DELETED" };
+
+      if (!localStorage.getItem("member_data")) {
+        sweetFailureProvider("Please login first", true);
+      }
+
+      let confirmation = window.confirm(
+        "Buyurtmani bekor qilishni istaysizmi ?"
+      );
+      if (confirmation) {
+        const orderService = new OrderApiService();
+        await orderService.updateOrderStatus(data);
+        props.setOrderRebuild(new Date());
+      }
+    } catch (err) {
+      console.log("deleteOrderHandler, ERROR::", err);
+      sweetErrorHandling(err).then();
+    }
+  };
+
+  const processOrderHandler = async (event: any) => {
+    try {
+      const order_id = event.target.value;
+      const data = { order_id: order_id, order_status: "PROCESS" };
+
+      if (!localStorage.getItem("member_data")) {
+        sweetFailureProvider("Please login first", true);
+      }
+
+      let confirmation = window.confirm(
+        "Buyurtmangizni to'lashni tasdiqlaysizmi ?"
+      );
+      if (confirmation) {
+        const orderService = new OrderApiService();
+        await orderService.updateOrderStatus(data);
+        props.setOrderRebuild(new Date());
+      }
+    } catch (err) {
+      console.log("deleteOrderHandler, ERROR::", err);
+      sweetErrorHandling(err).then();
+    }
+  };
+
   return (
     <TabPanel value="1">
       <Stack className="finishedOrder_wrapper">
-        {pausedOrders?.map((order, index) => {
+        {pausedOrders?.map((order: Order, index) => {
           return (
             <Box className="order_main_box" key={index}>
               <Box className="order_box_scroll">
-                {order.map((item) => {
+                {order.order_items.map((item) => {
+                  const product: Product = order.product_data.filter(
+                    (ele) => ele._id === item.product_id
+                  )[0];
+                  const image_path = `${serviceApi}/${product.product_images[0]}`;
                   return (
-                    <Stack flexDirection={"column"} key={item}>
+                    <Stack flexDirection={"column"}>
                       <Stack className="orderDishBox" flexDirection={"row"}>
                         <Stack flexDirection={"row"} className="order_inside">
                           <img
-                            src="/others/sandwich.png"
+                            src={image_path}
                             alt="sandwich img"
                             className="orderDishIasmg"
                           />
-                          <Box className="titleDish">Sandwich</Box>
+                          <Box className="titleDish">
+                            {product.product_name}
+                          </Box>
                         </Stack>
                         <Box className="dish_calc">
-                          <span>$7</span>
-                          <span>x3</span>
+                          <span>${item.item_price}</span>
+                          <span>x</span>
+                          <span>{item.item_quentity}</span>
                           <span>=</span>
-                          <span>$21</span>
+                          <span>${item.item_price * item.item_quentity}</span>
                         </Box>
                       </Stack>
                     </Stack>
@@ -71,14 +123,18 @@ export default function PausedOrders() {
                 })}
                 <Stack className="dish_calc_extra" flexDirection={"row"}>
                   <span>mahsulot narxi</span>
-                  <span>$21</span>
+                  <span>
+                    ${order.order_total_amount - order.order_delivery_cost}
+                  </span>
                   <span>+</span>
                   <span>yetkazish xizmati</span>
-                  <span>$2</span>
+                  <span>${order.order_delivery_cost}</span>
                   <span>=</span>
                   <span>jami narx</span>
-                  <span>$23</span>
+                  <span>${order.order_total_amount}</span>
                   <Button
+                    value={order._id}
+                    onClick={deleteOrderHandler}
                     variant="contained"
                     color="secondary"
                     sx={{
@@ -92,6 +148,8 @@ export default function PausedOrders() {
                     Bekor qilish
                   </Button>
                   <Button
+                    value={order._id}
+                    onClick={processOrderHandler}
                     variant="contained"
                     sx={{
                       borderRadius: "10px",
