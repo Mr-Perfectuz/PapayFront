@@ -2,10 +2,10 @@ import { MeLiked } from "./products";
 import { Member } from "./user";
 
 export interface BoArticles{
-  
+
     art_subject: string,
     art_content: string,
-    art_image: string,
+    art_image?: string,
     bo_id: string,
     art_status: string,
     art_likes: number,
