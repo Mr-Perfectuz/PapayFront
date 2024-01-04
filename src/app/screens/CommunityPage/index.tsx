@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Container, Stack } from "@mui/material";
 import "../../../css/community.css";
 import TabContext from "@mui/lab/TabContext";
@@ -12,14 +12,59 @@ import PaginationItem from "@mui/material/PaginationItem";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CommunityChats from "./communityChats";
-const targetBoardArticles = [1, 2, 3, 4, 5];
+import CommunityApiService from "../../apiServices/communityApiService";
+import { BoArticles, SearchArticleObj } from "../../../types/boArticles";
+
+//REDUX
+import { createSelector } from "reselect";
+import { useDispatch, useSelector } from "react-redux";
+import { Restaurant } from "../../../types/user";
+import { serviceApi } from "../../../lib/config";
+import { setTargetBoArticles } from "./slice";
+import { Dispatch } from "@reduxjs/toolkit";
+import { retreiveTargetBoArticles } from "./selector";
+
+// REDUX SLICE
+const actionDispatch = (dispatch: Dispatch) => ({
+  setTargetBoArticles: (data: BoArticles[]) =>
+    dispatch(setTargetBoArticles(data)),
+});
+
+// REDUX SELECTOR
+const targetBoArticlesRetreiver = createSelector(
+  retreiveTargetBoArticles,
+  (targetBoArticles) => ({ targetBoArticles })
+);
 
 export default function CommunityPage(props: any) {
+  //INITIALIZATIONS
+  const { setTargetBoArticles } = actionDispatch(useDispatch());
+  const { targetBoArticles } = useSelector(targetBoArticlesRetreiver);
+
   const [value, setValue] = React.useState("1");
+  const [searchArticlesObj, setSearchArticlesObj] = useState<SearchArticleObj>({
+    bo_id: "all",
+    page: 1,
+    limit: 5,
+  });
+
+  useEffect(() => {
+    const communityService = new CommunityApiService();
+    communityService
+      .getTargetArticles(searchArticlesObj)
+      .then((data) => setTargetBoArticles(data))
+      .catch((err) => console.log(err));
+  }, [searchArticlesObj]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
+  const handlePaginationChange = (event: any, value: number) => {
+    searchArticlesObj.page = value;
+    setSearchArticlesObj({ ...searchArticlesObj });
+  };
+
   return (
     <div className="community_page">
       <Stack>
@@ -71,17 +116,17 @@ export default function CommunityPage(props: any) {
                   </Stack>
 
                   <TabPanel value="1">
-                    <TargetArticles targetBoardArticles={targetBoardArticles} />
+                    <TargetArticles targetBoardArticles={targetBoArticles} />
                   </TabPanel>
 
                   <TabPanel value="2">
-                    <TargetArticles targetBoardArticles={[1, 2]} />
+                    <TargetArticles targetBoardArticles={targetBoArticles} />
                   </TabPanel>
                   <TabPanel value="3">
-                    <TargetArticles targetBoardArticles={[1, 2, 3]} />
+                    <TargetArticles targetBoardArticles={targetBoArticles} />
                   </TabPanel>
                   <TabPanel value="4">
-                    <TargetArticles targetBoardArticles={[1, 2, 3, 4]} />
+                    <TargetArticles targetBoardArticles={targetBoArticles} />
                   </TabPanel>
                 </TabContext>
               </Box>
@@ -95,9 +140,9 @@ export default function CommunityPage(props: any) {
               </Stack>
               <Stack flexDirection={"column"} alignItems={"center"}>
                 <Pagination
-                  className="community_pagination"
                   count={5}
                   page={1}
+                  className="community_pagination"
                   renderItem={(item) => (
                     <PaginationItem
                       components={{
@@ -105,9 +150,10 @@ export default function CommunityPage(props: any) {
                         next: ArrowForwardIcon,
                       }}
                       {...item}
-                      color={"primary"}
+                      color={"secondary"}
                     />
                   )}
+                  onChange={handlePaginationChange}
                 />
               </Stack>
             </Stack>
