@@ -48,13 +48,15 @@ export default function CommunityPage(props: any) {
     limit: 4,
   });
 
+  const [articlesRebuilt, setArticlesRebuilt] = useState<Date>(new Date());
+
   useEffect(() => {
     const communityService = new CommunityApiService();
     communityService
       .getTargetArticles(searchArticlesObj)
       .then((data) => setTargetBoArticles(data))
       .catch((err) => console.log(err));
-  }, [searchArticlesObj]);
+  }, [searchArticlesObj, articlesRebuilt]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     searchArticlesObj.page = 1;
@@ -133,17 +135,29 @@ export default function CommunityPage(props: any) {
                   </Stack>
 
                   <TabPanel value="1">
-                    <TargetArticles targetBoardArticles={targetBoArticles} />
+                    <TargetArticles
+                      targetBoardArticles={targetBoArticles}
+                      setArticlesRebuilt={setArticlesRebuilt}
+                    />
                   </TabPanel>
 
                   <TabPanel value="2">
-                    <TargetArticles targetBoardArticles={targetBoArticles} />
+                    <TargetArticles
+                      targetBoardArticles={targetBoArticles}
+                      setArticlesRebuilt={setArticlesRebuilt}
+                    />
                   </TabPanel>
                   <TabPanel value="3">
-                    <TargetArticles targetBoardArticles={targetBoArticles} />
+                    <TargetArticles
+                      targetBoardArticles={targetBoArticles}
+                      setArticlesRebuilt={setArticlesRebuilt}
+                    />
                   </TabPanel>
                   <TabPanel value="4">
-                    <TargetArticles targetBoardArticles={targetBoArticles} />
+                    <TargetArticles
+                      targetBoardArticles={targetBoArticles}
+                      setArticlesRebuilt={setArticlesRebuilt}
+                    />
                   </TabPanel>
                 </TabContext>
               </Box>

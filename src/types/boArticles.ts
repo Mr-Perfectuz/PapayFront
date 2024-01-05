@@ -3,6 +3,7 @@ import { Member } from "./user";
 
 export interface BoArticles{
 
+    _id: string,
     art_subjects: string,
     art_content: string,
     art_image?: string,

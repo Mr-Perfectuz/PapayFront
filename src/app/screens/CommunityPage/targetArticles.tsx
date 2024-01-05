@@ -7,12 +7,37 @@ import { Favorite, FavoriteBorder } from "@mui/icons-material";
 import { BoArticles } from "../../../types/boArticles";
 import { serviceApi } from "../../../lib/config";
 import moment from "moment";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
+import { Definer } from "../../../lib/Definer";
+import assert from "assert";
+import MemberApiService from "../../apiServices/memberApiService";
 
 export default function TargetArticles(props: any) {
+  const { setArticlesRebuilt } = props;
   const { targetBoardArticles } = props;
-  console.log("props::", props);
   console.log("article::", targetBoardArticles);
 
+  // HANDLERS
+  const targetLikeHandler = async (e: any) => {
+    try {
+      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+
+      const memberService = new MemberApiService();
+      const like_result = await memberService.memberLikeTarget({
+        like_ref_id: e.target.id,
+        group_type: "community",
+      });
+      assert.ok(like_result, Definer.general_err);
+      await sweetTopSmallSuccessAlert("success", 700, false);
+      setArticlesRebuilt(new Date());
+    } catch (err) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
   return (
     <Stack>
       {props.targetBoardArticles?.map((article: BoArticles, index: number) => {
@@ -56,7 +81,13 @@ export default function TargetArticles(props: any) {
                     <Checkbox
                       checkedIcon={<Favorite style={{ color: "red" }} />}
                       icon={<FavoriteBorder />}
-                      id={article?.bo_id} ///_id
+                      id={article?._id} ///_id
+                      onClick={targetLikeHandler}
+                      checked={
+                        article?.me_liked && article.me_liked[0]?.my_favorite
+                          ? true
+                          : false
+                      }
                     />
                     <span>{article?.art_likes}</span>
                   </Box>
