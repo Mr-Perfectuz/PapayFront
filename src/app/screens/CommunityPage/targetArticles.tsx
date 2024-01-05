@@ -15,12 +15,12 @@ export default function TargetArticles(props: any) {
 
   return (
     <Stack>
-      {props.targetBoardArticles?.map((article: BoArticles) => {
+      {props.targetBoardArticles?.map((article: BoArticles, index: number) => {
         const art_img = article?.art_image
           ? `${serviceApi}/${article.art_image}`
           : "/community/article_img.svg";
         return (
-          <Stack key={article.bo_id}>
+          <Stack key={index}>
             <Stack className="target_articles" flexDirection={"row"}>
               <Box>
                 <img src={art_img} alt="article" />
@@ -38,8 +38,13 @@ export default function TargetArticles(props: any) {
                 </Stack>
 
                 <Box className="target_articles_text">
+                  <span>{article?.bo_id}</span>
+                </Box>
+                <Box
+                  sx={{ color: "#fff" }}
+                  className="target_articles_subjects"
+                >
                   {article?.art_subjects}
-                  {article?.art_content}
                 </Box>
                 <Stack
                   flexDirection={"row"}

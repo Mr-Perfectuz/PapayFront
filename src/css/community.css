@@ -81,9 +81,15 @@ Link, Link a, Link span{
     font-weight: 600;
     line-height: normal;
     text-decoration: none;
-    margin-top: 15px;
+    margin-top: 10px;
+    margin-bottom: 5px;
 }
 
+.target_articles_subjects{
+    margin: 0;
+    padding: 0;
+    color: #FFF;
+}
 .target_articles_last{
     width: 600px;
     align-items: center;

@@ -45,7 +45,7 @@ export default function CommunityPage(props: any) {
   const [searchArticlesObj, setSearchArticlesObj] = useState<SearchArticleObj>({
     bo_id: "all",
     page: 1,
-    limit: 5,
+    limit: 4,
   });
 
   useEffect(() => {
@@ -57,12 +57,29 @@ export default function CommunityPage(props: any) {
   }, [searchArticlesObj]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
+    searchArticlesObj.page = 1;
+    switch (newValue) {
+      case "1":
+        searchArticlesObj.bo_id = "all";
+        break;
+      case "2":
+        searchArticlesObj.bo_id = "celebrity";
+        break;
+      case "3":
+        searchArticlesObj.bo_id = "evaluation";
+        break;
+      case "4":
+        searchArticlesObj.bo_id = "story";
+        break;
+    }
+
+    setSearchArticlesObj({ ...searchArticlesObj });
     setValue(newValue);
   };
 
   const handlePaginationChange = (event: any, value: number) => {
     searchArticlesObj.page = value;
-    setSearchArticlesObj({ ...searchArticlesObj });
+    setSearchArticlesObj({ ...searchArticlesObj, limit: 4 });
   };
 
   return (
