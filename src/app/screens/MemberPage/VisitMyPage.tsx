@@ -177,11 +177,16 @@ export default function VisitMyPage(props: any) {
             <Stack flexDirection={"column"}>
               <Stack className="my_page">
                 <Stack className="order_info_box">
-                  <Stack flexDirection={"row"}>
+                  <Stack flexDirection={"row"} sx={{ position: "relative" }}>
                     <img
                       src="/auth/user_bike.svg"
                       alt="user img"
                       className="myPage_user_img"
+                    />
+                    <img
+                      src="/icons/user_icon.png"
+                      alt="user icon img"
+                      className="user_icon_img"
                     />
                     <a onClick={() => setValue("6")} className="settings_btn">
                       <SettingsIcon />

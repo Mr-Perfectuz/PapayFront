@@ -77,6 +77,18 @@
     border-radius: 37px;
     margin-right: 48px;
 }
+
+.user_icon_img{
+    width: 30px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 37px;
+    background: rgba(0, 0, 0, 0.33);
+    z-index: 10;
+    position: absolute;
+    right: 10%;
+    top: 67%;
+}
 .otherPage_user_img{
     width: 117px;
     height: 112px;
