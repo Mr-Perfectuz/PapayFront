@@ -18,8 +18,6 @@ import { BoArticles, SearchArticleObj } from "../../../types/boArticles";
 //REDUX
 import { createSelector } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
-import { Restaurant } from "../../../types/user";
-import { serviceApi } from "../../../lib/config";
 import { setTargetBoArticles } from "./slice";
 import { Dispatch } from "@reduxjs/toolkit";
 import { retreiveTargetBoArticles } from "./selector";

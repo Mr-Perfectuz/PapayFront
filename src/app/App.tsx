@@ -218,7 +218,7 @@ function App() {
           />
         </Route>
         <Route path="/member-page">
-          <MemberPage />
+          <MemberPage setVerifierMemberData={setVerifierMemberData} />
         </Route>
         <Route path="/help">
           <HelpPage />

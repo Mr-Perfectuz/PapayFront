@@ -5,16 +5,17 @@ import VisitOtherPage from "./VisitOtherPage";
 import VisitMyPage from "./VisitMyPage";
 import "../../../css/my_page.css";
 
-export default function MemberPage() {
+export default function MemberPage(props: any) {
+  const { setVerifierMemberData } = props;
   let member = useRouteMatch();
 
   return (
     <Switch>
       <Route path={`${member.path}/other`}>
-        <VisitOtherPage />
+        <VisitOtherPage setVerifierMemberData={setVerifierMemberData} />
       </Route>
       <Route path={`${member.path}`}>
-        <VisitMyPage />
+        <VisitMyPage setVerifierMemberData={setVerifierMemberData} />
       </Route>
       <Route path={`${member.path}`}>{/* <AllRestaurants /> */}</Route>
     </Switch>

@@ -14,14 +14,64 @@ import TabPanel from "@mui/lab/TabPanel";
 import MemberFollowers from "./memberFollowers";
 import MemberFollowing from "./memberFollowing";
 import MySettings from "./mySettings";
-import SettingsIcon from "@mui/icons-material/Settings";
 import YouTubeIcon from "@mui/icons-material/YouTube";
 import TelegramIcon from "@mui/icons-material/Telegram";
 import InstagramIcon from "@mui/icons-material/Instagram";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import { TuViewer } from "../../components/tuiEditor/TuViewer";
 
-export default function VisitOtherPage() {
+//REDUX
+import { createSelector } from "reselect";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  setChosenMember,
+  setChosenMemberBoArticles,
+  setChosenSingleBoArticle,
+} from "./slice";
+import { Dispatch } from "@reduxjs/toolkit";
+import {
+  retreiveChosenMember,
+  retreiveChosenMemberBoArticles,
+  retreiveChosenSingleBoArticle,
+} from "./selector";
+import { Member } from "../../../types/user";
+
+// REDUX SLICE
+const actionDispatch = (dispatch: Dispatch) => ({
+  setChosenMember: (data: Member) => dispatch(setChosenMember(data)),
+  setChosenMemberBoArticles: (data: Member) =>
+    dispatch(setChosenMemberBoArticles(data)),
+  setChosenSingleBoArticle: (data: Member) =>
+    dispatch(setChosenSingleBoArticle(data)),
+});
+
+// REDUX SELECTOR
+const chosenMemberRetreiver = createSelector(
+  retreiveChosenMember,
+  (chosenMember) => ({ chosenMember })
+);
+const chosenMemberBoArticlesRetreiver = createSelector(
+  retreiveChosenMemberBoArticles,
+  (chosenMemberBoArticles) => ({ chosenMemberBoArticles })
+);
+const chosenSingleBoArticleRetreiver = createSelector(
+  retreiveChosenSingleBoArticle,
+  (chosenSingleBoArticle) => ({ chosenSingleBoArticle })
+);
+
+export default function VisitOtherPage(props: any) {
+  //INITIALIZATIONS
+  const {
+    setChosenMember,
+    setChosenMemberBoArticles,
+    setChosenSingleBoArticle,
+  } = actionDispatch(useDispatch());
+  const { chosenMember } = useSelector(chosenMemberRetreiver);
+  const { chosenMemberBoArticles } = useSelector(
+    chosenMemberBoArticlesRetreiver
+  );
+  const { chosenSingleBoArticle } = useSelector(chosenSingleBoArticleRetreiver);
+
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
