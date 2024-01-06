@@ -5,15 +5,11 @@ import { Definer } from "../../lib/Definer";
 import { Member } from "../../types/user";
 import { MemberLiken } from "../../types/others";
 
-
-
 class MemberApiService {
     private readonly path: string;
-
     constructor(){
         this.path = serviceApi;
     }
-
 
 public async loginRequest(login_data: any): Promise<Member> {
     try {
@@ -35,7 +31,6 @@ public async loginRequest(login_data: any): Promise<Member> {
 
 public async signUpRequest(signup_data: any): Promise<Member> {
     try {
-
     const result= await axios.post(this.path + "/signup ", signup_data, {withCredentials: true});
     console.log("state: ", result.data.state);
     assert.ok(result?.data, Definer.general_err);
@@ -58,9 +53,7 @@ public async logoutRequest(): Promise<boolean> {
     console.log("state: ", result.data.state);
     assert.ok(result?.data, Definer.general_err);
     assert.ok(result?.data?.state !== "fail", result?.data?.message);
-
     const logout_result = result.data.data;
-
     return logout_result === "success";
     } catch (err: any) {
       console.log(`ERROR: signUpRequest ${err.message}`);
@@ -72,6 +65,24 @@ public async memberLikeTarget(data: any):  Promise<MemberLiken>{
   try {
     const result = await axios.post(
       `${this.path}/member-liken`, data,   { withCredentials: true }
+    );
+    console.log("state:", result.data.state);
+    assert.ok(result?.data, Definer.general_err);
+    assert.ok(result?.data?.state !== "fail", result?.data?.message);
+    console.log("state:", result.data.data);
+    const like_result: MemberLiken = result.data.data;
+
+    return like_result;
+  } catch (err: any) {
+    console.log(`ERROR: memberLikeTarget ${err.message}`);
+    throw err;
+  }
+}
+
+
+public async getChosenMember(id: string):  Promise<MemberLiken>{
+  try {
+    const result = await axios.get(`${this.path}/member/${id}`, { withCredentials: true }
     );
 
     console.log("state:", result.data.state);
@@ -88,6 +99,9 @@ public async memberLikeTarget(data: any):  Promise<MemberLiken>{
     throw err;
   }
 }
+
+
+
 }
 
 

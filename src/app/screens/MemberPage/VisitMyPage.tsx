@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Box, Button, Container, Stack } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MembersPosts from "./membersPosts";
 import Marginer from "../../components/marginer";
 import Pagination from "@mui/material/Pagination";
@@ -37,13 +37,17 @@ import {
   retreiveChosenSingleBoArticle,
 } from "./selector";
 import { Member } from "../../../types/user";
+import { BoArticles, SearchMemberArticleObj } from "../../../types/boArticles";
+import { sweetFailureProvider } from "../../../lib/sweetAlert";
+import CommunityApiService from "../../apiServices/communityApiService";
+import MemberApiService from "../../apiServices/memberApiService";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
   setChosenMember: (data: Member) => dispatch(setChosenMember(data)),
-  setChosenMemberBoArticles: (data: Member) =>
+  setChosenMemberBoArticles: (data: BoArticles[]) =>
     dispatch(setChosenMemberBoArticles(data)),
-  setChosenSingleBoArticle: (data: Member) =>
+  setChosenSingleBoArticle: (data: BoArticles[]) =>
     dispatch(setChosenSingleBoArticle(data)),
 });
 
@@ -76,9 +80,30 @@ export default function VisitMyPage(props: any) {
 
   const [value, setValue] = React.useState("1");
 
+  const [memberArticleSearchObj, setMemberArticleSearchObj] =
+    useState<SearchMemberArticleObj>({ mb_id: "none", page: 1, limit: 5 });
+
+  useEffect(() => {
+    if (!localStorage.getItem("member_data")) {
+      sweetFailureProvider("Please Login First ! ", true, true);
+    }
+
+    const communityService = new CommunityApiService();
+    const memberService = new MemberApiService();
+
+    // chosenArticle starting point
+    communityService
+      .getMemberCommunityArticles(memberArticleSearchObj)
+      .then((data) => setChosenMemberBoArticles(data))
+      .catch((err) => console.log(err));
+    // targetLikeHandler
+  }, []);
+
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
+  // renderChosenArticleHandler
 
   return (
     <div className="visit_my_page">
@@ -95,7 +120,9 @@ export default function VisitMyPage(props: any) {
                   direction="horizontal"
                 />
                 <Stack className="visit_my_page_inner">
-                  <MembersPosts />
+                  <MembersPosts
+                    chosenMemberBoArticles={chosenMemberBoArticles}
+                  />
                 </Stack>
                 <Stack flexDirection={"column"} alignItems={"center"}>
                   <Pagination

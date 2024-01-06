@@ -20,6 +20,7 @@ export default function Basket(props: any) {
   const open = Boolean(anchorEl);
 
   const { cartItems, onAdd, onRemove, onDelete, onDeleteAll } = props;
+
   const itemsPrice = cartItems.reduce(
     (a: any, c: CartItem) => a + c.price * c.quantity,
     0
