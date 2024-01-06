@@ -14,7 +14,7 @@ const memberPageSlice = createSlice({
     initialState,
     reducers: {
         setChosenMember: (state, action) => {
-            state.chosenMember = action.payload;
+            state.chosenMember = action.payload; 
         },
         setChosenMemberBoArticles: (state, action) => {
             state.chosenMemberBoArticles = action.payload;

@@ -48,7 +48,7 @@ export default function NavbarRestaurant(props: any) {
             </Box>
             {props.verifierMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
-                <NavLink to="/sahifam" activeClassName="underline">
+                <NavLink to="/member-page" activeClassName="underline">
                   Sahifam
                 </NavLink>
               </Box>

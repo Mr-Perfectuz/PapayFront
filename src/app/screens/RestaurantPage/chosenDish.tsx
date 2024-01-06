@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Box, Button, Container, Stack } from "@mui/material";
 import { Swiper, SwiperSlide } from "swiper/react";
 import ArrovBackIosNewIcon from "@mui/icons-material/ArrowBackIosNew";
@@ -7,9 +7,8 @@ import Marginer from "../../components/marginer";
 import Rating from "@mui/material/Rating";
 import Checkbox from "@mui/material/Checkbox";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
-import FavoriteIcon from "@mui/icons-material/Favorite";
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
-import { useHistory, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 //REDUX
 import { Dispatch, createSelector } from "@reduxjs/toolkit";
@@ -23,7 +22,6 @@ import { Restaurant } from "../../../types/user";
 import { serviceApi } from "../../../lib/config";
 import { setChosenProduct, setChosenRestaurants } from "./slice";
 import RestaurantApiService from "../../apiServices/restaurantApiService";
-import { ProductSearchObj, SearchObj } from "../../../types/others";
 import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import {
@@ -33,10 +31,6 @@ import {
 import { Product } from "../../../types/products";
 import ProductApiService from "../../apiServices/productApiService";
 import MemberApiService from "../../apiServices/memberApiService";
-import { IconButton } from "@mui/joy";
-
-const review_list = Array.from(Array(10).keys());
-const review_list_sm = Array.from(Array(10).keys());
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({

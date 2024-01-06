@@ -62,8 +62,8 @@ export default function NavbarHome(props: any) {
             </Box>
             {props.verifierMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
-                <NavLink to="/sahifam" activeClassName="underline">
-                  Buyurtma
+                <NavLink to="/member-page" activeClassName="underline">
+                  Sahifam
                 </NavLink>
               </Box>
             ) : null}
