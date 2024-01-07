@@ -4,7 +4,7 @@ import Checkbox from "@mui/material/Checkbox";
 
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
-import { BoArticles } from "../../../types/boArticles";
+import { BoArticle } from "../../../types/boArticles";
 import { serviceApi } from "../../../lib/config";
 import moment from "moment";
 import {
@@ -38,9 +38,10 @@ export default function TargetArticles(props: any) {
       sweetErrorHandling(err).then();
     }
   };
+
   return (
     <Stack>
-      {props.targetBoardArticles?.map((article: BoArticles, index: number) => {
+      {props.targetBoardArticles?.map((article: BoArticle, index: number) => {
         const art_img = article?.art_image
           ? `${serviceApi}/${article.art_image}`
           : "/community/article_img.svg";

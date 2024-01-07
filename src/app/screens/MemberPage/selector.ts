@@ -9,9 +9,9 @@ export const retreiveChosenMember = createSelector(
     (MemberPage) => MemberPage.chosenMember
 )
 
-export const retreiveChosenMemberBoArticles = createSelector(
+export const retreiveChosenMemberBoArticle = createSelector(
     selectMemberPage,
-    (MemberPage) => MemberPage.chosenMemberBoArticles
+    (MemberPage) => MemberPage.chosenMemberBoArticle
 )
 
 export const retreiveChosenSingleBoArticle = createSelector(

@@ -14,15 +14,15 @@ export const retreiveTrendProducts = createSelector(
     selectHomePage,
     (HomePage) => HomePage.trendProducts
 )
-export const retreiveBestBoArticles = createSelector(
+export const retreiveBestBoArticle = createSelector(
     selectHomePage,
-    (HomePage) => HomePage.bestBoArticles
+    (HomePage) => HomePage.bestBoArticle
 )
-export const retreiveTrendBoArticles = createSelector(
+export const retreiveTrendBoArticle = createSelector(
     selectHomePage,
-    (HomePage) => HomePage.trendBoArticles
+    (HomePage) => HomePage.trendBoArticle
 )
-export const retreiveNewsBoArticles = createSelector(
+export const retreiveNewsBoArticle = createSelector(
     selectHomePage,
-    (HomePage) => HomePage.newsBoArticles
+    (HomePage) => HomePage.newsBoArticle
 )

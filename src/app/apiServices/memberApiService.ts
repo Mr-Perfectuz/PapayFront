@@ -80,7 +80,7 @@ public async memberLikeTarget(data: any):  Promise<MemberLiken>{
 }
 
 
-public async getChosenMember(id: string):  Promise<MemberLiken>{
+public async getChosenMember(id: string):  Promise<Member>{
   try {
     const result = await axios.get(`${this.path}/member/${id}`, { withCredentials: true }
     );
@@ -91,11 +91,11 @@ public async getChosenMember(id: string):  Promise<MemberLiken>{
 
     console.log("state:", result.data.data);
 
-    const like_result: MemberLiken = result.data.data;
+    const member: Member = result.data.data;
 
-    return like_result;
+    return member;
   } catch (err: any) {
-    console.log(`ERROR: memberLikeTarget ${err.message}`);
+    console.log(`ERROR: getChosenMember ${err.message}`);
     throw err;
   }
 }

@@ -27,27 +27,30 @@ import { createSelector } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setChosenMember,
-  setChosenMemberBoArticles,
+  setChosenMemberBoArticle,
   setChosenSingleBoArticle,
 } from "./slice";
 import { Dispatch } from "@reduxjs/toolkit";
 import {
   retreiveChosenMember,
-  retreiveChosenMemberBoArticles,
+  retreiveChosenMemberBoArticle,
   retreiveChosenSingleBoArticle,
 } from "./selector";
 import { Member } from "../../../types/user";
-import { BoArticles, SearchMemberArticleObj } from "../../../types/boArticles";
-import { sweetFailureProvider } from "../../../lib/sweetAlert";
+import {
+  sweetErrorHandling,
+  sweetFailureProvider,
+} from "../../../lib/sweetAlert";
 import CommunityApiService from "../../apiServices/communityApiService";
 import MemberApiService from "../../apiServices/memberApiService";
+import { BoArticle, SearchMemberArticleObj } from "../../../types/boArticles";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
   setChosenMember: (data: Member) => dispatch(setChosenMember(data)),
-  setChosenMemberBoArticles: (data: BoArticles[]) =>
-    dispatch(setChosenMemberBoArticles(data)),
-  setChosenSingleBoArticle: (data: BoArticles[]) =>
+  setChosenMemberBoArticle: (data: BoArticle[]) =>
+    dispatch(setChosenMemberBoArticle(data)),
+  setChosenSingleBoArticle: (data: BoArticle) =>
     dispatch(setChosenSingleBoArticle(data)),
 });
 
@@ -56,9 +59,9 @@ const chosenMemberRetreiver = createSelector(
   retreiveChosenMember,
   (chosenMember) => ({ chosenMember })
 );
-const chosenMemberBoArticlesRetreiver = createSelector(
-  retreiveChosenMemberBoArticles,
-  (chosenMemberBoArticles) => ({ chosenMemberBoArticles })
+const chosenMemberBoArticleRetreiver = createSelector(
+  retreiveChosenMemberBoArticle,
+  (chosenMemberBoArticle) => ({ chosenMemberBoArticle })
 );
 const chosenSingleBoArticleRetreiver = createSelector(
   retreiveChosenSingleBoArticle,
@@ -66,17 +69,17 @@ const chosenSingleBoArticleRetreiver = createSelector(
 );
 
 export default function VisitMyPage(props: any) {
+  const { vertifyMemberData } = props;
   //INITIALIZATIONS
   const {
     setChosenMember,
-    setChosenMemberBoArticles,
+    setChosenMemberBoArticle,
     setChosenSingleBoArticle,
   } = actionDispatch(useDispatch());
   const { chosenMember } = useSelector(chosenMemberRetreiver);
-  const { chosenMemberBoArticles } = useSelector(
-    chosenMemberBoArticlesRetreiver
-  );
+  const { chosenMemberBoArticle } = useSelector(chosenMemberBoArticleRetreiver);
   const { chosenSingleBoArticle } = useSelector(chosenSingleBoArticleRetreiver);
+  const [articlesRebuilt, setArticlesRebuilt] = useState<Date>(new Date());
 
   const [value, setValue] = React.useState("1");
 
@@ -94,16 +97,37 @@ export default function VisitMyPage(props: any) {
     // chosenArticle starting point
     communityService
       .getMemberCommunityArticles(memberArticleSearchObj)
-      .then((data) => setChosenMemberBoArticles(data))
+      .then((data) => setChosenMemberBoArticle(data))
       .catch((err) => console.log(err));
+
     // targetLikeHandler
-  }, []);
+    memberService
+      .getChosenMember(vertifyMemberData?._id)
+      .then((data) => setChosenMember(data))
+      .catch((err) => console.log(err));
+  }, [memberArticleSearchObj, articlesRebuilt]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+  const handlePaginationChange = (event: any, value: number) => {
+    memberArticleSearchObj.page = value;
+    setMemberArticleSearchObj({ ...memberArticleSearchObj });
+  };
 
   // renderChosenArticleHandler
+  const renderChosenArticleHandler = async (art_id: string) => {
+    try {
+      const communityService = new CommunityApiService();
+      communityService
+        .getCHosenArticle(art_id)
+        .then((data) => setChosenSingleBoArticle(data))
+        .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
 
   return (
     <div className="visit_my_page">
@@ -121,7 +145,9 @@ export default function VisitMyPage(props: any) {
                 />
                 <Stack className="visit_my_page_inner">
                   <MembersPosts
-                    chosenMemberBoArticles={chosenMemberBoArticles}
+                    renderChosenArticleHandler={renderChosenArticleHandler}
+                    chosenMemberBoArticle={chosenMemberBoArticle}
+                    setArticlesRebuilt={setArticlesRebuilt}
                   />
                 </Stack>
                 <Stack flexDirection={"column"} alignItems={"center"}>
@@ -139,6 +165,7 @@ export default function VisitMyPage(props: any) {
                         color={"primary"}
                       />
                     )}
+                    onChange={handlePaginationChange}
                   />
                 </Stack>
               </TabPanel>

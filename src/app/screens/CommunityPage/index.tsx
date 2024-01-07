@@ -14,31 +14,30 @@ import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 import CommunityChats from "./communityChats";
 import CommunityApiService from "../../apiServices/communityApiService";
-import { BoArticles, SearchArticleObj } from "../../../types/boArticles";
+import { BoArticle, SearchArticleObj } from "../../../types/boArticles";
 
 //REDUX
 import { createSelector } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
-import { setTargetBoArticles } from "./slice";
+import { setTargetBoArticle } from "./slice";
 import { Dispatch } from "@reduxjs/toolkit";
-import { retreiveTargetBoArticles } from "./selector";
+import { retreiveTargetBoArticle } from "./selector";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
-  setTargetBoArticles: (data: BoArticles[]) =>
-    dispatch(setTargetBoArticles(data)),
+  setTargetBoArticle: (data: BoArticle[]) => dispatch(setTargetBoArticle(data)),
 });
 
 // REDUX SELECTOR
-const targetBoArticlesRetreiver = createSelector(
-  retreiveTargetBoArticles,
-  (targetBoArticles) => ({ targetBoArticles })
+const targetBoArticleRetreiver = createSelector(
+  retreiveTargetBoArticle,
+  (targetBoArticle) => ({ targetBoArticle })
 );
 
 export default function CommunityPage(props: any) {
   //INITIALIZATIONS
-  const { setTargetBoArticles } = actionDispatch(useDispatch());
-  const { targetBoArticles } = useSelector(targetBoArticlesRetreiver);
+  const { setTargetBoArticle } = actionDispatch(useDispatch());
+  const { targetBoArticle } = useSelector(targetBoArticleRetreiver);
 
   const [value, setValue] = React.useState("1");
   const [searchArticlesObj, setSearchArticlesObj] = useState<SearchArticleObj>({
@@ -53,7 +52,7 @@ export default function CommunityPage(props: any) {
     const communityService = new CommunityApiService();
     communityService
       .getTargetArticles(searchArticlesObj)
-      .then((data) => setTargetBoArticles(data))
+      .then((data) => setTargetBoArticle(data))
       .catch((err) => console.log(err));
   }, [searchArticlesObj, articlesRebuilt]);
 
@@ -135,26 +134,26 @@ export default function CommunityPage(props: any) {
 
                   <TabPanel value="1">
                     <TargetArticles
-                      targetBoardArticles={targetBoArticles}
+                      targetBoardArticles={targetBoArticle}
                       setArticlesRebuilt={setArticlesRebuilt}
                     />
                   </TabPanel>
 
                   <TabPanel value="2">
                     <TargetArticles
-                      targetBoardArticles={targetBoArticles}
+                      targetBoardArticles={targetBoArticle}
                       setArticlesRebuilt={setArticlesRebuilt}
                     />
                   </TabPanel>
                   <TabPanel value="3">
                     <TargetArticles
-                      targetBoardArticles={targetBoArticles}
+                      targetBoardArticles={targetBoArticle}
                       setArticlesRebuilt={setArticlesRebuilt}
                     />
                   </TabPanel>
                   <TabPanel value="4">
                     <TargetArticles
-                      targetBoardArticles={targetBoArticles}
+                      targetBoardArticles={targetBoArticle}
                       setArticlesRebuilt={setArticlesRebuilt}
                     />
                   </TabPanel>

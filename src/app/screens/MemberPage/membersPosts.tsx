@@ -5,14 +5,49 @@ import moment from "moment";
 
 import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 import { Favorite, FavoriteBorder } from "@mui/icons-material";
-
-const number_of_articles = [1, 2, 3];
+import { BoArticle } from "../../../types/boArticles";
+import { serviceApi } from "../../../lib/config";
+import MemberApiService from "../../apiServices/memberApiService";
+import assert from "assert";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
+import { Definer } from "../../../lib/Definer";
 
 export default function MembersPosts(props: any) {
+  // INITIALIZATION
+  const {
+    renderChosenArticleHandler,
+    chosenMemberBoArticle,
+    setArticlesRebuilt,
+  } = props;
+
+  // HANDLERS
+  const targetLikeHandler = async (e: any) => {
+    try {
+      e.stopPropagation();
+      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+      const memberService = new MemberApiService();
+      const like_result = await memberService.memberLikeTarget({
+        like_ref_id: e.target.id,
+        group_type: "community",
+      });
+      assert.ok(like_result, Definer.general_err);
+      await sweetTopSmallSuccessAlert("success", 700, false);
+      setArticlesRebuilt(new Date());
+    } catch (err) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
+
   return (
     <Stack>
-      {number_of_articles?.map((index) => {
-        const art_img = "/community/article_img.svg";
+      {chosenMemberBoArticle?.map((article: BoArticle) => {
+        const art_img = article.art_image
+          ? `${serviceApi}/${article.art_image}`
+          : "/community/article_img.svg";
         return (
           <Stack>
             <Stack className="target_articles" flexDirection={"row"}>
@@ -23,31 +58,49 @@ export default function MembersPosts(props: any) {
                 <Stack flexDirection={"row"} alignItems={"center"}>
                   <img
                     className="target_articles_user_img"
-                    src="/auth/user.svg"
+                    src={
+                      article?.member_data?.mb_image
+                        ? `${serviceApi}/${article.member_data.mb_image}`
+                        : "/auth/user.svg"
+                    }
                     alt="user"
                   />
-                  <Box className="target_articles_user_name">@John</Box>
+                  <Box className="target_articles_user_name">
+                    {article?.member_data?.mb_nick}
+                  </Box>
                 </Stack>
 
                 <Box className="target_articles_text">
-                  Kebuli Rice with <br /> tomatoes s...
+                  <span>{article?.bo_id}</span>
                 </Box>
+                <Box sx={{ color: "#fff" }}>{article?.art_subjects}</Box>
                 <Stack
                   flexDirection={"row"}
                   justifyContent={"flex-end"}
                   className="target_articles_last"
                 >
-                  <span>{moment().format("YY-MM-DD HH:mm")}</span>
+                  <span>
+                    {moment(article?.createdAt).format("YY-MM-DD HH:mm")}
+                  </span>
                   <Box>
                     <Checkbox
                       checkedIcon={<Favorite style={{ color: "red" }} />}
                       icon={<FavoriteBorder />}
+                      id={article?._id}
+                      checked={
+                        article?.me_liked && article.me_liked[0]?.my_favorite
+                          ? true
+                          : false
+                      }
+                      onClick={targetLikeHandler}
                     />
-                    <span>98</span>
+                    <span>{article?.art_likes}</span>
                   </Box>
                   <Box className="removed_eve_box">
                     <RemoveRedEyeIcon style={{ color: "#fff" }} />
-                    <span className="target_articles_eye_icon">98</span>
+                    <span className="target_articles_eye_icon">
+                      {article?.art_views}
+                    </span>
                   </Box>
                 </Stack>
               </Stack>

@@ -1,12 +1,12 @@
 import { MeLiked } from "./products";
 import { Member } from "./user";
 
-export interface BoArticles{
+export interface BoArticle{
 
     _id: string,
     art_subjects: string,
     art_content: string,
-    art_image?: string,
+    art_image?: string | null,
     bo_id: string,
     art_status: string,
     art_likes: number,

@@ -25,13 +25,13 @@ import { createSelector } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setChosenMember,
-  setChosenMemberBoArticles,
+  setChosenMemberBoArticle,
   setChosenSingleBoArticle,
 } from "./slice";
 import { Dispatch } from "@reduxjs/toolkit";
 import {
   retreiveChosenMember,
-  retreiveChosenMemberBoArticles,
+  retreiveChosenMemberBoArticle,
   retreiveChosenSingleBoArticle,
 } from "./selector";
 import { Member } from "../../../types/user";
@@ -39,8 +39,8 @@ import { Member } from "../../../types/user";
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
   setChosenMember: (data: Member) => dispatch(setChosenMember(data)),
-  setChosenMemberBoArticles: (data: Member) =>
-    dispatch(setChosenMemberBoArticles(data)),
+  setChosenMemberBoArticle: (data: Member) =>
+    dispatch(setChosenMemberBoArticle(data)),
   setChosenSingleBoArticle: (data: Member) =>
     dispatch(setChosenSingleBoArticle(data)),
 });
@@ -50,9 +50,9 @@ const chosenMemberRetreiver = createSelector(
   retreiveChosenMember,
   (chosenMember) => ({ chosenMember })
 );
-const chosenMemberBoArticlesRetreiver = createSelector(
-  retreiveChosenMemberBoArticles,
-  (chosenMemberBoArticles) => ({ chosenMemberBoArticles })
+const chosenMemberBoArticleRetreiver = createSelector(
+  retreiveChosenMemberBoArticle,
+  (chosenMemberBoArticle) => ({ chosenMemberBoArticle })
 );
 const chosenSingleBoArticleRetreiver = createSelector(
   retreiveChosenSingleBoArticle,
@@ -63,13 +63,11 @@ export default function VisitOtherPage(props: any) {
   //INITIALIZATIONS
   const {
     setChosenMember,
-    setChosenMemberBoArticles,
+    setChosenMemberBoArticle,
     setChosenSingleBoArticle,
   } = actionDispatch(useDispatch());
   const { chosenMember } = useSelector(chosenMemberRetreiver);
-  const { chosenMemberBoArticles } = useSelector(
-    chosenMemberBoArticlesRetreiver
-  );
+  const { chosenMemberBoArticle } = useSelector(chosenMemberBoArticleRetreiver);
   const { chosenSingleBoArticle } = useSelector(chosenSingleBoArticleRetreiver);
 
   const [value, setValue] = React.useState("1");
