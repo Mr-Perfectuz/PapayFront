@@ -76,6 +76,7 @@ export default function VisitMyPage(props: any) {
     setChosenMemberBoArticle,
     setChosenSingleBoArticle,
   } = actionDispatch(useDispatch());
+
   const { chosenMember } = useSelector(chosenMemberRetreiver);
   const { chosenMemberBoArticle } = useSelector(chosenMemberBoArticleRetreiver);
   const { chosenSingleBoArticle } = useSelector(chosenSingleBoArticleRetreiver);
@@ -121,7 +122,10 @@ export default function VisitMyPage(props: any) {
       const communityService = new CommunityApiService();
       communityService
         .getCHosenArticle(art_id)
-        .then((data) => setChosenSingleBoArticle(data))
+        .then((data) => {
+          setChosenSingleBoArticle(data);
+          setValue("5");
+        })
         .catch((err) => console.log(err));
     } catch (err) {
       console.log(err);
@@ -154,7 +158,7 @@ export default function VisitMyPage(props: any) {
                   <Pagination
                     className="community_pagination"
                     count={5}
-                    page={1}
+                    page={memberArticleSearchObj.page}
                     renderItem={(item) => (
                       <PaginationItem
                         components={{
@@ -207,8 +211,18 @@ export default function VisitMyPage(props: any) {
               </TabPanel>
               <TabPanel value="5">
                 <Box className="my_articles_title">Tanlangan Maqola</Box>
+                <Marginer
+                  width="300"
+                  bg="#E4E4E4D4"
+                  height="1"
+                  direction="horizontal"
+                />
+
                 <Stack className="menu_content">
-                  <TuViewer text={`<div>Tanlangan Maqolalar <div/>`} />
+                  <TuViewer
+                    chosenSingleBoArticle={chosenSingleBoArticle}
+                    // text={`<div>Tanlangan Maqolalar <div/>`}
+                  />
                 </Stack>
               </TabPanel>
               <TabPanel value="6">

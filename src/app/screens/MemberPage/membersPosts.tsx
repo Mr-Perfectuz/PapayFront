@@ -49,7 +49,7 @@ export default function MembersPosts(props: any) {
           ? `${serviceApi}/${article.art_image}`
           : "/community/article_img.svg";
         return (
-          <Stack>
+          <Stack onClick={() => renderChosenArticleHandler(article?._id)}>
             <Stack className="target_articles" flexDirection={"row"}>
               <Box>
                 <img src={art_img} alt="article" />

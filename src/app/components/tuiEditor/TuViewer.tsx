@@ -1,23 +1,29 @@
-import React from "react";
+import React, { useRef } from "react";
 import { Box, Stack } from "@mui/material";
 
 import "@toast-ui/editor/dist/toastui-editor.css";
-import { Editor } from "@toast-ui/react-editor";
+import { Viewer } from "@toast-ui/react-editor";
 
 export const TuViewer = (props: any) => {
-  const editorRef = React.createRef();
-
+  const editorRef = useRef();
+  const { chosenSingleBoArticle } = props;
+  console.log("chosenSingleBoArticle:::", chosenSingleBoArticle[0].art_content);
   return (
-    <Stack className="tu_viewer">
-      <Box sx={{ mt: "40px" }}>
-        <Editor
-          initialValue={props.text}
-          previewStyle="vertical"
-          height="600px"
-          initialEditType="wysiwyg"
-          useCommandShortcut={false}
+    <Stack
+      sx={{
+        width: "800px",
+        background: "white",
+        mt: "30px",
+        borderRadius: "10px",
+      }}
+      className="tu_viewer"
+    >
+      <Box sx={{ m: "40px" }}>
+        <Viewer
           // @ts-ignore
           ref={editorRef}
+          initialValue={chosenSingleBoArticle[0].art_content}
+          height={"600px"}
         />
       </Box>
     </Stack>
