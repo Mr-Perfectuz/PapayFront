@@ -119,22 +119,22 @@ export default function VisitOtherPage(props: any) {
   useEffect(() => {
     if (chosen_mb_id === verifierMemberData?._id) {
       history.push("/member-page");
-      const communityService = new CommunityApiService();
+    }
+    const communityService = new CommunityApiService();
 
-      if (chosen_art_id) {
-        communityService
-          .getCHosenArticle(chosen_art_id)
-          .then((data) => {
-            setChosenSingleBoArticle(data);
-            setValue("4");
-          })
-          .catch((err) => console.log(err));
-      }
+    if (chosen_art_id) {
       communityService
-        .getMemberCommunityArticles(memberArticleSearchObj)
-        .then((data) => setchosenMemberBoArticles(data))
+        .getCHosenArticle(chosen_art_id)
+        .then((data) => {
+          setChosenSingleBoArticle(data);
+          setValue("4");
+        })
         .catch((err) => console.log(err));
     }
+    communityService
+      .getMemberCommunityArticles(memberArticleSearchObj)
+      .then((data) => setchosenMemberBoArticles(data))
+      .catch((err) => console.log(err));
   }, [memberArticleSearchObj, chosen_mb_id, articlesRebuilt]);
 
   // HANDLERS
@@ -188,8 +188,6 @@ export default function VisitOtherPage(props: any) {
     memberArticleSearchObj.page = value;
     setMemberArticleSearchObj({ ...memberArticleSearchObj });
   };
-
-  console.log("{VisitOtherPage chosenMember}:", chosenMember);
 
   return (
     <div className="visit_my_page">
@@ -259,6 +257,8 @@ export default function VisitOtherPage(props: any) {
                   <MemberFollowing
                     actions_enabled={false}
                     mb_id={chosen_mb_id}
+                    setFollowRebuilt={setFollowRebuilt}
+                    followRebuilt={followRebuilt}
                   />
                 </Stack>
               </TabPanel>

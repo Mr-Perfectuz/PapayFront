@@ -17,6 +17,7 @@ import {
 } from "../../../lib/sweetAlert";
 import assert from "assert";
 import { Definer } from "../../../lib/Definer";
+import { useHistory } from "react-router-dom";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -31,6 +32,7 @@ const memberFollowersRetreiver = createSelector(
 
 export default function MemberFollowers(props: any) {
   //INITIALIZATIONS
+  const history = useHistory();
   const { mb_id, setFollowRebuilt, followRebuilt } = props;
   const { setMemberFollowers } = actionDispatch(useDispatch());
   const { memberFollowers } = useSelector(memberFollowersRetreiver);
@@ -68,6 +70,11 @@ export default function MemberFollowers(props: any) {
     setFollowersSeachObj({ ...followersSeachObj });
   };
 
+  const visitMemberHandler = (mb_id: string) => {
+    history.push(`/member-page/other?mb_id=${mb_id}`);
+    document.location.reload();
+  };
+
   return (
     <Stack>
       {memberFollowers?.map((follower: Follower) => {
@@ -77,7 +84,10 @@ export default function MemberFollowers(props: any) {
         return (
           <Stack>
             <Stack className="followers_target_articles" flexDirection={"row"}>
-              <Box className="followers_img">
+              <Box
+                className="followers_img"
+                onClick={() => visitMemberHandler(follower?.subscriber_id)}
+              >
                 <img className="foll_img" src={image_url} alt="article" />
               </Box>
               <Stack
@@ -86,7 +96,12 @@ export default function MemberFollowers(props: any) {
               >
                 <Stack>
                   <Stack flexDirection={"row"} alignItems={"center"}>
-                    <Box className="followers_user_name">
+                    <Box
+                      className="followers_user_name"
+                      onClick={() =>
+                        visitMemberHandler(follower?.subscriber_id)
+                      }
+                    >
                       {follower?.subscriber_member_data?.mb_nick}
                     </Box>
                   </Stack>

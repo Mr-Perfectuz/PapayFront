@@ -18,6 +18,7 @@ import {
   sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
 import { serviceApi } from "../../../lib/config";
+import { useHistory } from "react-router-dom";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -52,6 +53,7 @@ const memberFollowingsRetreiver = createSelector(
 //   },
 // ];
 export default function MemberFollowing(props: any) {
+  const history = useHistory();
   //INITIALIZATIONS
   const { mb_id, setFollowRebuilt, followRebuilt } = props;
 
@@ -94,6 +96,11 @@ export default function MemberFollowing(props: any) {
     }
   };
 
+  const visitMemberHandler = (mb_id: string) => {
+    history.push(`/member-page/other?mb_id=${mb_id}`);
+    document.location.reload();
+  };
+
   return (
     <Stack>
       {memberFollowings?.map((following: Following) => {
@@ -103,7 +110,10 @@ export default function MemberFollowing(props: any) {
         return (
           <Stack>
             <Stack className="followers_target_articles" flexDirection={"row"}>
-              <Box className="followers_img">
+              <Box
+                className="followers_img"
+                onClick={() => visitMemberHandler(following?.follow_id)}
+              >
                 <img className="foll_img" src={image_url} alt="article" />
               </Box>
               <Stack
@@ -112,7 +122,10 @@ export default function MemberFollowing(props: any) {
               >
                 <Stack>
                   <Stack flexDirection={"row"} alignItems={"center"}>
-                    <Box className="followers_user_name">
+                    <Box
+                      className="followers_user_name"
+                      onClick={() => visitMemberHandler(following?.follow_id)}
+                    >
                       {following?.follow_member_data?.mb_nick}
                     </Box>
                   </Stack>

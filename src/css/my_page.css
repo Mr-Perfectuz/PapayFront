@@ -196,6 +196,7 @@
     width: 89px;
     height: 89px;
     flex-shrink: 0;
+    cursor: pointer;
 }
 
 .foll_img{
@@ -220,6 +221,7 @@
     font-style: normal;
     font-weight: 600;
     line-height: normal;
+        cursor: pointer;
 }
 
 .followers_target_articles_text{
