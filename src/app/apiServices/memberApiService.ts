@@ -82,15 +82,14 @@ public async memberLikeTarget(data: any):  Promise<MemberLiken>{
 
 public async getChosenMember(id: string):  Promise<Member>{
   try { 
-    const url = `${this.path}/member/${id}`;
-    // const result = await axios.get(`http://localhost:3003/member/${id}`, { withCredentials: true }
-    const result = await axios.get(this.path + url, { withCredentials: true }
+        console.log("Start:");
+    const result = await axios.get(`${this.path}/member/${id}`, { withCredentials: true }
     );
     console.log("state:", result.data.state);
     assert.ok(result?.data, Definer.general_err);
     assert.ok(result?.data?.state !== "fail", result?.data?.message);
 
-    console.log("state:", result.data.data);
+    console.log("data:", result.data.data);
 
     const member: Member = result.data.data;
 
@@ -100,7 +99,6 @@ public async getChosenMember(id: string):  Promise<Member>{
     throw err;
   }
 }
-
 
 
 }

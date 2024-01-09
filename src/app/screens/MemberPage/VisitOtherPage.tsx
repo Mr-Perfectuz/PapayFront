@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Box, Button, Container, Stack } from "@mui/material";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import MembersPosts from "./membersPosts";
 import Marginer from "../../components/marginer";
 import Pagination from "@mui/material/Pagination";
@@ -25,23 +25,35 @@ import { createSelector } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setChosenMember,
-  setChosenMemberBoArticle,
+  setchosenMemberBoArticles,
   setChosenSingleBoArticle,
 } from "./slice";
 import { Dispatch } from "@reduxjs/toolkit";
 import {
   retreiveChosenMember,
-  retreiveChosenMemberBoArticle,
+  retreivechosenMemberBoArticles,
   retreiveChosenSingleBoArticle,
 } from "./selector";
 import { Member } from "../../../types/user";
+import { useHistory } from "react-router-dom";
+import CommunityApiService from "../../apiServices/communityApiService";
+import MemberApiService from "../../apiServices/memberApiService";
+import { BoArticle, SearchMemberArticleObj } from "../../../types/boArticles";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
+import assert from "assert";
+import { Definer } from "../../../lib/Definer";
+import FollowApiService from "../../apiServices/followApiService";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
   setChosenMember: (data: Member) => dispatch(setChosenMember(data)),
-  setChosenMemberBoArticle: (data: Member) =>
-    dispatch(setChosenMemberBoArticle(data)),
-  setChosenSingleBoArticle: (data: Member) =>
+  setchosenMemberBoArticles: (data: BoArticle[]) =>
+    dispatch(setchosenMemberBoArticles(data)),
+  setChosenSingleBoArticle: (data: BoArticle) =>
     dispatch(setChosenSingleBoArticle(data)),
 });
 
@@ -50,9 +62,9 @@ const chosenMemberRetreiver = createSelector(
   retreiveChosenMember,
   (chosenMember) => ({ chosenMember })
 );
-const chosenMemberBoArticleRetreiver = createSelector(
-  retreiveChosenMemberBoArticle,
-  (chosenMemberBoArticle) => ({ chosenMemberBoArticle })
+const chosenMemberBoArticlesRetreiver = createSelector(
+  retreivechosenMemberBoArticles,
+  (chosenMemberBoArticles) => ({ chosenMemberBoArticles })
 );
 const chosenSingleBoArticleRetreiver = createSelector(
   retreiveChosenSingleBoArticle,
@@ -61,19 +73,120 @@ const chosenSingleBoArticleRetreiver = createSelector(
 
 export default function VisitOtherPage(props: any) {
   //INITIALIZATIONS
+  const { chosen_mb_id, chosen_art_id } = props;
+  console.log("{VisitOtherPage chosen_mb_id}:", chosen_mb_id);
+
+  const history = useHistory();
   const {
     setChosenMember,
-    setChosenMemberBoArticle,
+    setchosenMemberBoArticles,
     setChosenSingleBoArticle,
   } = actionDispatch(useDispatch());
   const { chosenMember } = useSelector(chosenMemberRetreiver);
-  const { chosenMemberBoArticle } = useSelector(chosenMemberBoArticleRetreiver);
+  const { chosenMemberBoArticles } = useSelector(
+    chosenMemberBoArticlesRetreiver
+  );
   const { chosenSingleBoArticle } = useSelector(chosenSingleBoArticleRetreiver);
 
   const [value, setValue] = React.useState("1");
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
+  };
+
+  const [memberArticleSearchObj, setMemberArticleSearchObj] =
+    useState<SearchMemberArticleObj>({
+      mb_id: chosen_mb_id,
+      page: 1,
+      limit: 5,
+    });
+
+  const [articlesRebuilt, setArticlesRebuilt] = useState<Date>(new Date());
+  const [followRebuilt, setFollowRebuilt] = useState<boolean>(false);
+
+  useEffect(() => {
+    if (chosen_mb_id === verifierMemberData?._id) {
+      history.push("/member-page");
+    }
+
+    const memberService = new MemberApiService();
+    memberService
+      .getChosenMember(memberArticleSearchObj.mb_id)
+      .then((data) => setChosenMember(data))
+      .catch((err) => console.log(err));
+  }, [verifierMemberData, chosen_mb_id, followRebuilt]);
+
+  useEffect(() => {
+    if (chosen_mb_id === verifierMemberData?._id) {
+      history.push("/member-page");
+      const communityService = new CommunityApiService();
+
+      if (chosen_art_id) {
+        communityService
+          .getCHosenArticle(chosen_art_id)
+          .then((data) => {
+            setChosenSingleBoArticle(data);
+            setValue("4");
+          })
+          .catch((err) => console.log(err));
+      }
+      communityService
+        .getMemberCommunityArticles(memberArticleSearchObj)
+        .then((data) => setchosenMemberBoArticles(data))
+        .catch((err) => console.log(err));
+    }
+  }, [memberArticleSearchObj, chosen_mb_id, articlesRebuilt]);
+
+  // HANDLERS
+
+  const subscribeHandler = async (e: any) => {
+    assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+
+    const followService = new FollowApiService();
+    await followService.subscribe(e.target.value);
+    await sweetTopSmallSuccessAlert("Subscriber successfully !", 700, false);
+    setFollowRebuilt(!followRebuilt);
+    try {
+    } catch (err: any) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
+
+  const unSubscribeHandler = async (e: any) => {
+    assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+
+    const followService = new FollowApiService();
+    await followService.unsubscribe(e.target.value);
+    await sweetTopSmallSuccessAlert("Unsubscriber successfully !", 700, false);
+    setFollowRebuilt(!followRebuilt);
+    try {
+    } catch (err: any) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
+
+  // renderChosenArticleHandler
+  const renderChosenArticleHandler = async (art_id: string) => {
+    try {
+      const communityService = new CommunityApiService();
+      communityService
+        .getCHosenArticle(art_id)
+        .then((data) => {
+          setChosenSingleBoArticle(data);
+          setValue("4");
+        })
+        .catch((err) => console.log(err));
+    } catch (err) {
+      console.log(err);
+      sweetErrorHandling(err).then();
+    }
+  };
+
+  const handlePaginationChange = (event: any, value: number) => {
+    memberArticleSearchObj.page = value;
+    setMemberArticleSearchObj({ ...memberArticleSearchObj });
   };
 
   console.log("{VisitOtherPage chosenMember}:", chosenMember);
@@ -93,7 +206,11 @@ export default function VisitOtherPage(props: any) {
                   direction="horizontal"
                 />
                 <Stack className="visit_my_page_inner">
-                  <MembersPosts />
+                  <MembersPosts
+                    chosenMemberBoArticles={chosenMemberBoArticles}
+                    setArticlesRebuilt={setArticlesRebuilt}
+                    renderChosenArticleHandler={renderChosenArticleHandler}
+                  />
                 </Stack>
                 <Stack flexDirection={"column"} alignItems={"center"}>
                   <Pagination
@@ -122,7 +239,12 @@ export default function VisitOtherPage(props: any) {
                   direction="horizontal"
                 />
                 <Stack className="menu_content">
-                  <MemberFollowers actions_enabled={false} />
+                  <MemberFollowers
+                    actions_enabled={false}
+                    setFollowRebuilt={setFollowRebuilt}
+                    followRebuilt={followRebuilt}
+                    mb_id={chosen_mb_id}
+                  />
                 </Stack>
               </TabPanel>
               <TabPanel value="3">
@@ -134,13 +256,16 @@ export default function VisitOtherPage(props: any) {
                   direction="horizontal"
                 />
                 <Stack className="menu_content">
-                  <MemberFollowing actions_enabled={false} />
+                  <MemberFollowing
+                    actions_enabled={false}
+                    mb_id={chosen_mb_id}
+                  />
                 </Stack>
               </TabPanel>
               <TabPanel value="4">
                 <Box className="my_articles_title">Tanlangan Maqola</Box>
                 <Stack className="menu_content">
-                  <TuViewer text={`<div>Tanlangan Maqolalar <div/>`} />
+                  <TuViewer chosenSingleBoArticle={chosenSingleBoArticle} />
                 </Stack>
               </TabPanel>
               <TabPanel value="6">
@@ -170,8 +295,10 @@ export default function VisitOtherPage(props: any) {
                       className="otherPage_user_img"
                     />
                   </Stack>
-                  <Box className="user_name">Ismoilov Akmaljon</Box>
-                  <Box className="user_name_status">User</Box>
+                  <Box className="user_name">{chosenMember?.mb_nick}</Box>
+                  <Box className="user_name_status">
+                    {chosenMember?.mb_type}
+                  </Box>
                   <Stack className="user_social_media" flexDirection={"row"}>
                     <FacebookIcon className="icon_soc_med" />
                     <InstagramIcon className="icon_soc_med" />
@@ -184,26 +311,63 @@ export default function VisitOtherPage(props: any) {
                       sx={{ mr: "10px", cursor: "pointer" }}
                     >
                       <Box>Followers: </Box>
-                      <span>2</span>
+                      <span>{chosenMember?.mb_subscriber_cnt}</span>
                     </Stack>
                     <Stack
                       flexDirection={"row"}
                       sx={{ ml: "10px", cursor: "pointer" }}
                     >
                       <Box>Followings: </Box>
-                      <span>3</span>
+                      <span>{chosenMember?.mb_follow_cnt}</span>
                     </Stack>
                   </Stack>
-                  <Box className="usr_msg"> Salom Mening Ismim Akmal</Box>
-                  <Button
-                    onClick={() => setValue("4")}
-                    variant="contained"
-                    className="other_page_article_btn"
-                  >
-                    Bekor Qilish
-                  </Button>
+                  <Box className="usr_msg">
+                    {chosenMember?.mb_description ??
+                      "Qo'shimcha ma'lumot kiritilmagan !"}
+                  </Box>
                 </Stack>
+
+                <TabList onChange={handleChange}>
+                  <Stack flexDirection={"column"}>
+                    {chosenMember?.me_followed &&
+                    chosenMember?.me_followed[0]?.my_following ? (
+                      <Tab
+                        value={"4"}
+                        sx={{ position: "relative" }}
+                        component={() => (
+                          <Button
+                            value={chosenMember?._id}
+                            onClick={unSubscribeHandler}
+                            variant="contained"
+                            className="other_page_article_btn"
+                          >
+                            Bekor Qilish
+                          </Button>
+                        )}
+                      ></Tab>
+                    ) : (
+                      <Tab
+                        value={"4"}
+                        component={() => (
+                          <Button
+                            value={chosenMember?._id}
+                            onClick={subscribeHandler}
+                            variant="contained"
+                            className="followback_btn"
+                          >
+                            <img
+                              src="/icons/followback.svg"
+                              alt="followback img"
+                            />
+                            <span>Follow back</span>
+                          </Button>
+                        )}
+                      ></Tab>
+                    )}
+                  </Stack>
+                </TabList>
               </Stack>
+
               <TabList>
                 <Stack flexDirection={"column"}>
                   <Tab

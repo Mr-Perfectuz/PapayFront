@@ -17,6 +17,7 @@ export default function MemberPage(props: any) {
   const query = useQuery();
   let chosen_mb_id: string | null = query.get("mb_id") ?? null;
   let chosen_art_id: string | null = query.get("art_id") ?? null;
+  console.log("Member id:::", chosen_mb_id);
 
   return (
     <Switch>

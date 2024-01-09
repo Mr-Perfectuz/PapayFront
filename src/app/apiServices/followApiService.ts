@@ -49,27 +49,27 @@ class FollowApiService {
     }
         }
 
-    public async subscribe(mb_id: string): Promise<boolean>{
-    try {
+public async subscribe(mb_id: string): Promise<boolean> {
+  try {
+    let url = `/follow/subscribe`;
+    const result = await axios.post(this.path + url, { mb_id: mb_id }, { withCredentials: true });
+    
+    console.log("Server Response:", result.data);
+    console.log("Server State:", result.data.state);
 
-        let url = `/follow/subscribe`;
-       const result =  await axios.post(this.path + url, {mb_id: mb_id}, {withCredentials: true});
-           console.log("state: ", result.data.state);
-            assert.ok(result?.data, Definer.general_err);
-            assert.ok(result?.data?.state !== "fail", result?.data?.message);
+    assert.ok(result?.data, Definer.general_err);
+    assert.ok(result?.data?.state !== "fail", result?.data?.message);
 
-         
-        return result.data.data === "subscribed";
-    } catch (err: any) {  
-      console.log(`ERROR: subscribe ${err.message}`);
-      throw err;
-        
-    }
-        }
+    return result.data.data === "subscribed";
+  } catch (err: any) {
+    console.log(`ERROR: subscribe ${err.message}`);
+    throw err;
+  }
+}
+
 
     public async unsubscribe(mb_id: string): Promise<boolean>{
     try {
-
         let url = `/follow/unsubscribe`;
        const result =  await axios.post(this.path + url, {mb_id: mb_id}, {withCredentials: true});
            console.log("state: ", result.data.state);

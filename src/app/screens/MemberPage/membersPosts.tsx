@@ -19,7 +19,7 @@ export default function MembersPosts(props: any) {
   // INITIALIZATION
   const {
     renderChosenArticleHandler,
-    chosenMemberBoArticle,
+    chosenMemberBoArticles,
     setArticlesRebuilt,
   } = props;
 
@@ -44,7 +44,7 @@ export default function MembersPosts(props: any) {
 
   return (
     <Stack>
-      {chosenMemberBoArticle?.map((article: BoArticle) => {
+      {chosenMemberBoArticles?.map((article: BoArticle) => {
         const art_img = article.art_image
           ? `${serviceApi}/${article.art_image}`
           : "/community/article_img.svg";

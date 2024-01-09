@@ -27,13 +27,13 @@ import { createSelector } from "reselect";
 import { useDispatch, useSelector } from "react-redux";
 import {
   setChosenMember,
-  setChosenMemberBoArticle,
+  setchosenMemberBoArticles,
   setChosenSingleBoArticle,
 } from "./slice";
 import { Dispatch } from "@reduxjs/toolkit";
 import {
   retreiveChosenMember,
-  retreiveChosenMemberBoArticle,
+  retreivechosenMemberBoArticles,
   retreiveChosenSingleBoArticle,
 } from "./selector";
 import { Member } from "../../../types/user";
@@ -44,12 +44,13 @@ import {
 import CommunityApiService from "../../apiServices/communityApiService";
 import MemberApiService from "../../apiServices/memberApiService";
 import { BoArticle, SearchMemberArticleObj } from "../../../types/boArticles";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
   setChosenMember: (data: Member) => dispatch(setChosenMember(data)),
-  setChosenMemberBoArticle: (data: BoArticle[]) =>
-    dispatch(setChosenMemberBoArticle(data)),
+  setchosenMemberBoArticles: (data: BoArticle[]) =>
+    dispatch(setchosenMemberBoArticles(data)),
   setChosenSingleBoArticle: (data: BoArticle) =>
     dispatch(setChosenSingleBoArticle(data)),
 });
@@ -59,9 +60,9 @@ const chosenMemberRetreiver = createSelector(
   retreiveChosenMember,
   (chosenMember) => ({ chosenMember })
 );
-const chosenMemberBoArticleRetreiver = createSelector(
-  retreiveChosenMemberBoArticle,
-  (chosenMemberBoArticle) => ({ chosenMemberBoArticle })
+const chosenMemberBoArticlesRetreiver = createSelector(
+  retreivechosenMemberBoArticles,
+  (chosenMemberBoArticles) => ({ chosenMemberBoArticles })
 );
 const chosenSingleBoArticleRetreiver = createSelector(
   retreiveChosenSingleBoArticle,
@@ -69,16 +70,19 @@ const chosenSingleBoArticleRetreiver = createSelector(
 );
 
 export default function VisitMyPage(props: any) {
-  const { verifierMemberData } = props;
+  const { chosen_mb_id } = props;
+
   //INITIALIZATIONS
   const {
     setChosenMember,
-    setChosenMemberBoArticle,
+    setchosenMemberBoArticles,
     setChosenSingleBoArticle,
   } = actionDispatch(useDispatch());
 
   const { chosenMember } = useSelector(chosenMemberRetreiver);
-  const { chosenMemberBoArticle } = useSelector(chosenMemberBoArticleRetreiver);
+  const { chosenMemberBoArticles } = useSelector(
+    chosenMemberBoArticlesRetreiver
+  );
   const { chosenSingleBoArticle } = useSelector(chosenSingleBoArticleRetreiver);
 
   const [articlesRebuilt, setArticlesRebuilt] = useState<Date>(new Date());
@@ -100,10 +104,12 @@ export default function VisitMyPage(props: any) {
     // chosenArticle starting point
     communityService
       .getMemberCommunityArticles(memberArticleSearchObj)
-      .then((data) => setChosenMemberBoArticle(data))
+      .then((data) => setchosenMemberBoArticles(data))
       .catch((err) => console.log(err));
 
     // targetLikeHandler
+
+    //
     memberService
       .getChosenMember(verifierMemberData?._id)
       .then((data) => setChosenMember(data))
@@ -136,6 +142,10 @@ export default function VisitMyPage(props: any) {
   };
 
   console.log("{VisitMyPage chosenMember}:", chosenMember);
+  console.log(
+    "{VisitMyPage verifierMemberData?._id}:",
+    verifierMemberData?._id
+  );
 
   return (
     <div className="visit_my_page">
@@ -154,7 +164,7 @@ export default function VisitMyPage(props: any) {
                 <Stack className="visit_my_page_inner">
                   <MembersPosts
                     renderChosenArticleHandler={renderChosenArticleHandler}
-                    chosenMemberBoArticle={chosenMemberBoArticle}
+                    chosenMemberBoArticles={chosenMemberBoArticles}
                     setArticlesRebuilt={setArticlesRebuilt}
                   />
                 </Stack>
@@ -276,9 +286,9 @@ export default function VisitMyPage(props: any) {
                     />
                     <img
                       src={
-                        verifierMemberData?.mb_type === "RESTAURANT"
+                        chosenMember?.mb_type === "RESTAURANT"
                           ? "/auth/user.svg"
-                          : `${verifierMemberData?.mb_image}`
+                          : "/auth/user_bike.svg"
                       }
                       alt="user icon img"
                       className="user_icon_img"
@@ -287,9 +297,9 @@ export default function VisitMyPage(props: any) {
                       <SettingsIcon />
                     </a>
                   </Stack>
-                  <Box className="user_name">{verifierMemberData?.mb_nick}</Box>
+                  <Box className="user_name">{chosenMember?.mb_nick}</Box>
                   <Box className="user_name_status">
-                    {verifierMemberData?.mb_type}
+                    {chosenMember?.mb_type}
                   </Box>
                   <Stack className="user_social_media" flexDirection={"row"}>
                     <FacebookIcon className="icon_soc_med" />
@@ -303,14 +313,14 @@ export default function VisitMyPage(props: any) {
                       sx={{ mr: "10px", cursor: "pointer" }}
                     >
                       <Box>Followers: </Box>
-                      <span>{verifierMemberData?.mb_subscriber_cnt}</span>
+                      <span>{chosenMember?.mb_subscriber_cnt}</span>
                     </Stack>
                     <Stack
                       flexDirection={"row"}
                       sx={{ ml: "10px", cursor: "pointer" }}
                     >
                       <Box>Followings: </Box>
-                      <span>{verifierMemberData?.mb_follow_cnt}</span>
+                      <span>{chosenMember?.mb_follow_cnt}</span>
                     </Stack>
                   </Stack>
                   <Box className="usr_msg">

@@ -393,7 +393,8 @@
 /* Other Page */
 .other_page_article_btn{
     border-radius: 10px !important;
-background: rgba(247, 9, 9, 0.72) !important;
+    background: rgba(247, 9, 9, 0.72) !important;
+    position: absolute;
 }
 
 
