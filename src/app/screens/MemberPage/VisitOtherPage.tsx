@@ -75,6 +75,9 @@ export default function VisitOtherPage(props: any) {
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
   };
+
+  console.log("{VisitOtherPage chosenMember}:", chosenMember);
+
   return (
     <div className="visit_my_page">
       <Container className="visit_my_page_wrapper">

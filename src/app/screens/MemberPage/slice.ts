@@ -25,13 +25,13 @@ const memberPageSlice = createSlice({
         setMemberFollowers: (state, action) => {
             state.memberFollowers = action.payload;
         },
-        SetMemberFollowings: (state, action) => {
+        setMemberFollowings: (state, action) => {
             state.memberFollowings = action.payload;
         }
     }
 })
 
 
-export const {setChosenMember, setChosenMemberBoArticle, setChosenSingleBoArticle, setMemberFollowers, SetMemberFollowings} = memberPageSlice.actions;
+export const {setChosenMember, setChosenMemberBoArticle, setChosenSingleBoArticle, setMemberFollowers, setMemberFollowings} = memberPageSlice.actions;
 const MemberPageReducer = memberPageSlice.reducer;
 export default MemberPageReducer;

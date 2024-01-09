@@ -69,7 +69,7 @@ const chosenSingleBoArticleRetreiver = createSelector(
 );
 
 export default function VisitMyPage(props: any) {
-  const { vertifyMemberData } = props;
+  const { verifierMemberData } = props;
   //INITIALIZATIONS
   const {
     setChosenMember,
@@ -80,9 +80,12 @@ export default function VisitMyPage(props: any) {
   const { chosenMember } = useSelector(chosenMemberRetreiver);
   const { chosenMemberBoArticle } = useSelector(chosenMemberBoArticleRetreiver);
   const { chosenSingleBoArticle } = useSelector(chosenSingleBoArticleRetreiver);
+
   const [articlesRebuilt, setArticlesRebuilt] = useState<Date>(new Date());
 
   const [value, setValue] = React.useState("1");
+
+  const [followRebuilt, setFollowRebuilt] = useState<boolean>(false);
 
   const [memberArticleSearchObj, setMemberArticleSearchObj] =
     useState<SearchMemberArticleObj>({ mb_id: "none", page: 1, limit: 5 });
@@ -91,7 +94,6 @@ export default function VisitMyPage(props: any) {
     if (!localStorage.getItem("member_data")) {
       sweetFailureProvider("Please Login First ! ", true, true);
     }
-
     const communityService = new CommunityApiService();
     const memberService = new MemberApiService();
 
@@ -103,10 +105,10 @@ export default function VisitMyPage(props: any) {
 
     // targetLikeHandler
     memberService
-      .getChosenMember(vertifyMemberData?._id)
+      .getChosenMember(verifierMemberData?._id)
       .then((data) => setChosenMember(data))
       .catch((err) => console.log(err));
-  }, [memberArticleSearchObj, articlesRebuilt]);
+  }, [memberArticleSearchObj, articlesRebuilt, followRebuilt]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -133,6 +135,8 @@ export default function VisitMyPage(props: any) {
     }
   };
 
+  console.log("{VisitMyPage chosenMember}:", chosenMember);
+
   return (
     <div className="visit_my_page">
       <Container className="visit_my_page_wrapper">
@@ -157,7 +161,11 @@ export default function VisitMyPage(props: any) {
                 <Stack flexDirection={"column"} alignItems={"center"}>
                   <Pagination
                     className="community_pagination"
-                    count={5}
+                    count={
+                      memberArticleSearchObj.page >= 3
+                        ? memberArticleSearchObj.page + 1
+                        : 3
+                    }
                     page={memberArticleSearchObj.page}
                     renderItem={(item) => (
                       <PaginationItem
@@ -182,7 +190,12 @@ export default function VisitMyPage(props: any) {
                   direction="horizontal"
                 />
                 <Stack className="menu_content">
-                  <MemberFollowers actions_enabled={true} />
+                  <MemberFollowers
+                    actions_enabled={true}
+                    mb_id={verifierMemberData?._id}
+                    setFollowRebuilt={setFollowRebuilt}
+                    followRebuilt={followRebuilt}
+                  />
                 </Stack>
               </TabPanel>
               <TabPanel value="3">
@@ -194,7 +207,12 @@ export default function VisitMyPage(props: any) {
                   direction="horizontal"
                 />
                 <Stack className="menu_content">
-                  <MemberFollowing actions_enabled={true} />
+                  <MemberFollowing
+                    actions_enabled={true}
+                    mb_id={verifierMemberData?._id}
+                    setFollowRebuilt={setFollowRebuilt}
+                    followRebuilt={followRebuilt}
+                  />
                 </Stack>
               </TabPanel>
               <TabPanel value="4">
@@ -248,11 +266,20 @@ export default function VisitMyPage(props: any) {
                   <Stack flexDirection={"row"} sx={{ position: "relative" }}>
                     <img
                       src="/auth/user_bike.svg"
+                      // src={
+                      //   chosenMember?.mb_type === "RESTAURANT"
+                      //     ? "/auth/user.svg"
+                      //     : ""
+                      // }
                       alt="user img"
                       className="myPage_user_img"
                     />
                     <img
-                      src="/icons/user_icon.png"
+                      src={
+                        verifierMemberData?.mb_type === "RESTAURANT"
+                          ? "/auth/user.svg"
+                          : `${verifierMemberData?.mb_image}`
+                      }
                       alt="user icon img"
                       className="user_icon_img"
                     />
@@ -260,8 +287,10 @@ export default function VisitMyPage(props: any) {
                       <SettingsIcon />
                     </a>
                   </Stack>
-                  <Box className="user_name">Ismoilov Akmaljon</Box>
-                  <Box className="user_name_status">User</Box>
+                  <Box className="user_name">{verifierMemberData?.mb_nick}</Box>
+                  <Box className="user_name_status">
+                    {verifierMemberData?.mb_type}
+                  </Box>
                   <Stack className="user_social_media" flexDirection={"row"}>
                     <FacebookIcon className="icon_soc_med" />
                     <InstagramIcon className="icon_soc_med" />
@@ -274,17 +303,20 @@ export default function VisitMyPage(props: any) {
                       sx={{ mr: "10px", cursor: "pointer" }}
                     >
                       <Box>Followers: </Box>
-                      <span>2</span>
+                      <span>{verifierMemberData?.mb_subscriber_cnt}</span>
                     </Stack>
                     <Stack
                       flexDirection={"row"}
                       sx={{ ml: "10px", cursor: "pointer" }}
                     >
                       <Box>Followings: </Box>
-                      <span>3</span>
+                      <span>{verifierMemberData?.mb_follow_cnt}</span>
                     </Stack>
                   </Stack>
-                  <Box className="usr_msg"> Salom Mening Ismim Akmal</Box>
+                  <Box className="usr_msg">
+                    {verifierMemberData?.mb_description ??
+                      "Qo'shimcha ma'lumot kiritilmagan !"}
+                  </Box>
                   <Button
                     onClick={() => setValue("4")}
                     variant="contained"

@@ -11,7 +11,7 @@ function useQuery() {
 }
 
 export default function MemberPage(props: any) {
-  const { setVerifierMemberData } = props;
+  const { verifierMemberData } = props;
   let member = useRouteMatch();
 
   const query = useQuery();
@@ -22,14 +22,14 @@ export default function MemberPage(props: any) {
     <Switch>
       <Route path={`${member.path}/other`}>
         <VisitOtherPage
-          setVerifierMemberData={setVerifierMemberData}
+          verifierMemberData={verifierMemberData}
           chosen_mb_id={chosen_mb_id}
           chosen_art_id={chosen_art_id}
         />
       </Route>
       <Route path={`${member.path}`}>
         <VisitMyPage
-          setVerifierMemberData={setVerifierMemberData}
+          verifierMemberData={verifierMemberData}
           chosen_mb_id={chosen_mb_id}
           chosen_art_id={chosen_art_id}
         />

@@ -12,6 +12,7 @@
 }
 
 .my_articles_title{
+    width: 800px;
     color: #FFF;
     text-align: center;
     font-family: "Poppins";
@@ -195,6 +196,12 @@
     width: 89px;
     height: 89px;
     flex-shrink: 0;
+}
+
+.foll_img{
+    width: 90px;
+    height: 90px;
+    border-radius: 50%;
 }
 
 .followers_target_articles_wrapper{
