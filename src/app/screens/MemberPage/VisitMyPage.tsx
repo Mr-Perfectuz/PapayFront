@@ -276,11 +276,6 @@ export default function VisitMyPage(props: any) {
                   <Stack flexDirection={"row"} sx={{ position: "relative" }}>
                     <img
                       src="/auth/user_bike.svg"
-                      // src={
-                      //   chosenMember?.mb_type === "RESTAURANT"
-                      //     ? "/auth/user.svg"
-                      //     : ""
-                      // }
                       alt="user img"
                       className="myPage_user_img"
                     />
@@ -336,45 +331,42 @@ export default function VisitMyPage(props: any) {
                   </Button>
                 </Stack>
               </Stack>
-              <TabList>
-                <Stack flexDirection={"column"}>
-                  <Tab
-                    value={"1"}
-                    component={() => (
-                      <div
-                        onClick={() => setValue("1")}
-                        className={`articles ${value}`}
-                      >
-                        <img src="/icons/article.svg" alt="following img" />
-                        <span>Maqolalarim</span>
-                      </div>
-                    )}
-                  ></Tab>
-                  <Tab
-                    value={"2"}
-                    component={() => (
-                      <div
-                        onClick={() => setValue("2")}
-                        className={`articles ${value}`}
-                      >
-                        <img src="/icons/follower.svg" alt="following img" />
-                        <span>Followers</span>
-                      </div>
-                    )}
-                  ></Tab>
-                  <Tab
-                    value={"3"}
-                    component={() => (
-                      <div
-                        onClick={() => setValue("3")}
-                        className={`articles ${value}`}
-                      >
-                        <img src="/icons/following.svg" alt="following img" />
-                        <span>Following</span>
-                      </div>
-                    )}
-                  ></Tab>
-                </Stack>
+              <TabList
+                orientation="vertical"
+                variant="scrollable"
+                onChange={handleChange}
+                aria-label="Vertical tabs example"
+                sx={{ borderRight: 1, borderColor: "divider", width: "98%" }}
+              >
+                {/* <Stack flexDirection={"column"}> */}
+                <Tab
+                  value={"1"}
+                  component={() => (
+                    <div onClick={() => setValue("1")} className={`articles `}>
+                      <img src="/icons/article.svg" alt="following img" />
+                      <span>Maqolalarim</span>
+                    </div>
+                  )}
+                ></Tab>
+                <Tab
+                  value={"2"}
+                  component={() => (
+                    <div onClick={() => setValue("2")} className={`articles `}>
+                      <img src="/icons/follower.svg" alt="following img" />
+                      <span>Followers</span>
+                    </div>
+                  )}
+                ></Tab>
+                <Tab
+                  value={"3"}
+                  component={() => (
+                    <div onClick={() => setValue("3")} className={`articles `}>
+                      <img src="/icons/following.svg" alt="following img" />
+                      <span>Following</span>
+                    </div>
+                  )}
+                ></Tab>
+                {/* </Stack> */}
               </TabList>
             </Stack>
           </Stack>

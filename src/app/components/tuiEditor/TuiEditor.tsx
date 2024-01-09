@@ -55,6 +55,7 @@ export const TuiEditor = (props: any) => {
 
       <Editor
         initialValue="Type here"
+        placeholder="Type here"
         previewStyle="vertical"
         height="600px"
         initialEditType="wysiwyg"

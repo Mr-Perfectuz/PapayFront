@@ -148,7 +148,7 @@
 }
 
 .articles{
-    width: 372.58px;
+    width: 347.58px;
     height: 50px;
     border-radius: 20px;
     background: #FFF;
@@ -157,6 +157,17 @@
     align-items:center;
     justify-content: center;
     margin-top: 15px;
+}
+
+.css-10d9dml-MuiTabs-indicator  {
+    position: absolute;
+    height: 100%;
+    bottom: 0;
+    width: 5px !important;
+    -webkit-transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    transition: all 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+    background-color: #1976d2;
+    right: 0;
 }
 .articles:hover{
     opacity: 0.8;
@@ -255,6 +266,10 @@
     border: 1px solid #FFF!important;
     background: #30945E!important;
     box-shadow: 1px 4px 6px 0px rgba(211, 211, 211, 0.25), 0px 4px 4px 0px rgba(255, 255, 255, 0.25) inset!important;
+}
+
+.css-10d9dml-MuiTabs-indicator{
+    width: 5px;
 }
 .followback_btn span{
     color: #FFF;
