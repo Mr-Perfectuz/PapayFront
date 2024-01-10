@@ -169,8 +169,10 @@ export default function CommunityPage(props: any) {
               </Stack>
               <Stack flexDirection={"column"} alignItems={"center"}>
                 <Pagination
-                  count={5}
-                  page={1}
+                  count={
+                    searchArticlesObj.page >= 3 ? searchArticlesObj.page + 1 : 3
+                  }
+                  page={searchArticlesObj.page}
                   className="community_pagination"
                   renderItem={(item) => (
                     <PaginationItem

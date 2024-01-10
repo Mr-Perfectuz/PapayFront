@@ -3,7 +3,7 @@ import { Member } from "./user";
 
 
 export interface BoArticleInput{
-    art_subject: string,
+    art_subjects: string,
     art_content: string,
     art_image: string ,
     bo_id: string,
@@ -12,7 +12,7 @@ export interface BoArticleInput{
 export interface BoArticle{
 
     _id: string,
-    art_subject: string,
+    art_subjects: string,
     art_content: string,
     art_image?: string | null,
     bo_id: string,
@@ -30,7 +30,7 @@ export interface SearchArticleObj{
     page: number;
     limit: number;
     bo_id: string;
-    order?: number | null;
+    order?: string | null;
 }
 
 export interface SearchMemberArticleObj{

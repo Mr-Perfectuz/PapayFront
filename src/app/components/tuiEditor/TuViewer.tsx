@@ -7,7 +7,6 @@ import { Viewer } from "@toast-ui/react-editor";
 export const TuViewer = (props: any) => {
   const editorRef = useRef();
   const { chosenSingleBoArticle } = props;
-  console.log("chosenSingleBoArticle:::", chosenSingleBoArticle[0].art_content);
   return (
     <Stack
       sx={{
@@ -22,7 +21,7 @@ export const TuViewer = (props: any) => {
         <Viewer
           // @ts-ignore
           ref={editorRef}
-          initialValue={chosenSingleBoArticle[0].art_content}
+          initialValue={chosenSingleBoArticle?.art_content}
           height={"600px"}
         />
       </Box>

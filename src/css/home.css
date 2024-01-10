@@ -474,7 +474,7 @@
   height: 150px;
   object-fit: contain;
   background-repeat: no-repeat;
-  background-image: url("/public/restaurant/rc_img.png");
+  /* background-image: url("/public/restaurant/rc_img.png"); */
 }
 
 .article_info {

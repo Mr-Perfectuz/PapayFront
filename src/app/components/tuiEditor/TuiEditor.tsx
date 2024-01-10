@@ -1,4 +1,4 @@
-import React, { useCallback,  useState } from "react";
+import React, { useCallback, useState } from "react";
 import {
   Box,
   Button,
@@ -29,7 +29,7 @@ export const TuiEditor = (props: any) => {
   const history = useHistory();
   const [communityArticleData, setCommunityArticleData] =
     useState<BoArticleInput>({
-      art_subject: "",
+      art_subjects: "",
       bo_id: "",
       art_content: "",
       art_image: "",
@@ -56,10 +56,10 @@ export const TuiEditor = (props: any) => {
 
   const changeTitleHandler = useCallback(
     (e: any) => {
-      communityArticleData.art_subject = e.target.value;
+      communityArticleData.art_subjects = e.target.value;
       setCommunityArticleData({ ...communityArticleData });
     },
-    [communityArticleData.art_subject]
+    [communityArticleData.art_subjects]
   );
 
   const handleRegisterButton = async () => {
@@ -72,7 +72,7 @@ export const TuiEditor = (props: any) => {
       assert.ok(
         communityArticleData.art_content !== "" &&
           communityArticleData.bo_id !== "" &&
-          communityArticleData.art_subject !== "",
+          communityArticleData.art_subjects !== "",
         Definer.input_err1
       );
 

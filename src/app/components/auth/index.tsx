@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Modal from "@material-ui/core/Modal";
 import Backdrop from "@material-ui/core/Backdrop";
@@ -37,19 +37,19 @@ const ModalImg = styled.img`
 export default function AuthenticationModal(props: any) {
   // INITIALIZATION
   const classes = useStyles();
-  let mb_nick: string = "";
-  let mb_phone: number = 0;
-  let mb_password: string = "";
+  const [mb_nick, set_mb_nick] = useState<string>("");
+  const [mb_password, set_mb_password] = useState<string>("");
+  const [mb_phone, set_mb_phone] = useState<number>(0);
 
   // HANDLERS
   const handleUserName = (e: any) => {
-    mb_nick = e.target.value;
+    set_mb_nick(e.target.value);
   };
   const handleUserPhone = (e: any) => {
-    mb_phone = e.target.value;
+    set_mb_phone(e.target.value);
   };
   const handleUserPassword = (e: any) => {
-    mb_password = e.target.value;
+    set_mb_password(e.target.value);
   };
 
   const handleLoginRequest = async () => {
@@ -96,6 +96,14 @@ export default function AuthenticationModal(props: any) {
     }
   };
 
+  const passwordKeyDownHandler = (e: any) => {
+    if (e.key === "Enter" && props.signUpOpen) {
+      handleSignUpRequest(e).then();
+    } else if (e.key === "Enter" && props.loginOpen) {
+      handleLoginRequest().then();
+    }
+  };
+
   return (
     <div>
       {/*@ts-ignore*/}
@@ -139,6 +147,7 @@ export default function AuthenticationModal(props: any) {
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
+                onKeyDown={passwordKeyDownHandler}
               />
               <Fab
                 onClick={handleSignUpRequest}
@@ -194,6 +203,7 @@ export default function AuthenticationModal(props: any) {
                 id="outlined-basic"
                 label="password"
                 variant="outlined"
+                onKeyDown={passwordKeyDownHandler}
               />
               <Fab
                 onClick={handleLoginRequest}
