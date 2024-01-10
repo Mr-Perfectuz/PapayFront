@@ -70,7 +70,7 @@ export default function TargetArticles(props: any) {
                   sx={{ color: "#fff" }}
                   className="target_articles_subjects"
                 >
-                  {article?.art_subjects}
+                  {article?.art_subject}
                 </Box>
                 <Stack
                   flexDirection={"row"}

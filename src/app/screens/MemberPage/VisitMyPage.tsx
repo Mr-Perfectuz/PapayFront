@@ -92,7 +92,7 @@ export default function VisitMyPage(props: any) {
   const [followRebuilt, setFollowRebuilt] = useState<boolean>(false);
 
   const [memberArticleSearchObj, setMemberArticleSearchObj] =
-    useState<SearchMemberArticleObj>({ mb_id: "none", page: 1, limit: 5 });
+    useState<SearchMemberArticleObj>({ mb_id: "none", page: 1, limit: 4 });
 
   useEffect(() => {
     if (!localStorage.getItem("member_data")) {
@@ -140,12 +140,6 @@ export default function VisitMyPage(props: any) {
       sweetErrorHandling(err).then();
     }
   };
-
-  console.log("{VisitMyPage chosenMember}:", chosenMember);
-  console.log(
-    "{VisitMyPage verifierMemberData?._id}:",
-    verifierMemberData?._id
-  );
 
   return (
     <div className="visit_my_page">
@@ -234,7 +228,10 @@ export default function VisitMyPage(props: any) {
                   direction="horizontal"
                 />
                 <Stack className="menu_content">
-                  <TuiEditor />
+                  <TuiEditor
+                    setValue={setValue}
+                    setArticlesRebuilt={setArticlesRebuilt}
+                  />
                 </Stack>
               </TabPanel>
               <TabPanel value="5">

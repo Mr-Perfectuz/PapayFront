@@ -73,7 +73,7 @@ export default function MembersPosts(props: any) {
                 <Box className="target_articles_text">
                   <span>{article?.bo_id}</span>
                 </Box>
-                <Box sx={{ color: "#fff" }}>{article?.art_subjects}</Box>
+                <Box sx={{ color: "#fff" }}>{article?.art_subject}</Box>
                 <Stack
                   flexDirection={"row"}
                   justifyContent={"flex-end"}

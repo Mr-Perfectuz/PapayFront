@@ -98,7 +98,7 @@ export default function VisitOtherPage(props: any) {
     useState<SearchMemberArticleObj>({
       mb_id: chosen_mb_id,
       page: 1,
-      limit: 5,
+      limit: 4,
     });
 
   const [articlesRebuilt, setArticlesRebuilt] = useState<Date>(new Date());

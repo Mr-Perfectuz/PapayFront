@@ -3,7 +3,7 @@ import axios from "axios";
 import { serviceApi } from "../../lib/config";
 import assert from "assert";
 import { Definer } from "../../lib/Definer";
-import { BoArticle, SearchArticleObj, SearchMemberArticleObj } from "../../types/boArticles";
+import { BoArticle, BoArticleInput, SearchArticleObj, SearchMemberArticleObj } from "../../types/boArticles";
 
 class CommunityApiService {
     private readonly path: string;
@@ -12,10 +12,52 @@ class CommunityApiService {
         this.path = serviceApi;
     }
 
+
+    public async uploadImageToServer(image: any): Promise<string> {
+    try {
+        console.log("uploadImageToServer");
+        let formData = new FormData();
+        formData.append("community_image", image); // Corrected line
+
+        const result = await axios.post(this.path + `/community/image`, formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data'
+        }
+        });
+
+        assert.ok(result?.data, Definer.general_err);
+        assert.ok(result?.data?.state !== "fail", result?.data?.message);
+        console.log("state:", result.data.state);
+
+        const image_name: string = result.data.data;
+        return image_name;
+    } catch (err: any) {
+        console.log(`ERROR: uploadI  mageToServer ${err.message}`);
+        throw err;
+    }
+    } 
+
+
+
+    public async createArticle (data: BoArticleInput): Promise<BoArticle>{
+    try {
+
+       const result =  await axios.post(this.path + `/community/create`, data, {withCredentials: true});
+        console.log("state: ", result.data.state);
+        assert.ok(result?.data, Definer.general_err);
+        assert.ok(result?.data?.state !== "fail", result?.data?.message);
+
+        const article: BoArticle = result.data.data;
+        return article;
+    } catch (err: any) {  
+      console.log(`ERROR: createArticle  ${err.message}`);
+      throw err;
+         
+    }
+        }
     public async getTargetArticles(data: SearchArticleObj): Promise<BoArticle[]>{
     try {
 
-        // let url = `/community/target?bo_id=${data.bo_id}&page=${data.page}&limit=${data.limit}`;
         let url = `/community/target?bo_id=${data.bo_id}&page=${data.page}&limit=${data.limit}`;
         if(data.order) url += `&order=${data.order}`;
 
@@ -32,6 +74,8 @@ class CommunityApiService {
          
     }
         }
+
+
     public async getMemberCommunityArticles(data: SearchMemberArticleObj): Promise<BoArticle[]>{
     try {
 
