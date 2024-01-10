@@ -146,6 +146,9 @@ Link, Link a, Link span{
 
 }
 
+.message_list{
+    margin-top: 5px;
+}
 .chat_img{
     width: 40px;
     height: 40px;
@@ -198,4 +201,23 @@ Link, Link a, Link span{
 }
 .send_msg_btn:active{
     opacity: 0.6;
+}
+
+.css-1w92ig0-MuiStack-root {
+    margin-top: 20px;
+    margin-right: 100px;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -ms-flexbox;
+    display: flex;
+    -webkit-flex-direction: column;
+    -ms-flex-direction: column;
+    flex-direction: column;
+    -webkit-align-items: flex-start;
+    -webkit-box-align: flex-start;
+    -ms-flex-align: flex-start;
+    align-items: flex-start;
+    -webkit-flex-direction: row;
+    -ms-flex-direction: row;
+    flex-direction: row;
 }
