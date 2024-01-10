@@ -12,15 +12,17 @@ import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "./app/MaterialTheme";
 
+import { SocketContext, socket } from "./app/context/socket";
+
 ReactDOM.render(
-  <React.StrictMode>
-    <Provider store={store}>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
+  <Provider store={store}>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <SocketContext.Provider value={socket}>
         <App />
-      </ThemeProvider>
-    </Provider>
-  </React.StrictMode>,
+      </SocketContext.Provider>
+    </ThemeProvider>
+  </Provider>,
   document.getElementById("root")
 );
 
