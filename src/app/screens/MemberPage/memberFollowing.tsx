@@ -19,6 +19,7 @@ import {
 } from "../../../lib/sweetAlert";
 import { serviceApi } from "../../../lib/config";
 import { useHistory } from "react-router-dom";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -83,7 +84,7 @@ export default function MemberFollowing(props: any) {
   // HANDLERS
   const unsubscribeHandler = async (e: any, id: string) => {
     e.stopPropagation();
-    assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+    assert.ok(verifierMemberData, Definer.auth_err);
 
     const followService = new FollowApiService();
     await followService.unsubscribe(id);

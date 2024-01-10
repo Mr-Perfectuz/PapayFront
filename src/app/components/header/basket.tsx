@@ -12,6 +12,7 @@ import assert from "assert";
 import { Definer } from "../../../lib/Definer";
 import { useHistory } from "react-router-dom";
 import OrderApiService from "../../apiServices/orderApiService";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 export default function Basket(props: any) {
   /** INITIALIZATIONS **/
@@ -32,9 +33,6 @@ export default function Basket(props: any) {
   /** HANDLERS **/
 
   //  HANDLERS
-  const chosenDishHandler = (id: string) => {
-    history.push(`/products/${id}`);
-  };
 
   const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
     setAnchorEl(event.currentTarget);
@@ -45,7 +43,7 @@ export default function Basket(props: any) {
 
   const processOrderHandler = async () => {
     try {
-      assert.ok(localStorage.getItem("member_data"), Definer.general_err);
+      assert.ok(verifierMemberData, Definer.general_err);
       const order = new OrderApiService();
       await order.createOrder(cartItems);
       onDeleteAll();

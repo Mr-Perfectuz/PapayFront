@@ -19,6 +19,7 @@ import { setPausedOrders, setProcessOrders, setFinishedOrders } from "./slice";
 import { Order } from "../../../types/order";
 import OrderApiService from "../../apiServices/orderApiService";
 import { Member } from "../../../types/user";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -34,8 +35,6 @@ export default function OrdersPage(props: any) {
     actionDispatch(useDispatch());
 
   const [value, setValue] = React.useState("1");
-
-  const verifierMemberData: Member | null = props.verifierMemberData;
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -118,9 +117,7 @@ export default function OrdersPage(props: any) {
                 src={verifierMemberData?.mb_image}
                 alt="order user "
               />
-              <Box className="user_box_name">
-                {props.verifierMemberData?.mb_nick}
-              </Box>
+              <Box className="user_box_name">{verifierMemberData?.mb_nick}</Box>
               <Box className="user_box_status">
                 {verifierMemberData?.mb_type ?? "Foydalanuvchi"}
               </Box>

@@ -13,6 +13,7 @@ import {
 import React from "react";
 import { NavLink } from "react-router-dom";
 import Basket from "./basket";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 export default function NavbarRestaurant(props: any) {
   return (
@@ -46,14 +47,14 @@ export default function NavbarRestaurant(props: any) {
                 Jamiyat
               </NavLink>
             </Box>
-            {props.verifierMemberData ? (
+            {verifierMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
                 <NavLink to="/member-page" activeClassName="underline">
                   Sahifam
                 </NavLink>
               </Box>
             ) : null}
-            {props.verifierMemberData ? (
+            {verifierMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
                 <NavLink to="/orders" activeClassName="underline">
                   Buyurtma
@@ -75,7 +76,7 @@ export default function NavbarRestaurant(props: any) {
               setOrderRebuild={props.setOrderRebuild}
             />
             <Box>
-              {!props.verifierMemberData ? (
+              {!verifierMemberData ? (
                 <Box>
                   <Button
                     onClick={() => props.handleLoginOpen()}
@@ -94,7 +95,7 @@ export default function NavbarRestaurant(props: any) {
               ) : (
                 <img
                   alt="user img"
-                  src={props.verifierMemberData.mb_image}
+                  src={verifierMemberData.mb_image ?? "/auth/user.svg"}
                   style={{
                     width: "48px",
                     height: "48px",

@@ -1,9 +1,7 @@
 import {
-  Badge,
   Box,
   Button,
   Container,
-  IconButton,
   ListItemIcon,
   Menu,
   MenuItem,
@@ -11,11 +9,9 @@ import {
 } from "@mui/material";
 import "../../../css/navbar.css";
 import { NavLink } from "react-router-dom";
-import { sweetTopSuccessAlert } from "../../../lib/sweetAlert";
-import React, { useState } from "react";
 import { Logout } from "@mui/icons-material";
 import Basket from "./basket";
-import { Product } from "../../../types/products";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 export default function NavbarHome(props: any) {
   /** INITIALIZATIONS **/
@@ -48,7 +44,7 @@ export default function NavbarHome(props: any) {
                 Oshxona
               </NavLink>
             </Box>
-            {props.verifierMemberData ? (
+            {verifierMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
                 <NavLink to="/orders" activeClassName="underline">
                   Buyurtma
@@ -60,7 +56,7 @@ export default function NavbarHome(props: any) {
                 Jamiyat
               </NavLink>
             </Box>
-            {props.verifierMemberData ? (
+            {verifierMemberData ? (
               <Box className="hover-line" onClick={props.setPath}>
                 <NavLink to="/member-page" activeClassName="underline">
                   Sahifam
@@ -72,23 +68,6 @@ export default function NavbarHome(props: any) {
                 Yordam
               </NavLink>
             </Box>
-            {/* <Box className="hover-line">
-              <IconButton
-                aria-label="card"
-                id="basic-button"
-                aria-controls={undefined}
-                aria-haspopup="true"
-                aria-expanded={undefined}
-                // onClick={handleClick}
-              >
-                <Badge badgeContent={3} color="secondary">
-                  <img
-                    src="/icons/shopping-cart.svg"
-                    alt="shopping card icon"
-                  />
-                </Badge>
-              </IconButton>
-            </Box> */}
 
             <Basket
               onAdd={props.onAdd}
@@ -99,7 +78,7 @@ export default function NavbarHome(props: any) {
               setOrderRebuild={props.setOrderRebuild}
             />
 
-            {!props.verifierMemberData ? (
+            {!verifierMemberData ? (
               <Box>
                 <Button
                   onClick={() => props.handleLoginOpen()}
@@ -118,7 +97,7 @@ export default function NavbarHome(props: any) {
             ) : (
               <img
                 alt="user img"
-                src={props.verifierMemberData.mb_image}
+                src={verifierMemberData.mb_image ?? "/auth/user.svg"}
                 style={{ width: "48px", height: "48px", borderRadius: "24px" }}
                 onClick={props.handleLogoutClick}
               />
@@ -183,7 +162,7 @@ export default function NavbarHome(props: any) {
             <Box sx={{ mt: "90px" }}>
               {/*  */}
 
-              {!props.verifierMemberData ? (
+              {!verifierMemberData ? (
                 <Button
                   onClick={() => props.handleSignUpOpen()}
                   className="header_btn"

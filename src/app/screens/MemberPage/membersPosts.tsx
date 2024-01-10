@@ -14,6 +14,7 @@ import {
   sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
 import { Definer } from "../../../lib/Definer";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 export default function MembersPosts(props: any) {
   // INITIALIZATION
@@ -27,7 +28,7 @@ export default function MembersPosts(props: any) {
   const targetLikeHandler = async (e: any) => {
     try {
       e.stopPropagation();
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+      assert.ok(verifierMemberData, Definer.auth_err);
       const memberService = new MemberApiService();
       const like_result = await memberService.memberLikeTarget({
         like_ref_id: e.target.id,
@@ -49,7 +50,10 @@ export default function MembersPosts(props: any) {
           ? `${serviceApi}/${article.art_image}`
           : "/community/article_img.svg";
         return (
-          <Stack onClick={() => renderChosenArticleHandler(article?._id)}>
+          <Stack
+            key={article._id}
+            onClick={() => renderChosenArticleHandler(article?._id)}
+          >
             <Stack className="target_articles" flexDirection={"row"}>
               <Box>
                 <img src={art_img} alt="article" />

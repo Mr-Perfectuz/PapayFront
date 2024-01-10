@@ -14,6 +14,7 @@ import {
 import { Definer } from "../../../lib/Definer";
 import assert from "assert";
 import MemberApiService from "../../apiServices/memberApiService";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 export default function TargetArticles(props: any) {
   const { setArticlesRebuilt } = props;
@@ -23,7 +24,7 @@ export default function TargetArticles(props: any) {
   // HANDLERS
   const targetLikeHandler = async (e: any) => {
     try {
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+      assert.ok(verifierMemberData, Definer.auth_err);
 
       const memberService = new MemberApiService();
       const like_result = await memberService.memberLikeTarget({

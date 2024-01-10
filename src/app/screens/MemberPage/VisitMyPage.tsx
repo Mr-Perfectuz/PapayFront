@@ -95,7 +95,7 @@ export default function VisitMyPage(props: any) {
     useState<SearchMemberArticleObj>({ mb_id: "none", page: 1, limit: 4 });
 
   useEffect(() => {
-    if (!localStorage.getItem("member_data")) {
+    if (!verifierMemberData) {
       sweetFailureProvider("Please Login First ! ", true, true);
     }
     const communityService = new CommunityApiService();

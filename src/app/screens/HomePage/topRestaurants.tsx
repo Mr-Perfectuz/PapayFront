@@ -25,6 +25,7 @@ import { Definer } from "../../../lib/Definer";
 import { Favorite } from "@mui/icons-material";
 import MemberApiService from "../../apiServices/memberApiService";
 import { useHistory } from "react-router-dom";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 export default function TopRestaurants() {
   //INITITALIZATIONS
@@ -48,7 +49,7 @@ export default function TopRestaurants() {
   const targetLikeTop = async (e: any, id: string) => {
     try {
       // e.stopPropagation();
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+      assert.ok(verifierMemberData, Definer.auth_err);
 
       const memberApiService = new MemberApiService();
 

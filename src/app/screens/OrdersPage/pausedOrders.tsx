@@ -3,21 +3,12 @@ import { Box, Button, Stack } from "@mui/material";
 import React from "react";
 
 //REDUX
-import { useHistory, useParams } from "react-router-dom";
-import { Restaurant } from "../../../types/user";
+
 import { serviceApi } from "../../../lib/config";
-import { setPausedOrders, setProcessOrders, setFinishedOrders } from "./slice";
-import RestaurantApiService from "../../apiServices/restaurantApiService";
-import { ProductSearchObj } from "../../../types/others";
-import assert from "assert";
-import { Definer } from "../../../lib/Definer";
 import {
   sweetErrorHandling,
   sweetFailureProvider,
-  sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
-import MemberApiService from "../../apiServices/memberApiService";
-import ProductApiService from "../../apiServices/productApiService";
 import { Product } from "../../../types/products";
 import { Order } from "../../../types/order";
 
@@ -26,6 +17,7 @@ import { createSelector } from "@reduxjs/toolkit";
 import { useDispatch, useSelector } from "react-redux";
 import { retreivePausedOrders } from "./selector";
 import OrderApiService from "../../apiServices/orderApiService";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 //REDUX SELECTORS
 const pausedOrdersRetriever = createSelector(
@@ -44,7 +36,7 @@ export default function PausedOrders(props: any) {
       const order_id = event.target.value;
       const data = { order_id: order_id, order_status: "DELETED" };
 
-      if (!localStorage.getItem("member_data")) {
+      if (!verifierMemberData) {
         sweetFailureProvider("Please login first", true);
       }
 
@@ -67,7 +59,7 @@ export default function PausedOrders(props: any) {
       const order_id = event.target.value;
       const data = { order_id: order_id, order_status: "PROCESS" };
 
-      if (!localStorage.getItem("member_data")) {
+      if (!verifierMemberData) {
         sweetFailureProvider("Please login first", true);
       }
 

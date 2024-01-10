@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState } from "react";
 import "../css/App.css";
 import "../css/navbar.css";
 import "../css/footer.css";
@@ -16,8 +16,6 @@ import NavbarOthers from "./components/header/others";
 import Footer from "./components/footer";
 import AuthenticationModal from "./components/auth";
 // import { sign } from "crypto";
-import { Member } from "../types/user";
-import { serviceApi } from "../lib/config";
 import {
   sweetFailureProvider,
   sweetTopSmallSuccessAlert,
@@ -31,10 +29,8 @@ import { Product } from "../types/products";
 
 function App() {
   // INITIALIZATION
-  const [verifierMemberData, setVerifierMemberData] = useState<Member | null>(
-    null
-  );
-  const [path, setPath] = useState();
+
+  const [, setPath] = useState();
   const main_path = window.location.pathname;
   const [signUpOpen, setSignUpOpen] = useState(false);
   const [loginOpen, setLoginOpen] = useState(false);
@@ -48,21 +44,6 @@ function App() {
   const [cartItems, setcartItems] = useState<CartItem[]>(current_cart);
 
   const [orderRebuild, setOrderRebuild] = useState<Date>(new Date());
-
-  useEffect(() => {
-    console.log("--------- useEffect: App--------- ");
-    const memberDataJson: any = localStorage.getItem("member_data")
-      ? localStorage.getItem("member_data")
-      : null;
-
-    const member_data = memberDataJson ? JSON.parse(memberDataJson) : null;
-    if (member_data) {
-      member_data.mb_image = member_data.mb_image
-        ? `${serviceApi}/${member_data.mb_image}`
-        : "/auth/user.svg";
-      setVerifierMemberData(member_data);
-    }
-  }, [signUpOpen, loginOpen]); //componentDidUpdate
 
   // HANDLERS
   const handleSignUpOpen = () => setSignUpOpen(true);
@@ -152,7 +133,6 @@ function App() {
           setPath={setPath}
           handleLoginOpen={handleLoginOpen}
           handleSignUpOpen={handleSignUpOpen}
-          verifierMemberData={verifierMemberData}
           handleLogoutClick={handleLogoutClick}
           handleCLoseLogout={handleCLoseLogout}
           anchorEl={anchorEl}
@@ -170,7 +150,6 @@ function App() {
           setPath={setPath}
           handleLoginOpen={handleLoginOpen}
           handleSignUpOpen={handleSignUpOpen}
-          verifierMemberData={verifierMemberData}
           handleLogoutClick={handleLogoutClick}
           handleCLoseLogout={handleCLoseLogout}
           anchorEl={anchorEl}
@@ -188,7 +167,6 @@ function App() {
           setPath={setPath}
           handleLoginOpen={handleLoginOpen}
           handleSignUpOpen={handleSignUpOpen}
-          verifierMemberData={verifierMemberData}
           handleLogoutClick={handleLogoutClick}
           handleCLoseLogout={handleCLoseLogout}
           anchorEl={anchorEl}
@@ -214,11 +192,10 @@ function App() {
           <OrdersPage
             orderRebuild={orderRebuild}
             setOrderRebuild={setOrderRebuild}
-            verifierMemberData={verifierMemberData}
           />
         </Route>
         <Route path="/member-page">
-          <MemberPage verifierMemberData={verifierMemberData} />
+          <MemberPage />
         </Route>
         <Route path="/help">
           <HelpPage />

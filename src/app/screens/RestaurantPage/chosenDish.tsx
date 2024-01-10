@@ -31,6 +31,7 @@ import {
 import { Product } from "../../../types/products";
 import ProductApiService from "../../apiServices/productApiService";
 import MemberApiService from "../../apiServices/memberApiService";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -53,8 +54,8 @@ const chosenRestaurantsRetreiver = createSelector(
 );
 
 export default function ChosenDish(props: any) {
-  const lebel = { inputProps: { "aria-label": "Checkbox demo" } };
-  const [value, setValue] = React.useState<number | null>(4);
+  // const lebel = { inputProps: { "aria-label": "Checkbox demo" } };
+
 
   // INITIALIZATIONS
 
@@ -96,7 +97,7 @@ export default function ChosenDish(props: any) {
   const targetLikeProduct = async (e: any) => {
     try {
       console.log("targetLikeProduct function called");
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+      assert.ok(verifierMemberData, Definer.auth_err);
 
       const memberApiService = new MemberApiService();
 

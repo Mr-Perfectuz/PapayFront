@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Badge,
   Box,
@@ -49,6 +49,7 @@ import {
 import MemberApiService from "../../apiServices/memberApiService";
 import ProductApiService from "../../apiServices/productApiService";
 import { Product } from "../../../types/products";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -152,7 +153,7 @@ export default function OneRestaurant(props: any) {
   const targetLikeProduct = async (e: any) => {
     try {
       console.log("targetLikeProduct function called");
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+      assert.ok(verifierMemberData, Definer.auth_err);
 
       const memberApiService = new MemberApiService();
 

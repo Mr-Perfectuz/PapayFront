@@ -140,7 +140,7 @@ export default function VisitOtherPage(props: any) {
   // HANDLERS
 
   const subscribeHandler = async (e: any) => {
-    assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+    assert.ok(verifierMemberData, Definer.auth_err);
 
     const followService = new FollowApiService();
     await followService.subscribe(e.target.value);
@@ -154,7 +154,7 @@ export default function VisitOtherPage(props: any) {
   };
 
   const unSubscribeHandler = async (e: any) => {
-    assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+    assert.ok(verifierMemberData, Definer.auth_err);
 
     const followService = new FollowApiService();
     await followService.unsubscribe(e.target.value);

@@ -33,6 +33,7 @@ import {
   sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
 import MemberApiService from "../../apiServices/memberApiService";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 // REDUX SLICE
 const actionDispatch = (dispatch: Dispatch) => ({
@@ -85,7 +86,7 @@ export default function AllRestaurants() {
   const targetLikeHandler = async (e: any, id: string) => {
     try {
       // e.stopPropagation();
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+      assert.ok(verifierMemberData, Definer.auth_err);
 
       const memberApiService = new MemberApiService();
 

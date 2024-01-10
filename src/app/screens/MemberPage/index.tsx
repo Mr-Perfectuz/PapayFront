@@ -4,6 +4,7 @@ import { Route, Switch, useRouteMatch, useLocation } from "react-router-dom";
 import VisitOtherPage from "./VisitOtherPage";
 import VisitMyPage from "./VisitMyPage";
 import "../../../css/my_page.css";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 function useQuery() {
   const { search } = useLocation();
@@ -11,7 +12,6 @@ function useQuery() {
 }
 
 export default function MemberPage(props: any) {
-  const { verifierMemberData } = props;
   let member = useRouteMatch();
 
   const query = useQuery();

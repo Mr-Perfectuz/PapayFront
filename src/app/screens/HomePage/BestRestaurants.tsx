@@ -22,6 +22,7 @@ import {
   sweetErrorHandling,
   sweetTopSmallSuccessAlert,
 } from "../../../lib/sweetAlert";
+import { verifierMemberData } from "../../apiServices/vertify";
 
 // REDUX SELECTOR
 //INITITALIZATIONS
@@ -47,7 +48,7 @@ export default function BestRestaurants() {
   const targetLikeBest = async (e: any, id: string) => {
     try {
       e.stopPropagation();
-      assert.ok(localStorage.getItem("member_data"), Definer.auth_err);
+      assert.ok(verifierMemberData, Definer.auth_err);
 
       const memberApiService = new MemberApiService();
 
