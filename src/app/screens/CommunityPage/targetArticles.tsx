@@ -47,7 +47,11 @@ export default function TargetArticles(props: any) {
           ? `${serviceApi}/${article.art_image}`
           : "/community/article_img.svg";
         return (
-          <Stack key={index}>
+          <Link
+            style={{ cursor: "pointer" }}
+            key={index}
+            href={`/member-page/other?mb_id=${article}&art_id=${article._id}`}
+          >
             <Stack className="target_articles" flexDirection={"row"}>
               <Box>
                 <img src={art_img} alt="article" />
@@ -102,7 +106,7 @@ export default function TargetArticles(props: any) {
                 </Stack>
               </Stack>
             </Stack>
-          </Stack>
+          </Link>
         );
       })}
     </Stack>

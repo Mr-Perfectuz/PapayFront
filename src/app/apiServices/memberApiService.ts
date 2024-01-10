@@ -2,7 +2,7 @@ import { serviceApi } from "../../lib/config";
 import assert from "assert";
 import axios from "axios";
 import { Definer } from "../../lib/Definer";
-import { Member } from "../../types/user";
+import { Member, MemberUpdateData } from "../../types/user";
 import { MemberLiken } from "../../types/others";
 
 class MemberApiService {
@@ -94,6 +94,36 @@ public async getChosenMember(id: string):  Promise<Member>{
     const member: Member = result.data.data;
 
     return member;
+  } catch (err: any) {
+    console.log(`ERROR: getChosenMember ${err.message}`);
+    throw err;
+  }
+}
+public async updateMemberData(data: MemberUpdateData): Promise<Member>{
+  try { 
+    let formData = new FormData();
+    formData.append("mb_nick", data.mb_nick || "");
+    formData.append("mb_phone", data.mb_phone || "");
+    formData.append("mb_adress", data.mb_adress || "");
+    formData.append("mb_description", data.mb_description || "");
+    formData.append("mb_image", data.mb_image || "");
+
+    const result = await axios(`${this.path}/member/update`, {
+      method: "POST",
+      data: formData,
+      withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data"
+      }
+    });
+    assert.ok(result?.data, Definer.general_err);
+    assert.ok(result?.data?.state !== "fail", result?.data?.message);
+
+    const member: Member = result.data.data;
+       console.log("UpdateMember", member);
+    localStorage.setItem("member_data", JSON.stringify(member))
+    return member;
+
   } catch (err: any) {
     console.log(`ERROR: getChosenMember ${err.message}`);
     throw err;

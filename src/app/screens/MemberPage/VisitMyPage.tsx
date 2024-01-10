@@ -272,16 +272,14 @@ export default function VisitMyPage(props: any) {
                 <Stack className="order_info_box">
                   <Stack flexDirection={"row"} sx={{ position: "relative" }}>
                     <img
-                      src="/auth/user_bike.svg"
+                      src={
+                        verifierMemberData?.mb_image ?? "/auth/user_bike.svg"
+                      }
                       alt="user img"
                       className="myPage_user_img"
                     />
                     <img
-                      src={
-                        chosenMember?.mb_type === "RESTAURANT"
-                          ? "/auth/user.svg"
-                          : "/auth/user_bike.svg"
-                      }
+                      src={verifierMemberData?.mb_image ?? "/auth/user.svg"}
                       alt="user icon img"
                       className="user_icon_img"
                     />

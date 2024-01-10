@@ -5,7 +5,11 @@ import { verifierMemberData } from "../../apiServices/vertify";
 import { MemberUpdateData } from "../../../types/user";
 import assert from "assert";
 import { Definer } from "../../../lib/Definer";
-import { sweetErrorHandling } from "../../../lib/sweetAlert";
+import {
+  sweetErrorHandling,
+  sweetTopSmallSuccessAlert,
+} from "../../../lib/sweetAlert";
+import MemberApiService from "../../apiServices/memberApiService";
 
 export default function MySettings() {
   // INITIALIZATIONS
@@ -53,6 +57,24 @@ export default function MySettings() {
     } catch (error) {
       console.log(error);
       sweetErrorHandling(error);
+    }
+  };
+
+  const handleSubmitButton = async () => {
+    try {
+      const memberService = new MemberApiService();
+      console.log("memberUpdate::", memberUpdate);
+      const result = await memberService.updateMemberData(memberUpdate);
+      assert.ok(result, Definer.general_err);
+
+      await sweetTopSmallSuccessAlert(
+        "User Information has been changed successfully !",
+        700,
+        false
+      );
+      // window.location.reload();
+    } catch (err) {
+      console.log("handleSubmitButton:: ", err);
     }
   };
 
@@ -133,7 +155,9 @@ export default function MySettings() {
           ></textarea>
         </Box>
         <Box className="save_btn" alignItems={"flex-end"}>
-          <Button variant="contained">Saqlash</Button>
+          <Button onClick={handleSubmitButton} variant="contained">
+            Saqlash
+          </Button>
         </Box>
       </Stack>
     </Stack>
